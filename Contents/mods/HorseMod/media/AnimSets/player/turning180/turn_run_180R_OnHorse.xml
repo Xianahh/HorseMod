@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<animNode x_extends="turn_run_180_OnHorse.xml">
+	<m_Name>turn_run_180R_OnHorse</m_Name>
+    <m_AnimName>Bob_Mounted_Gallop_Right_Sharp</m_AnimName>
+    <m_BlendTime>0.30</m_BlendTime>
+    <m_SpeedScale>0.9</m_SpeedScale>
+    <m_ConditionPriority>20</m_ConditionPriority>
+    <m_Priority>50</m_Priority>
+    <m_EarlyTransitionOut>false</m_EarlyTransitionOut>
+    <m_Conditions>
+        <m_Name>RidingHorse</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>true</m_Value>
+    </m_Conditions>
+	<m_Conditions x_name="12909e00-176c-495d-83fd-bc14f48d6adf">
+		<m_Name>targetTwist</m_Name>
+		<m_Type>GTR</m_Type>
+		<m_Value>0</m_Value>
+	</m_Conditions>
+    <m_Conditions>
+		<m_Name>isTurningAround</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_Value>true</m_Value>
+	</m_Conditions>
+    <m_Transitions>
+        <m_Target>turn_run_right_OnHorse</m_Target>
+        <m_blendInTime>0.00</m_blendInTime>
+        <m_blendOutTime>0.80</m_blendOutTime>
+        <m_BlendTime>0.80</m_BlendTime>
+        <m_Conditions>
+            <m_Name>isTurningAround</m_Name>
+            <m_Type>BOOL</m_Type>
+            <m_BoolValue>false</m_BoolValue>
+        </m_Conditions>
+    </m_Transitions>
+</animNode>

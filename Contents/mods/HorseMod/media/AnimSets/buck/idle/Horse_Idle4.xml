@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<animNode x_extends="Horse_idle2.xml">
+	<m_Name>Horse_Idle4</m_Name>
+	<m_AnimName>Horse_Idle</m_AnimName>
+    <m_ConditionPriority>10</m_ConditionPriority>
+    <m_Conditions>
+        <m_Name>isHorse</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>true</m_Value>
+    </m_Conditions>
+	<m_Conditions>
+		<m_StringValue>idle3</m_StringValue>
+	</m_Conditions>
+</animNode>

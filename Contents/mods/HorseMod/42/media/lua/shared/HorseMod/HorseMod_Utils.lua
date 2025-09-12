@@ -1,0 +1,66 @@
+local HORSE_TYPES = {
+    ["stallion"] = true,
+    ["mare"] = true,
+    ["filly"] = true
+}
+
+local HorseUtils = {}
+
+---Checks whether an animal is a horse.
+---@param animal IsoAnimal The animal to check.
+---@return boolean isHorse Whether the animal is a horse.
+HorseUtils.isHorse = function(animal)
+    return HORSE_TYPES[animal:getAnimalType()]
+end
+
+HorseUtils.getMountWorld = function(horse, name)
+    if horse.getAttachmentWorldPos then
+        local v = horse:getAttachmentWorldPos(name)
+        if v then return v:x(), v:y(), v:z() end
+    end
+    local dx = (name == "mountLeft") and -0.6 or 0.6
+    return horse:getX() + dx, horse:getY(), horse:getZ()
+end
+
+HorseUtils.lockHorseForInteraction = function(horse)
+    if horse.getPathFindBehavior2 then horse:getPathFindBehavior2():reset() end
+    if horse.getBehavior then
+        local bh = horse:getBehavior()
+        bh:setBlockMovement(true)
+        bh:setDoingBehavior(false)
+    end
+    if horse.stopAllMovementNow then horse:stopAllMovementNow() end
+
+    local lockDir = horse:getDir()
+    local function lockTick()
+        if horse and horse:isExistInTheWorld() then horse:setDir(lockDir) end
+    end
+    Events.OnTick.Add(lockTick)
+
+    local function unlock()
+        Events.OnTick.Remove(lockTick)
+        if horse and horse.getBehavior then horse:getBehavior():setBlockMovement(false) end
+    end
+
+    return unlock, lockDir
+end
+
+HorseUtils.getAttachedItem = function(animal, slot)
+    if animal.getAttachedItems then
+        local ai = animal:getAttachedItems()
+        if ai and ai.getItem then return ai:getItem(slot) end
+    end
+    if animal.getAttachedItem then return animal:getAttachedItem(slot) end
+    return nil
+end
+
+HorseUtils.horseHasSaddleItem = function(animal)
+    local back = HorseUtils.getAttachedItem(animal, "Back")
+    if not back then return nil end
+    local ft = back:getFullType() or ""
+    if ft:lower():find("saddle", 1, true) then return back end
+    if HorseMod and HorseMod.SADDLES and HorseMod.SADDLES[ft] then return back end
+    return nil
+end
+
+return HorseUtils

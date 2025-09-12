@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+	<m_Name>strafeDefault_OnHorse</m_Name>
+	<m_AnimName>Bob_Mounted_Walking</m_AnimName>
+	<m_BlendTime>0.20</m_BlendTime>
+	<m_SpeedScale>StrafeSpeed</m_SpeedScale>
+	<m_Scalar>DeltaX</m_Scalar>
+	<m_Scalar2>DeltaY</m_Scalar2>
+</animNode>

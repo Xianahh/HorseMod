@@ -1,14 +1,50 @@
-module HorseMod {
-    animationsMesh Horse {
+module HorseMod
+{
+	animationsMesh Horse {
         meshFile = HorseMod/Horse,
         animationDirectory = Horse,
         animationPrefix = Horse_,
     }
+	model Horse
+	{
+		mesh = HorseMod/Horse,
+		animationsMesh = HorseMod.Horse,
+		shader = animalEffect,
+		static = false,
 
-    model Horse {
-        mesh = HorseMod/Horse,
-        animationsMesh = HorseMod.Horse,
-        shader = animalEffect,
-        static = false,
-    }
+		attachment back
+		{
+			offset = 0.0000 0.2509 0.0429,
+			rotate = 89.1355 0.4641 178.8851,
+			bone = DEF_Spine2,
+		}
+
+		attachment head
+		{
+			offset = -0.0000 0.0003 -1.0616,
+			rotate = 0.0000 0.0000 0.0000,
+			bone = Dummy01,
+		}
+
+		attachment mountLeft
+		{
+			offset = 0.5998 0.0000 -0.0006,
+			rotate = 0.0000 0.0000 0.0000,
+			bone = Bip01,
+		}
+
+		attachment mountRight
+		{
+			offset = -0.6000 0.0000 -0.0006,
+			rotate = 0.0000 0.0000 0.0000,
+			bone = Bip01,
+		}
+	}
+    model HorseSkeleton
+	{
+		mesh = HorseMod/Horse_Skeleton,
+		animationsMesh = HorseMod.Horse,
+		shader = animalEffect,
+		static = false,
+	}
 }

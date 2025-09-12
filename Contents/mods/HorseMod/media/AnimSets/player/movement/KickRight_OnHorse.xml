@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+	<m_Name>KickRight_OnHorse</m_Name>
+	<m_AnimName>Bob_Mounted_Saddle_KickRight</m_AnimName>
+	<m_BlendTime>0.40</m_BlendTime>
+	<m_SyncTrackingEnabled>false</m_SyncTrackingEnabled>
+    <m_ConditionPriority>10</m_ConditionPriority>
+    <m_EarlyTransitionOut>false</m_EarlyTransitionOut>
+    <m_Conditions>
+        <m_Name>kickRight</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>true</m_Value>
+    </m_Conditions>
+    <m_Conditions>
+        <m_Name>RidingHorse</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>true</m_Value>
+    </m_Conditions>
+    <m_Conditions>
+        <m_Name>pressedRunButton</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>true</m_Value>
+    </m_Conditions>
+    <m_Events>
+		<m_EventName>SetVariable</m_EventName>
+		<m_Time>End</m_Time>
+		<m_ParameterValue>kickRight=false</m_ParameterValue>
+	</m_Events>
+</animNode>

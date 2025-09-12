@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+	<m_Name>sneakWalk_OnHorse</m_Name>
+    <m_ConditionPriority>10</m_ConditionPriority>
+	<m_Conditions x_name="27ae8580-50a0-47af-a793-d49746fc07a5">
+		<m_Name>sneaking</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_Value>true</m_Value>
+	</m_Conditions>
+	<m_Conditions x_name="74bf3ec6-46c6-41c2-8ef3-5306775bb94d">
+		<m_Name>inTrees</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_Value>false</m_Value>
+	</m_Conditions>
+	<m_Conditions x_name="03872725-6a71-4e1a-ad30-3c711267f531">
+		<m_Name>isTurningAround</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_Value>false</m_Value>
+	</m_Conditions>
+</animNode>
