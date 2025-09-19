@@ -1,0 +1,33 @@
+module HorseMod
+{
+    imports {
+        Base
+	}
+
+    craftRecipe horseSaddle
+    {
+        time = 600,
+        tags = AnySurfaceCraft,
+        skillRequired = Tailoring:6,
+        AutoLearnAll = Tailoring:8,
+        xpAward = Tailoring:40,
+        category = Tailoring,
+        inputs
+        {
+			item 1 tags[Scissors;SharpKnife] mode:keep flags[MayDegradeLight],
+			item 1 tags[SewingNeedle] mode:keep flags[MayDegradeLight],
+			item 1 tags[Awl] mode:keep flags[MayDegradeLight],
+            item 1 tags[Hammer] mode:keep flags[MayDegradeVeryLight],
+            item 1 tags[SewingNeedle] mode:keep flags[MayDegradeLight],
+            item 1 tags[MetalworkingPliers;Tongs] mode:keep flags[Prop2;MayDegradeLight],
+            item 5 tags[HeavyThread],
+            item 3 [Base.LeatherStrips] mode:destroy,
+            item 3 [Base.Buckle] mode:destroy,
+            item 2 [Base.IronBandSmall] mode:destroy,
+        }
+        outputs
+        {
+            item 1 HorseMod.HorseSaddle,
+        }
+    }
+}
