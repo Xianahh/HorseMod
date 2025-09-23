@@ -1,14 +1,14 @@
 name: Check AnimNode duplicates match
 
 env:
-  ANIMSETS_PATH_42: Contents/mods/HorseMod/42/AnimSets/**.xml
-  ANIMSETS_PATH_41: Contents/mods/HorseMod/AnimSets/**.xml
+  ANIMSETS_PATH_42: Contents/mods/HorseMod/42/media/AnimSets/**.xml
+  ANIMSETS_PATH_41: Contents/mods/HorseMod/media/AnimSets/**.xml
 
 on:
   push:
     paths:
-      - Contents/mods/HorseMod/42/AnimSets/**.xml
-      - Contents/mods/HorseMod/AnimSets/**.xml
+      - Contents/mods/HorseMod/42/media/AnimSets/**.xml
+      - Contents/mods/HorseMod/media/AnimSets/**.xml
   pull_request:
 
 jobs:
