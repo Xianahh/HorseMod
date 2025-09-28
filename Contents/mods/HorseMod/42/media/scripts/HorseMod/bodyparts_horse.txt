@@ -53,4 +53,13 @@ module HorseMod
         UnhappyChange = 50,
         WorldStaticModel = HorseMeat,
     }
+
+    item HorseHoof
+    {
+        DisplayCategory = AnimalPart,
+        Weight = 0.5,
+        Type = Normal,
+        DisplayName = Horse Hoof,
+        Icon = HorseMeat,
+    }
 }
