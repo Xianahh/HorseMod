@@ -24,7 +24,7 @@ module HorseMod
 		{
 			offset = -0.0000 -0.0826 -0.1536,
 			rotate = 89.1355 0.4641 178.8851,
-			scale = 1.4989,
+			scale = 3.0087,
 			bone = DEF_Spine2,
 		}
 

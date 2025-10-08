@@ -4,26 +4,13 @@ module HorseMod
     Base
 	}
 
-  item HorseBackpack
-  {
-    DisplayName = Horse Backpack,
-    DisplayCategory = Bag,
-    Type = Container,
-    Weight = 0.5,
-    Icon = HatSantaRed,
-    Capacity = 20,
-    WeightReduction = 100,
-    StaticModel = SpiffoPlushieBig,
-    WorldStaticModel = SpiffoPlushieBig,
-  }
-
   item HorseSaddle
   {
     DisplayName = Horse Saddle,
     DisplayCategory = Accessory,
     Type = Normal,
     Weight = 0.5,
-    Icon = HatSantaRed,
+    Icon = HorseSaddle,
     BloodLocation = Head,
     BodyLocation = Hat,
     StaticModel = Horse_Saddle1,
@@ -37,11 +24,11 @@ module HorseMod
     Type = Container,
     Weight = 0.5,
     Capacity = 40,
-    Icon = HatSantaRed,
+    Icon = HorseSaddlebags,
     BloodLocation = Head,
     BodyLocation = Hat,
-    StaticModel = Horse_SaddleBags1,
-    WorldStaticModel = Horse_SaddleBags1,
+    StaticModel = Horse_SaddleBags,
+    WorldStaticModel = Horse_SaddleBags,
   }
 
   item HorseSaddleBagsContainer
@@ -51,7 +38,7 @@ module HorseMod
     Type = Container,
     Weight = 0.1,
     Capacity = 40,
-    Icon = HatSantaRed,
+    Icon = HorseSaddlebags,
     StaticModel = Horse_SaddleBagsInvis,
     WorldStaticModel = Horse_SaddleBagsInvis,
   }

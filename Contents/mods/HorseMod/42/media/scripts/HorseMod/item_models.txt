@@ -5,7 +5,7 @@ module HorseMod
 		mesh = HorseMod/HorseSaddle1,
 		texture = Items/Saddle1_tex,
 		static = true,
-		scale = 0.55,
+		scale = 1,
 
 		attachment world
 		{
@@ -14,12 +14,12 @@ module HorseMod
 			scale = 0.5000,
 		}
 	}
-	model Horse_SaddleBags1
+	model Horse_SaddleBags
 	{
-		mesh = HorseMod/HorseSaddlebags1,
+		mesh = HorseMod/HorseSaddlebags,
 		texture = Items/SaddleBags1_tex,
 		static = true,
-		scale = 0.35,
+		scale = 1,
 
 		attachment world
 		{
@@ -30,7 +30,7 @@ module HorseMod
 	}
 	model Horse_SaddleBagsInvis
 	{
-		mesh = HorseMod/HorseSaddlebags1,
+		mesh = HorseMod/HorseSaddlebags,
     texture = Items/SaddleBags1_tex,
     static = true,
 		scale = 0,
