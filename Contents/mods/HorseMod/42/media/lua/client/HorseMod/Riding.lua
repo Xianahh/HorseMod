@@ -1,4 +1,4 @@
-local Mount = require("HorseMod/Mount")
+local Mount = require("HorseMod/mount/Mount")
 
 
 ---@namespace HorseMod
@@ -75,9 +75,7 @@ function HorseRiding.removeMount(player)
 
     mount:cleanup()
 
-    local playerIndex = mount.pair.rider:getPlayerNum()
-    HorseRiding._clearRideCache(playerIndex)
-    HorseRiding.playerMounts[playerIndex] = nil
+    HorseRiding.playerMounts[mount.pair.rider:getPlayerNum()] = nil
 end
 
 
@@ -138,16 +136,15 @@ end
 Events.OnKeyPressed.Add(horseJump)
 
 
-local function initHorseMod()
-    local player = getPlayer()
+---@param player IsoPlayer
+local function initHorseMod(_, player)
     player:setVariable("RidingHorse", false)
     player:setVariable("MountingHorse", false)
     player:setVariable("DismountFinished", false)
     player:setVariable("MountFinished", false)
-    HorseRiding._clearRideCache(player:getPlayerNum())
 end
 
-Events.OnGameStart.Add(initHorseMod)
+Events.OnCreatePlayer.Add(initHorseMod)
 
 
 return HorseRiding

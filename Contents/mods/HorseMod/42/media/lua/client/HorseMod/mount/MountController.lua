@@ -1,132 +1,10 @@
-local HorseRiding = require("HorseMod/Riding")
-local Mounting = require("HorseMod/Mounting")
 local Stamina = require("HorseMod/Stamina")
 
-
-local RideDirect = {}
-
-
-local WALK_SPEED = 0.05      -- tiles/sec
-local TROT_MULT  = 1.1
-local RUN_SPEED  = 4.5       -- tiles/sec
-local DT_MAX     = 0.005      -- seconds
-
-local TREES_GENE_MULT_WALK = 0.40   -- 65% of base when walking/trotting in trees
-local TREES_GENE_MULT_RUN  = 0.25   -- 55% of base when galloping in trees
-local TREES_LINGER_SECONDS = 1.0   -- keep slowdown for 1s after leaving trees
-local prevInVeg = {}
-local vegLingerT = {}           -- seconds remaining in linger
-local vegLingerStartMult = {}
-
-local ACCEL_UP   = 12.0
-local DECEL_DOWN = 36.0
-
-local TURN_STEPS_PER_SEC = 14
-local turnAcc, lastTurnSign, prevFacedDir = {}, {}, {}
-local curSpeed, rideInit = {}, {}
-
-local PLAYER_SYNC_TUNER = 0.96
-
-local screenVecToDir = {
-    ["0,-1"]  = IsoDirections.NW,
-    ["1,-1"]  = IsoDirections.N,
-    ["1,0"]   = IsoDirections.NE,
-    ["1,1"]   = IsoDirections.E,
-    ["0,1"]   = IsoDirections.SE,
-    ["-1,1"]  = IsoDirections.S,
-    ["-1,0"]  = IsoDirections.SW,
-    ["-1,-1"] = IsoDirections.W,
-}
-
-local idxFromDir = {
-    [IsoDirections.E]  = 0, [IsoDirections.NE] = 1, [IsoDirections.N]  = 2, [IsoDirections.NW] = 3,
-    [IsoDirections.W]  = 4, [IsoDirections.SW] = 5, [IsoDirections.S]  = 6, [IsoDirections.SE] = 7,
-}
-local dirFromIdx = {
-    [0] = IsoDirections.E, [1] = IsoDirections.NE, [2] = IsoDirections.N, [3] = IsoDirections.NW,
-    [4] = IsoDirections.W, [5] = IsoDirections.SW, [6] = IsoDirections.S, [7] = IsoDirections.SE,
-}
-
-local dirMove = {
-    [IsoDirections.N]  = { 0,-1},
-    [IsoDirections.NE] = { 1,-1},
-    [IsoDirections.E]  = { 1, 0},
-    [IsoDirections.SE] = { 1, 1},
-    [IsoDirections.S]  = { 0, 1},
-    [IsoDirections.SW] = {-1, 1},
-    [IsoDirections.W]  = {-1, 0},
-    [IsoDirections.NW] = {-1,-1},
-}
-
-local JOY_DEADZONE        = 0.30   -- ignore tiny stick drift
-local JOY_DIGITAL_THRESH  = 0.55   -- cross this to count as -1 / +1 on that axis
-local JOY_USE_DPAD        = true   -- also read POV/D-pad if stick is neutral
-local lastJoypadA = {}
-
-local function axisToSign(v)
-    if math.abs(v) < JOY_DEADZONE then return 0 end
-    if v >  JOY_DIGITAL_THRESH then return 1 end
-    if v < -JOY_DIGITAL_THRESH then return -1 end
-    return 0
-end
-
-local function readInput(player)
-    -- 1) Joypad path (if a controller is bound to this player)
-    local pad = player and player.getJoypadBind and player:getJoypadBind() or -1
-    if pad ~= nil and pad >= 0 then
-        -- Left stick
-        local ax = getJoypadMovementAxisX(pad) or 0.0   -- [-1..1]
-        local ay = getJoypadMovementAxisY(pad) or 0.0   -- [-1..1], up is usually negative
-
-        local sx = axisToSign(ax)
-        local sy = axisToSign(ay)
-
-        -- Optional D-pad (POV) fallback if stick is neutral on an axis
-        if JOY_USE_DPAD and (sx == 0 or sy == 0) then
-            local povx = getControllerPovX(pad) or 0.0   -- [-1, 0, 1]
-            local povy = getControllerPovY(pad) or 0.0
-            if sx == 0 then sx = axisToSign(povx) end
-            if sy == 0 then sy = axisToSign(povy) end
-        end
-
-        -- Run button: allow either B or RBumper (adjust if your UX differs)
-        local runBtn = false
-        if pad ~= -1 then
-            local rb = getJoypadRBumper(pad)
-            if rb ~= -1 and isJoypadPressed(pad, rb) then
-                runBtn = true
-            end
-
-            local b = getJoypadBButton(pad)
-            if b ~= -1 and isJoypadPressed(pad, b) then
-                runBtn = true
-            end
-
-            -- Optional: support sprint trigger as well
-            if isJoypadRTPressed(pad) then
-                runBtn = true
-            end
-        end
-
-        -- Convert stick Y (up negative) into your screen grid (up is -1)
-        -- axisToSign already returns -1/0/1; we keep that convention
-        return sx, sy, runBtn
-    end
-
-    -- 2) Keyboard fallback (unchanged)
-    local core = getCore()
-    local sx, sy = 0, 0
-    if isKeyDown(core:getKey("Forward"))  then sy = sy - 1 end
-    if isKeyDown(core:getKey("Backward")) then sy = sy + 1 end
-    if isKeyDown(core:getKey("Left"))     then sx = sx - 1 end
-    if isKeyDown(core:getKey("Right"))    then sx = sx + 1 end
-    local run = isKeyDown(core:getKey("Run")) or isKeyDown(core:getKey("Sprint"))
-    return sx, sy, run
-end
 
 function GetSpeeds()
     local options = PZAPI.ModOptions:getOptions("HorseMod")
     if not options then return 1.0 end
+    -- TODO: replace mod options with sandbox options
     local walk = options:getOption("HorseWalkSpeed"):getValue()
     local gallop = options:getOption("HorseGallopSpeed"):getValue()
     if walk and gallop then return walk, gallop end
@@ -157,60 +35,6 @@ local function hedgeMultFromTree(treeMult)
     return 1.0 - (1.0 - treeMult) * 0.5
 end
 
-
----@param playerIndex integer
----@return boolean
----@nodiscard
-local function joypadHasUIFocus(playerIndex)
-    local data = JoypadState.players[playerIndex + 1]
-
-    if not data then
-        return false
-    end
-
-    return data.focus and data.focus:isVisible() or false
-end
-
-
----@param player IsoPlayer
-local function handleJoypadMountButton(player)
-    local pid = player:getPlayerNum()
-    local pad = player:getJoypadBind() or -1
-    if pad == -1 then
-        lastJoypadA[pid] = false
-        return
-    end
-
-    local aButton = getJoypadAButton(pad)
-    if not aButton or aButton == -1 then
-        lastJoypadA[pid] = false
-        return
-    end
-
-    local pressed = isJoypadPressed(pad, aButton)
-    local prev = lastJoypadA[pid] or false
-    lastJoypadA[pid] = pressed
-
-    if not pressed or prev then return end
-    if joypadHasUIFocus(pid) then return end
-    if player:hasTimedActions() then return end
-    if player:getVehicle() then return end
-    if player:getVariableBoolean("MountingHorse") then return end
-
-    local mountedHorse = HorseRiding.getMountedHorse(player)
-    if mountedHorse then
-        if player:getVariableBoolean("RidingHorse") then
-            Mounting.dismountHorse(player)
-        end
-        return
-    end
-
-    local horse = Mounting.getBestMountableHorse(player, 1.25)
-    if horse and horse:isExistInTheWorld() then
-        player:setIsAiming(false)
-        Mounting.mountHorse(player, horse)
-    end
-end
 
 local function detectVegetation(player)
     local square   = player and player:getCurrentSquare() or nil
@@ -523,147 +347,203 @@ end
 local function approach(current, target, rate, dt)
     local delta = target - current
     if delta > 0 then
-        local step = math.min(delta, rate * dt); return current + step
+        local step = math.min(delta, rate * dt);
+        return current + step
     else
         local step = math.max(delta, -rate * dt); return current + step
     end
 end
 
-local function dirToUnitXY(dir)
-    local v = dirMove[dir]
-    if not v then return 1, 0 end
-    local x, y = v[1], v[2]
-    if x ~= 0 and y ~= 0 then
-        local inv = 1 / math.sqrt(2)
-        return x * inv, y * inv
-    end
-    return x, y
-end
 
-local function resetFacingAnim(char, isoDir)
-    if not (char and char.setTargetAndCurrentDirection) then return end
-    local x, y = dirToUnitXY(isoDir)
-    char:setTargetAndCurrentDirection(x, y)
-end
+---@param first IsoDirections
+---@param second IsoDirections
+local function dirDist4(first, second)
+    local distance = first:compareTo(second)
 
-local pending180, startDir180, goalDir180 = {}, {}, {}
-
-local function dirDist4(a, b)
-    local ia, ib = idxFromDir[a] or 0, idxFromDir[b] or 0
-    local d = (ib - ia) % 8
-    if d > 4 then d = 8 - d end
-    return d
-end
-
-
----@param player IsoPlayer
-function RideDirect.update(player)
-    handleJoypadMountButton(player)
-    local horse = HorseRiding.getMountedHorse(player)
-    if not horse or not horse:isExistInTheWorld() then return end
-    if player:getVariableString("RidingHorse") ~= "true" then return end
-    player:setSneaking(true)
-
-    local id = player:getPlayerNum()
-    if not rideInit[id] then
-        horse:stopAllMovementNow()
-        horse:getPathFindBehavior2():reset()
-        horse:setVariable("bPathfind", false)
-        rideInit[id] = true
+    if distance < 0 then
+        distance = distance + 4
     end
 
-    horse:getPathFindBehavior2():reset()
-    horse:getBehavior():setBlockMovement(true)
+    return distance
+end
 
-    local dt = math.min(GameTime.getInstance():getTimeDelta(), DT_MAX)
-    local sx, sy, run = readInput(player)
-    local moving = (sx ~= 0 or sy ~= 0)
 
-    local trotting = horse:getVariableBoolean("HorseTrot") == true
-    local dtStam = dt
+local WALK_SPEED = 0.05      -- tiles/sec
+local TROT_MULT  = 1.1
+local RUN_SPEED  = 4.5       -- tiles/sec
 
-    -- Drain / regen
-    if moving and run then
-        Stamina.modify(horse, -Stamina.DRAIN_RUN * dtStam, true)
-    elseif moving and trotting then
-        Stamina.modify(horse,  Stamina.REGEN_TROT * dtStam, true)
-    elseif moving then
-        Stamina.modify(horse,  Stamina.REGEN_WALK * dtStam, true)
+local TREES_GENE_MULT_WALK = 0.40   -- 65% of base when walking/trotting in trees
+local TREES_GENE_MULT_RUN  = 0.25   -- 55% of base when galloping in trees
+local TREES_LINGER_SECONDS = 1.0   -- keep slowdown for 1s after leaving trees
+
+local ACCEL_UP   = 12.0
+local DECEL_DOWN = 36.0
+
+local TURN_STEPS_PER_SEC = 14
+
+
+local PLAYER_SYNC_TUNER = 0.96
+
+
+---@param character IsoGameCharacter
+---@param direction IsoDirections
+local function setFacingDirection(character, direction)
+    local vector = direction:ToVector()
+    vector:normalize()
+    character:setTargetAndCurrentDirection(
+        vector:getX(), vector:getY()
+    )
+end
+
+
+---@namespace HorseMod
+
+
+---@class MountController
+---
+---@field mount Mount
+---
+---How much of a turn is 'saved up'
+---@field turnAcceleration number
+---
+---Whether the most recent turn was a right turn
+---@field lastTurnWasRight boolean
+---
+---Target of the current 180 turn. Nil if we aren't making a 180 turn currently.
+---@field turn180Target IsoDirections | nil
+---
+---@field vegLingerT number
+---
+---@field vegLingerStartMult number
+---
+---@field prevInVeg boolean
+---
+---@field currentSpeed number
+local MountController = {}
+MountController.__index = MountController
+
+
+---@class MountController.Input
+---@field movement {x: number, y: number}
+---@field run boolean
+
+
+---@param input MountController.Input
+---@param deltaTime number
+function MountController:turn(input, deltaTime)
+    local currentDirection = self.mount.pair.mount:getDir()
+
+    local targetDirection
+    if input.movement.x ~= 0 or input.movement.y ~= 0 then
+        targetDirection = IsoDirections.fromAngle(input.movement.x, input.movement.y):RotLeft()
     else
-        Stamina.modify(horse,  Stamina.REGEN_IDLE * dtStam, true)
+        targetDirection = currentDirection
     end
 
-    -- Prevent running at zero stamina
-    if not Stamina.canRun(horse) then
-        run = false
+    self.turnAcceleration = self.turnAcceleration + deltaTime * TURN_STEPS_PER_SEC
+
+    -- negative if left turn, positive if right turn
+    local turnDistance = currentDirection:compareTo(targetDirection)
+
+    local absoluteTurnDistance = math.abs(turnDistance)
+    if absoluteTurnDistance > 4 then
+        turnDistance = (-turnDistance + 4) % 8
     end
 
-    local desiredDir = moving and screenVecToDir[tostring(sx)..","..tostring(sy)] or horse:getDir()
-
-    turnAcc[id] = (turnAcc[id] or 0) + dt * TURN_STEPS_PER_SEC
-
-    local curDir = horse:getDir()
-    local ci = idxFromDir[curDir] or 0
-    local ti = idxFromDir[desiredDir] or ci
-
-    local d_mod = (ti - ci) % 8
-    local d_pre = (d_mod > 4) and (d_mod - 8) or d_mod
-
-    if not pending180[id] and dirDist4(curDir, desiredDir) == 4 then
-        pending180[id]  = true
-        startDir180[id] = curDir
-        goalDir180[id]  = desiredDir
-        -- one-time twist flush at the beginning of the 180
-        resetFacingAnim(horse, startDir180[id])
-        resetFacingAnim(player, startDir180[id])
+    if absoluteTurnDistance == 4 and not self.turn180Target then
+        self.turn180Target = targetDirection
+        setFacingDirection(self.mount.pair.mount, currentDirection)
+        setFacingDirection(self.mount.pair.rider, currentDirection)
     end
 
-    -- choose turn sign (sticky for exactly 180°)
-    local sign
-    if d_pre == 0 then
-        sign = 0
-    elseif math.abs(d_pre) == 4 then
-        sign = lastTurnSign[id] or 1
-    else
-        sign = (d_pre > 0) and 1 or -1
+    local turns = math.min(
+        math.floor(self.turnAcceleration),
+        absoluteTurnDistance
+    )
+
+    local shouldTurnRight = self.lastTurnWasRight
+    if turnDistance == 0 then
+        turns = 0
+        self.turnAcceleration = 0
+    elseif absoluteTurnDistance ~= 4 then
+        -- we don't want to change turning direction druing a 180
+        shouldTurnRight = turnDistance > 0
     end
 
-    -- step the direction (at most one step per chunk)
-    while turnAcc[id] >= 1 and d_pre ~= 0 do
-        ci = (ci + sign) % 8
-        d_mod = (ti - ci) % 8
-        d_pre = (d_mod > 4) and (d_mod - 8) or d_mod
-        turnAcc[id] = turnAcc[id] - 1
+    if turns >= 1 then
+        if shouldTurnRight then
+            currentDirection = currentDirection:RotRight(
+                turns
+            )
+        else
+            currentDirection = currentDirection:RotLeft(
+                turns
+            )
+        end
+        self.turnAcceleration = self.turnAcceleration % 1
     end
 
-    local facedDir = dirFromIdx[ci] or desiredDir
-    lastTurnSign[id] = (sign ~= 0) and sign or lastTurnSign[id]
+    self.lastTurnWasRight = shouldTurnRight
 
     -- lock both to the same stepped direction
-    horse:setDir(facedDir)
-    player:setDir(facedDir)
+    self.mount.pair:setDirection(currentDirection)
 
-    -- 180° TURN COMPLETE or CANCELED: clear pending without extra resets
-    if pending180[id] then
-        if facedDir == goalDir180[id] then
-            -- finished the planned 180°; nothing else to do
-            pending180[id], startDir180[id], goalDir180[id] = false, nil, nil
-        else
-            -- if input deviates from 180° path, cancel the pending flag
-            local dist = dirDist4(facedDir, goalDir180[id])
-            if dist ~= 4 and dist ~= 0 then
-                pending180[id], startDir180[id], goalDir180[id] = false, nil, nil
-            end
-        end
+    if self.turn180Target and currentDirection == self.turn180Target or targetDirection ~= self.turn180Target then
+        self.turn180Target = nil
     end
+end
+
+
+---@param input MountController.Input
+---@param deltaTime number
+function MountController:updateStamina(input, deltaTime)
+    local staminaChange = 0.0
+
+    -- Drain / regen
+    if input.movement.x ~= 0 or input.movement.y ~= 0 then
+        if input.run then
+            staminaChange = -Stamina.DRAIN_RUN
+        elseif self.mount.pair.mount:getVariableBoolean("HorseTrot") == true then
+            staminaChange = Stamina.REGEN_TROT
+        else
+            staminaChange = Stamina.REGEN_WALK
+        end
+    else
+        staminaChange = Stamina.REGEN_IDLE
+    end
+
+    Stamina.modify(self.mount.pair.mount, staminaChange * deltaTime, true)
+end
+
+
+---@param input MountController.Input
+function MountController:update(input)
+    -- FIXME: this sometimes fails when dismounting
+    assert(self.mount.pair.rider:getVariableString("RidingHorse") == "true")
+
+    self.mount.pair.rider:setSneaking(true)
+
+    -- TODO i'm doubtful this is needed?
+    self.mount.pair.mount:getPathFindBehavior2():reset()
+    self.mount.pair.mount:getBehavior():setBlockMovement(true)
+
+    local deltaTime = GameTime.getInstance():getTimeDelta()
+    local moving = (input.movement.x ~= 0 or input.movement.y ~= 0)
+
+    -- Prevent running at zero stamina
+    if not Stamina.canRun(self.mount.pair.mount) then
+        input.run = false
+    end
+
+    self:updateStamina(input, deltaTime)
+    self:turn(input, deltaTime)
 
     local walkMul, gallopMul = GetSpeeds()
 
-    local baseGene = getBaseGeneSpeed(horse) or 1.0
-    local isTree, isHedge, isBush = detectVegetation(player)
-    local pid      = id
+    local baseGene = getBaseGeneSpeed(self.mount.pair.mount) or 1.0
+    local isTree, isHedge, isBush = detectVegetation(self.mount.pair.rider)
 
-    local treeMultNow  = (run and TREES_GENE_MULT_RUN or TREES_GENE_MULT_WALK)
+    local treeMultNow  = (input.run and TREES_GENE_MULT_RUN or TREES_GENE_MULT_WALK)
     local hedgeMultNow = hedgeMultFromTree(treeMultNow)
 
     local vegMultNow
@@ -678,27 +558,27 @@ function RideDirect.update(player)
     local inVeg = (vegMultNow < 1.0)
 
     if inVeg then
-        vegLingerT[pid] = 0
-        vegLingerStartMult[pid] = vegMultNow
+        self.vegLingerT = 0
+        self.vegLingerStartMult = vegMultNow
     else
-        if prevInVeg[pid] == true then
-            vegLingerT[pid] = TREES_LINGER_SECONDS
-            vegLingerStartMult[pid] = vegLingerStartMult[pid] or vegMultNow
+        if self.prevInVeg == true then
+            self.vegLingerT = TREES_LINGER_SECONDS
+            self.vegLingerStartMult = self.vegLingerStartMult or vegMultNow
         end
     end
-    prevInVeg[pid] = inVeg
+    self.prevInVeg = inVeg
 
     local mult
     if inVeg then
         mult = vegMultNow
     else
-        local tRemain = vegLingerT[pid] or 0
+        local tRemain = self.vegLingerT
         if tRemain > 0 then
             local p = 1.0 - (tRemain / TREES_LINGER_SECONDS)
             local eased = smoothstep(p)
-            local start = vegLingerStartMult[pid] or 1.0
+            local start = self.vegLingerStartMult
             mult = lerp(start, 1.0, eased)
-            vegLingerT[pid] = math.max(0, tRemain - dt)
+            self.vegLingerT = math.max(0, tRemain - deltaTime)
         else
             mult = 1.0
         end
@@ -706,73 +586,81 @@ function RideDirect.update(player)
 
     local effGene = baseGene * mult
 
-    local curGeneStr = horse:getVariableString("geneSpeed")
+    local curGeneStr = self.mount.pair.mount:getVariableString("geneSpeed")
     local effStr = string.format("%.3f", effGene)
     if curGeneStr ~= effStr then
-        horse:setVariable("geneSpeed", effStr)
-        player:setVariable("geneSpeed", effStr)
+        self.mount.pair.mount:setVariable("geneSpeed", effStr)
+        self.mount.pair.rider:setVariable("geneSpeed", effStr)
     end
 
-    if run then
-        local f = Stamina.runSpeedFactor(horse)
+    if input.run then
+        local f = Stamina.runSpeedFactor(self.mount.pair.mount)
         gallopMul = gallopMul * f
     end
 
-    horse:setVariable("HorseWalkSpeed", walkMul)
-    horse:setVariable("HorseTrotSpeed",  walkMul * TROT_MULT)
-    horse:setVariable("HorseRunSpeed",  gallopMul)
+    self.mount.pair.mount:setVariable("HorseWalkSpeed", walkMul)
+    self.mount.pair.mount:setVariable("HorseTrotSpeed",  walkMul * TROT_MULT)
+    self.mount.pair.mount:setVariable("HorseRunSpeed",  gallopMul)
 
-    player:setVariable("HorseWalkSpeed", walkMul * PLAYER_SYNC_TUNER)
-    player:setVariable("HorseTrotSpeed",  walkMul * TROT_MULT * PLAYER_SYNC_TUNER)
-    player:setVariable("HorseRunSpeed",  gallopMul * PLAYER_SYNC_TUNER)
+    self.mount.pair.rider:setVariable("HorseWalkSpeed", walkMul * PLAYER_SYNC_TUNER)
+    self.mount.pair.rider:setVariable("HorseTrotSpeed",  walkMul * TROT_MULT * PLAYER_SYNC_TUNER)
+    self.mount.pair.rider:setVariable("HorseRunSpeed",  gallopMul * PLAYER_SYNC_TUNER)
 
     -- speed/locomotion
-    local current = curSpeed[id] or 0.0
-    local target  = (moving and (run and RUN_SPEED * gallopMul or WALK_SPEED * walkMul)) or 0.0
-    local rate    = (target > current) and ACCEL_UP or DECEL_DOWN
-    current = approach(current, target, rate, dt)
-    if current < 0.0001 then current = 0 end
-    curSpeed[id] = current
+    local target  = (moving and (input.run and RUN_SPEED * gallopMul or WALK_SPEED * walkMul)) or 0.0
+    local rate    = (target > self.currentSpeed) and ACCEL_UP or DECEL_DOWN
+    self.currentSpeed = approach(self.currentSpeed, target, rate, deltaTime)
+    if self.currentSpeed < 0.0001 then self.currentSpeed = 0 end
+    self.currentSpeed = self.currentSpeed
 
-    if moving and current > 0 then
-        local v = dirMove[facedDir]
-        local len = ((v[1] ~= 0) and (v[2] ~= 0)) and math.sqrt(2) or 1
-        local speed = current / len
-        local vx, vy = v[1] * speed, v[2] * speed
-        moveWithCollision(horse, vx, vy, dt)
+    if moving and self.currentSpeed > 0 then
+        local currentDirection = self.mount.pair.mount:getDir()
+        local vx, vy = currentDirection:dx() * self.currentSpeed, currentDirection:dy() * self.currentSpeed
+        moveWithCollision(self.mount.pair.mount, vx, vy, deltaTime)
 
-        horse:setVariable("bPathfind", true)
-        horse:setVariable("animalWalking", not run)
-        horse:setVariable("HorseGallop", run)
+        self.mount.pair.mount:setVariable("bPathfind", true)
+        self.mount.pair.mount:setVariable("animalWalking", not input.run)
+        self.mount.pair:setAnimationVariable("HorseGallop", input.run)
     else
-        horse:setVariable("bPathfind", false)
-        horse:setVariable("HorseGallop", false)
-        horse:setVariable("animalWalking", false)
+        self.mount.pair.mount:setVariable("bPathfind", false)
+        self.mount.pair:setAnimationVariable("HorseGallop", false)
+        self.mount.pair.mount:setVariable("animalWalking", false)
     end
 
-    local mirrorVars = { "HorseGallop", "HorseGalloping","isTurningLeft","isTurningRight" }
+    local mirrorVars =  { "HorseGalloping","isTurningLeft","isTurningRight" }
     for i = 1, #mirrorVars do
         local k = mirrorVars[i]
-        local v = horse:getVariableBoolean(k)
-        if player:getVariableBoolean(k) ~= v then player:setVariable(k, v) end
+        local v = self.mount.pair.mount:getVariableBoolean(k)
+        if self.mount.pair.rider:getVariableBoolean(k) ~= v then
+            self.mount.pair.rider:setVariable(k, v)
+        end
     end
 
-    player:setX(horse:getX()); player:setY(horse:getY()); player:setZ(horse:getZ())
-    player:setVariable("mounted", true)
-    UpdateHorseAudio(player)
+    self.mount.pair.rider:setX(self.mount.pair.mount:getX())
+    self.mount.pair.rider:setY(self.mount.pair.mount:getY())
+    self.mount.pair.rider:setZ(self.mount.pair.mount:getZ())
+    self.mount.pair.rider:setVariable("mounted", true)
+    UpdateHorseAudio(self.mount.pair.rider)
 end
 
 
--- TODO: external modification of a module, gross
-function HorseRiding._clearRideCache(pid)
-    curSpeed[pid] = nil
-    turnAcc[pid] = nil
-    lastTurnSign[pid] = nil
-    rideInit[pid] = nil
-    pending180[pid] = nil
-    startDir180[pid] = nil
-    goalDir180[pid] = nil
+---@param mount Mount
+---@return self
+---@nodiscard
+function MountController.new(mount)
+    return setmetatable(
+        {
+            mount = mount,
+            turnAcceleration = 0,
+            lastTurnWasRight = false,
+            currentSpeed = 0.0,
+            vegLingerT = 0.0,
+            vegLingerStartMult = 1.0,
+            prevInVeg = false
+        },
+        MountController
+    )
 end
 
 
-return RideDirect
+return MountController

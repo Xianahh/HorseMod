@@ -18,6 +18,13 @@ function MountPair:setAnimationVariable(key, value)
 end
 
 
+---@param direction IsoDirections
+function MountPair:setDirection(direction)
+    self.mount:setDir(direction)
+    self.rider:setDir(direction)
+end
+
+
 ---@param rider IsoPlayer
 ---@param mount IsoAnimal
 ---@return self

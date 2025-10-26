@@ -93,6 +93,7 @@ local StaminaSystem = {}
 function StaminaSystem:update(horses, delta)
     for i = 1, #horses do
         local horse = horses[i]
+        -- TODO: exclude mounted horses
 
         local regenRate = horse:isAnimalMoving() and Stamina.REGEN_WALK or Stamina.REGEN_IDLE
         -- TODO: it's unideal that we transmit the stamina of horses constantly
