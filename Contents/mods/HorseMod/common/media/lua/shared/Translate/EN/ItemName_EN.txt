@@ -1,6 +1,7 @@
 ItemName_EN = {
     ItemName_HorseMod.HorseSaddle = "Horse Saddle",
     ItemName_HorseMod.HorseSaddleBags = "Horse Saddle Bags",
+    ItemName_HorseMod.HorseSaddleBagsContainer = "Horse Saddle Bags",
     ItemName_HorseMod.Horse_Head_Foal_AQHP = "American Quarter Foal Head",
     ItemName_HorseMod.Horse_Head_Female_AQHP = "American Quarter Mare Head",
     ItemName_HorseMod.Horse_Head_Male_AQHP = "American Quarter Stallion Head",
