@@ -752,7 +752,6 @@ end
 
 ---@param input MountController.Input
 function MountController:update(input)
-    -- FIXME: this fails when dismounting
     assert(self.mount.pair.rider:getVariableString("RidingHorse") == "true")
 
     self.mount.pair.rider:setSneaking(true)
