@@ -1,6 +1,8 @@
 local Stamina = require("HorseMod/Stamina")
 local HorseUtils = require("HorseMod/Utils")
+local HorseRiding = require("HorseMod/Riding")
 
+local idleToGallopReached = false
 
 ---@param state "walk"|"gallop"
 ---@return number
@@ -653,6 +655,14 @@ function MountController:updateReins(input)
 end
 
 
+function MountController:updateDeath()
+    if self.mount.pair.mount:getVariableBoolean("HorseDying") then
+        self.mount.pair.rider:setVariable("HorseDying", true)
+        return
+    end
+end
+
+
 ---@param input MountController.Input
 function MountController:update(input)
     -- FIXME: this fails when dismounting
@@ -679,6 +689,7 @@ function MountController:update(input)
     self:turn(input, deltaTime)
     self:updateSpeed(input, deltaTime)
     self:updateReins(input)
+    self:updateDeath()
 
     if moving and self.currentSpeed > 0 then
         local currentDirection = self.mount.pair.mount:getDir()
@@ -694,12 +705,30 @@ function MountController:update(input)
         self.mount.pair.mount:setVariable("animalWalking", false)
     end
 
-    local mirrorVars =  { "HorseGalloping","GallopToIdlePlayer","isTurningLeft","isTurningRight" }
-    for i = 1, #mirrorVars do
-        local k = mirrorVars[i]
+    -- local dbg = self.mount.pair.mount:getAnimationDebug()
+    -- local idleToGallopData = HorseUtils.getAnimationFromDebugString(dbg, "Horse_IdleToGallop")
+
+    -- if idleToGallopData then
+    --     self.mount.pair.rider:setVariable("IdleToGallop", true)
+    -- elseif not idleToGallopData then
+    --     self.mount.pair.rider:setVariable("IdleToGallop", false)
+    -- end
+
+    local mirrorVarsHorse =  { "HorseGalloping","isTurningLeft","isTurningRight" }
+    for i = 1, #mirrorVarsHorse do
+        local k = mirrorVarsHorse[i]
         local v = self.mount.pair.mount:getVariableBoolean(k)
         if self.mount.pair.rider:getVariableBoolean(k) ~= v then
             self.mount.pair.rider:setVariable(k, v)
+        end
+    end
+
+    local mirrorVarsRider =  { "IdleToRun" }
+    for i = 1, #mirrorVarsRider do
+        local k = mirrorVarsRider[i]
+        local v = self.mount.pair.rider:getVariableBoolean(k)
+        if self.mount.pair.mount:getVariableBoolean(k) ~= v then
+            self.mount.pair.mount:setVariable(k, v)
         end
     end
 

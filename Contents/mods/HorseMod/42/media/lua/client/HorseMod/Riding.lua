@@ -145,6 +145,22 @@ end
 Events.OnKeyPressed.Add(horseJump)
 
 
+local function dismountOnHorseDeath(character)
+    if not character:isAnimal() or not HorseRiding.isMountableHorse(character) then
+        return
+    end
+
+    for _, mount in pairs(HorseRiding.playerMounts) do
+        if mount and mount.pair.mount == character then
+            HorseRiding.removeMount(mount.pair.rider)
+            return
+        end
+    end
+end
+
+Events.OnCharacterDeath.Add(dismountOnHorseDeath)
+
+
 ---@param player IsoPlayer
 local function initHorseMod(_, player)
     player:setVariable("RidingHorse", false)

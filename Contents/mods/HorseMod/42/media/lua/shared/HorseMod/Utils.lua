@@ -6,6 +6,14 @@ local HORSE_TYPES = {
 
 local HorseUtils = {}
 
+---Trims whitespace from both ends of a string.
+---@param value string
+---@return string
+---@nodiscard
+local function trim(value)
+    return value:match("^%s*(.-)%s*$")
+end
+
 ---Checks whether an animal is a horse.
 ---@param animal IsoAnimal The animal to check.
 ---@return boolean isHorse Whether the animal is a horse.
@@ -73,6 +81,7 @@ HorseUtils.getSaddle = function(animal)
     end
 end
 
+
 ---@param animal IsoAnimal
 ---@return InventoryItem | nil
 ---@nodiscard
@@ -85,6 +94,7 @@ HorseUtils.getReins = function(animal)
     end
 end
 
+
 HorseUtils.REINS_MODELS = {
     idle = "HorseMod.Horse_Reins",
     walking = "HorseMod.Horse_ReinsWalking",
@@ -92,5 +102,45 @@ HorseUtils.REINS_MODELS = {
     gallop = "HorseMod.Horse_ReinsRunning",
 }
 
+
+---@param debugString string The string from getAnimationDebug().
+---@param matchString string The name of the animation to look for.
+---@return table animationData The animation names found between "Anim:" and "Weight".
+---@nodiscard
+HorseUtils.getAnimationFromDebugString = function(debugString, matchString)
+    local searchStart = 1
+    local animationData = {name = "", weight = 0}
+
+    while true do
+        local _, animLabelEnd = string.find(debugString, "Anim:", searchStart, true)
+        if not animLabelEnd then
+            break
+        end
+
+        local weightStart = string.find(debugString, "Weight", animLabelEnd + 1, true)
+        if not weightStart then
+            break
+        end
+
+        local rawName = string.sub(debugString, animLabelEnd + 1, weightStart - 1)
+        local name = trim(rawName)
+        if name == matchString then
+            local weightValue
+            local weightColon = string.find(debugString, ":", weightStart, true)
+            if weightColon then
+                local nextNewline = string.find(debugString, "\n", weightColon + 1, true)
+                local weightEnd = (nextNewline or (#debugString + 1)) - 1
+                local rawWeight = string.sub(debugString, weightColon + 1, weightEnd)
+                weightValue = tonumber(trim(rawWeight))
+            end
+            print("Weight value of anim: ", weightValue)
+            animationData.name = name
+            animationData.weight = weightValue
+            return animationData
+        end
+
+        searchStart = weightStart + 1
+    end
+end
 
 return HorseUtils

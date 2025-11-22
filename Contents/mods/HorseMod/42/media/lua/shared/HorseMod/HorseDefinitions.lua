@@ -203,18 +203,18 @@ AnimalDefinitions.animals["filly"] = {
     -- STATS
     ---- general
     turnDelta = 0.65,
-    trailerBaseSize = 300,
-    minEnclosureSize = 40,
+    trailerBaseSize = 180,
+    minEnclosureSize = 120,
     idleSoundVolume = 0.2,
     ---- size
     collisionSize = 0.35,
-    minSize = 0.6,
-    maxSize = 0.6,
-    animalSize = 0.5,
+    minSize = 0.4,
+    maxSize = 0.4,
+    animalSize = 0.3,
     baseEncumbrance = 180,
-    minWeight = 380,
-    maxWeight = 1000,
-    corpseSize = 5,
+    minWeight = 120,
+    maxWeight = 450,
+    corpseSize = 3,
     ---- food
     eatTypeTrough = "AnimalFeed,Grass,Hay,Vegetables,Fruits",
     hungerMultiplier = 0.0035,
@@ -285,7 +285,7 @@ AnimalDefinitions.animals["stallion"] = {
     ---- general
     turnDelta = 0.65,
     trailerBaseSize = 300,
-    minEnclosureSize = 40,
+    minEnclosureSize = 120,
     idleSoundVolume = 0.2,
     ---- size
     collisionSize = 0.35,
@@ -368,7 +368,7 @@ AnimalDefinitions.animals["mare"] = {
     ---- general
     turnDelta = 0.65,
     trailerBaseSize = 300,
-    minEnclosureSize = 40,
+    minEnclosureSize = 120,
     idleSoundVolume = 0.2,
     ---- size
     collisionSize = 0.35,
