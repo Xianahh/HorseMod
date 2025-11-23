@@ -6,7 +6,15 @@ ItemName_EN = {
     ItemName_HorseMod.HorseSaddle_CowHolstein = "Horse Saddle (Holstein)",
     ItemName_HorseMod.HorseSaddle_CowSimmental = "Horse Saddle (Simmental)",
     ItemName_HorseMod.HorseSaddle_White = "Horse Saddle (White)",
-    ItemName_HorseMod.HorseSaddle_White = "Horse Saddle (Landrace)",
+    ItemName_HorseMod.HorseSaddle_Landrace = "Horse Saddle (Landrace)",
+    ItemName_HorseMod.HorseSaddle_AP = "Horse Saddle (American Paint)",
+    ItemName_HorseMod.HorseSaddle_APHO = "Horse Saddle (American Paint Overo)",
+    ItemName_HorseMod.HorseSaddle_AQHBR = "Horse Saddle (Blue Roan)",
+    ItemName_HorseMod.HorseSaddle_AQHP = "Horse Saddle (American Quarter)",
+    ItemName_HorseMod.HorseSaddle_FBG = "Horse Saddle (Flea-Bitten Grey)",
+    ItemName_HorseMod.HorseSaddle_GDA = "Horse Saddle (Appaloosa)",
+    ItemName_HorseMod.HorseSaddle_LPA = "Horse Saddle (Spotted Appaloosa)",
+    ItemName_HorseMod.HorseSaddle_T = "Horse Saddle (Thoroughbred)",
 
         /* Saddlebags */
     ItemName_HorseMod.HorseSaddlebagsContainer = "Horse Saddle Bags",
@@ -15,7 +23,15 @@ ItemName_EN = {
     ItemName_HorseMod.HorseSaddlebags_CowHolstein = "Horse Saddle Bags (Holstein)",
     ItemName_HorseMod.HorseSaddlebags_CowSimmental = "Horse Saddle Bags (Simmental)",
     ItemName_HorseMod.HorseSaddlebags_White = "Horse Saddle Bags (White)",
-    ItemName_HorseMod.HorseSaddlebags_White = "Horse Saddle Bags (Landrace)",
+    ItemName_HorseMod.HorseSaddlebags_Landrace = "Horse Saddle Bags (Landrace)",
+    ItemName_HorseMod.HorseSaddlebags_AP = "Horse Saddle Bags (American Paint)",
+    ItemName_HorseMod.HorseSaddlebags_APHO = "Horse Saddle Bags (American Paint Overo)",
+    ItemName_HorseMod.HorseSaddlebags_AQHBR = "Horse Saddle Bags (Blue Roan)",
+    ItemName_HorseMod.HorseSaddlebags_AQHP = "Horse Saddle Bags (American Quarter)",
+    ItemName_HorseMod.HorseSaddlebags_FBG = "Horse Saddle Bags (Flea-Bitten Grey)",
+    ItemName_HorseMod.HorseSaddlebags_GDA = "Horse Saddle Bags (Appaloosa)",
+    ItemName_HorseMod.HorseSaddlebags_LPA = "Horse Saddle Bags (Spotted Appaloosa)",
+    ItemName_HorseMod.HorseSaddlebags_T = "Horse Saddle Bags (Thoroughbred)",
 
         /* Reins */
     ItemName_HorseMod.HorseReins_Crude = "Horse Reins (Crude)",
