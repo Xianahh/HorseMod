@@ -6,6 +6,7 @@ module HorseMod {
 	item HorseReins_Crude {
         DisplayName = Horse Reins,
         DisplayCategory = Accessory,
+        Tags = HorseAccessory,
         Type = Normal,
         Weight = 0.5,
         Icon = accessories/HorseReins_Crude,
@@ -61,6 +62,7 @@ module HorseMod {
     item HorseReins_Brown {
         DisplayName = Horse Reins,
         DisplayCategory = Accessory,
+        Tags = HorseAccessory,
         Type = Normal,
         Weight = 0.5,
         Icon = accessories/HorseReins_Brown,
@@ -116,6 +118,7 @@ module HorseMod {
     item HorseReins_Black {
         DisplayName = Horse Reins,
         DisplayCategory = Accessory,
+        Tags = HorseAccessory,
         Type = Normal,
         Weight = 0.5,
         Icon = accessories/HorseReins_Black,
@@ -171,6 +174,7 @@ module HorseMod {
     item HorseReins_White {
         DisplayName = Horse Reins,
         DisplayCategory = Accessory,
+        Tags = HorseAccessory,
         Type = Normal,
         Weight = 0.5,
         Icon = accessories/HorseReins_White,

@@ -112,15 +112,13 @@ function HorseAttachmentSaddlebags.findSaddlebagWorldItem(animal, data)
     end
 
     if id and data.x and data.y and data.z then
-        local cell = getCell and getCell() or nil
-        if cell then
-            for dx = -1, 1 do
-                for dy = -1, 1 do
-                    if dx ~= 0 or dy ~= 0 then
-                        local wo, sq2 = AttachmentUtils.findWorldItemOnSquare(data.x + dx, data.y + dy, data.z, fullType, id)
-                        if wo then
-                            return wo, sq2
-                        end
+        local cell = getCell()
+        for dx = -1, 1 do
+            for dy = -1, 1 do
+                if dx ~= 0 or dy ~= 0 then
+                    local wo, sq2 = AttachmentUtils.findWorldItemOnSquare(data.x + dx, data.y + dy, data.z, fullType, id)
+                    if wo then
+                        return wo, sq2
                     end
                 end
             end

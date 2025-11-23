@@ -2,6 +2,7 @@ module HorseMod {
 	/* INVISIBLE CONTAINER ITEM FOR ACCESS FROM THE HORSE */
     item HorseSaddlebagsContainer {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Hidden = true,
         Type = Container,
         Tags = HeavyItem,
@@ -20,6 +21,7 @@ module HorseMod {
 	/* CRUDE */
     item HorseSaddlebags_Crude {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -41,6 +43,7 @@ module HorseMod {
     /* PIG: BLACK */
     item HorseSaddlebags_Black {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -61,6 +64,7 @@ module HorseMod {
 	/* COW: HOLSTEIN */
     item HorseSaddlebags_CowHolstein {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -81,6 +85,7 @@ module HorseMod {
 	/* COW: SIMMENTAL */
     item HorseSaddlebags_CowSimmental {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -101,6 +106,7 @@ module HorseMod {
 	/* SHEEP LEATHER */
     item HorseSaddlebags_White {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -121,6 +127,7 @@ module HorseMod {
     /* PIG: LANDRACE */
     item HorseSaddlebags_Landrace {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -142,6 +149,7 @@ module HorseMod {
     /* HORSE: AMERICAN PAINT */
     item HorseSaddlebags_AP {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -162,6 +170,7 @@ module HorseMod {
     /* HORSE: AMERICAN PAINT OVERO */
     item HorseSaddlebags_APHO {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -182,6 +191,7 @@ module HorseMod {
     /* HORSE: BLUE ROAN */
     item HorseSaddlebags_AQHBR {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -202,6 +212,7 @@ module HorseMod {
     /* HORSE: AMERICAN QUARTER */
     item HorseSaddlebags_AQHP {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -222,6 +233,7 @@ module HorseMod {
     /* HORSE: FLEA-BITTEN GREY */
     item HorseSaddlebags_FBG {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -242,6 +254,7 @@ module HorseMod {
     /* HORSE: APPALOOSA */
     item HorseSaddlebags_GDA {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -262,6 +275,7 @@ module HorseMod {
     /* HORSE: SPOTTED APPALOOSA */
     item HorseSaddlebags_LPA {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
@@ -282,6 +296,7 @@ module HorseMod {
     /* HORSE: THOROUGHBRED */
     item HorseSaddlebags_T {
         DisplayCategory = Bag,
+        Tags = HorseAccessory,
         Type = Container,
         Weight = 2,
         Capacity = 40,
