@@ -2,6 +2,7 @@
 
 ---REQUIREMENTS
 local Attachments = require("HorseMod/Attachments")
+local HorseUtils = require("HorseMod/Utils")
 
 ---@class ISHorseEquipGear : ISBaseTimedAction
 ---@field horse IsoAnimal
@@ -12,40 +13,48 @@ local ISHorseEquipGear = ISBaseTimedAction:derive("ISHorseEquipGear")
 
 ---@return boolean
 function ISHorseEquipGear:isValid()
-print(self.horse and self.horse:isExistInTheWorld())
     return self.horse and self.horse:isExistInTheWorld()
 end
 
 function ISHorseEquipGear:start()
-    print("start")
     self:setActionAnim(self.attachmentDef.equipAnim or "Loot")
     self.character:faceThisObject(self.horse)
 end
 
 function ISHorseEquipGear:update()
-    print("update")
     self.character:faceThisObject(self.horse)
 end
 
 function ISHorseEquipGear:stop()
-    print("stop")
     if self.unlockFn then self.unlockFn() end
     ISBaseTimedAction.stop(self)
 end
 
 ---@param player IsoPlayer
----@param animal IsoAnimal
+---@param horse IsoAnimal
 ---@param item InventoryItem
-function ISHorseEquipGear:giveBackToPlayerOrDrop(player, animal, item)
-    player:getInventory():addItem(item)
-    -- local sq = animal:getSquare() or player:getSquare()
-    -- if sq then
-    --     sq:AddWorldInventoryItem(item, 0.0, 0.0, 0.0)
-    -- end
+function ISHorseEquipGear:giveBackToPlayerOrDrop(player, horse, item)
+    -- player:getInventory():addItem(item)
+    if not item then
+        return
+    end
+    local pinv = player and player:getInventory()
+    if pinv and pinv:addItem(item) then
+        return
+    end
+    local sq = horse:getSquare() or (player and player:getSquare())
+    if sq then
+        sq:AddWorldInventoryItem(item, 0.0, 0.0, 0.0)
+    end
+end
+
+function ISHorseEquipGear:updateModData(horse, slot, ft, gr)
+    local modData = HorseUtils.getModData(horse)
+    modData.bySlot[slot] = ft
+    modData.ground[slot] = gr
 end
 
 function ISHorseEquipGear:perform()
-    print("perform")
     local horse = self.horse
     local player = self.character
     local accessory = self.accessory
@@ -67,12 +76,9 @@ function ISHorseEquipGear:perform()
 
     -- set new accessory
     Attachments.setAttachedItem(horse, slot, accessory)
+    self:updateModData(horse, slot, accessory:getFullType(), nil)
 
     ---@TODO
-    -- local bySlot, ground = AttachmentUtils.ensureHorseModData(animal)
-    -- bySlot[slot] = ft
-    -- ground[slot] = nil
-
     -- if slot == SADDLEBAG_SLOT then
     --     if ft == SADDLEBAG_FULLTYPE then
     --         HorseAttachmentSaddlebags.ensureSaddlebagContainer(animal, player, true)
@@ -103,8 +109,7 @@ end
 ---@return ISHorseEquipGear
 ---@nodiscard
 function ISHorseEquipGear:new(character, horse, accessory, unlockFn)
-    print("new")
-    local o = ISBaseTimedAction:new(character) --[[@as ISHorseEquipGear]]
+    local o = ISBaseTimedAction.new(self,character) --[[@as ISHorseEquipGear]]
     o.horse = horse
     o.accessory = accessory
     local attachmentDef = Attachments.getAttachmentDefinition(accessory:getFullType())

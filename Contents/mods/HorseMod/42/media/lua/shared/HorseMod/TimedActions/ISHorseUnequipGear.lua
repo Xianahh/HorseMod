@@ -3,6 +3,7 @@
 ---REQUIREMENTS
 local Attachments = require("HorseMod/Attachments")
 local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
+local AttachmentUtils = require("HorseMod/horse/attachments/AttachmentUtils")
 
 ---@class ISHorseUnequipGear : ISHorseEquipGear
 ---@field horse IsoAnimal
@@ -20,6 +21,9 @@ function ISHorseUnequipGear:perform()
 
     -- remove old accessory from slot and give to player or drop
     Attachments.setAttachedItem(horse, slot, nil)
+
+    self:updateModData(horse, slot, nil, nil)
+
     self:giveBackToPlayerOrDrop(player, horse, oldAccessory)
 
     ---@TODO
@@ -27,21 +31,23 @@ function ISHorseUnequipGear:perform()
     -- bySlot[slot] = nil
     -- ground[slot] = nil
 
-    if self.unlockFn then self.unlockFn() end
+    if self.unlockFn then
+        self.unlockFn()
+    end
     ISBaseTimedAction.perform(self)
 end
 
 ---@param character IsoGameCharacter
 ---@param horse IsoAnimal
----@param accessory InventoryItem
+---@param oldAccessory InventoryItem
 ---@param unlockFn fun()?
 ---@return ISHorseUnequipGear
 ---@nodiscard
-function ISHorseUnequipGear:new(character, horse, accessory, unlockFn)
-    local o = ISHorseEquipGear:new(character, horse, accessory, unlockFn) --[[@as ISHorseUnequipGear]]
+function ISHorseUnequipGear:new(character, horse, oldAccessory, unlockFn)
+    local o = ISHorseEquipGear.new(self, character, horse, oldAccessory, unlockFn) --[[@as ISHorseUnequipGear]]
     o.horse   = horse
-    o.oldAccessory = accessory
-    local attachmentDef = Attachments.getAttachmentDefinition(accessory:getFullType())
+    o.oldAccessory = oldAccessory
+    local attachmentDef = Attachments.getAttachmentDefinition(oldAccessory:getFullType())
     o.maxTime = attachmentDef.unequipTime or 90
     o.attachmentDef = attachmentDef
     o.unlockFn = unlockFn

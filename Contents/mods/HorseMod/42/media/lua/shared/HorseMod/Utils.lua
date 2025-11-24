@@ -13,6 +13,21 @@ HorseUtils.isHorse = function(animal)
     return HORSE_TYPES[animal:getAnimalType()] or false
 end
 
+---@param animal IsoAnimal
+---@return table, table
+HorseUtils.getModData = function(animal)
+    local md = animal:getModData()
+    local horseModData = md.horseModData
+    if not horseModData then
+        md.horseModData = {
+            bySlot = {},
+            ground = {},
+        }
+        horseModData = md.horseModData
+    end
+    return horseModData
+end
+
 HorseUtils.getMountWorld = function(horse, name)
     if horse.getAttachmentWorldPos then
         local v = horse:getAttachmentWorldPos(name)
@@ -41,6 +56,9 @@ HorseUtils.getClosestMount = function(character, horse)
     return tx, ty, tz
 end
 
+---@param horse IsoAnimal
+---@return fun()
+---@return IsoDirections
 HorseUtils.lockHorseForInteraction = function(horse)
     if horse.getPathFindBehavior2 then horse:getPathFindBehavior2():reset() end
     if horse.getBehavior then
@@ -102,6 +120,12 @@ HorseUtils.getReins = function(animal)
     else
         return reins
     end
+end
+
+---@param template string
+---@param params table<string, string>
+HorseUtils.formatTemplate = function(template, params)
+    return template:gsub("{(%w+)}", params)
 end
 
 HorseUtils.REINS_MODELS = {

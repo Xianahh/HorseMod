@@ -109,6 +109,11 @@ Attachments.isAttachment = function(fullType, _slot)
     return attachmentDef ~= nil
 end
 
+Attachments.getSlot = function(fullType)
+    local def = Attachments.items[fullType]
+    return def and def.slot
+end
+
 ---Retrieves the attachments associated to the given item full type.
 ---@param fullType string
 ---@return AttachmentDefinition
@@ -150,8 +155,9 @@ end
 ---Attach an `item` to a specific `slot` on the `animal`.
 ---@param animal IsoAnimal
 ---@param slot AttachmentSlot
----@param item InventoryItem
+---@param item InventoryItem?
 Attachments.setAttachedItem = function(animal, slot, item)
+    ---@diagnostic disable-next-line
     animal:setAttachedItem(slot, item)
 end
 

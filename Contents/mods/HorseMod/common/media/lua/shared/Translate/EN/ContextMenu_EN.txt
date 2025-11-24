@@ -1,7 +1,7 @@
 ContextMenu_EN = {
     ContextMenu_Horse_Gear = "Gear",
     ContextMenu_Horse_Equip = "Equip",
-    ContextMenu_Horse_Replace = "Replace",
+    ContextMenu_Horse_Replace = "Replace {old} with {new}",
     ContextMenu_Horse_With = "With",
     ContextMenu_Horse_No_Compatible_Gear = "No compatible gear to equip on the horse.",
     ContextMenu_Horse_Unequip = "Unequip",

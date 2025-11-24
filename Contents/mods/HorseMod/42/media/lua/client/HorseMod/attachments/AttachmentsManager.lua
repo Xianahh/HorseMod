@@ -1,9 +1,14 @@
 ---@namespace HorseMod
 
+---@TODO the pathfinding to go and equip/unequip the horse do not take into account whenever the square to path to has a direct line of sight on the horse
+
 ---REQUIREMENTS
 local HorseUtils = require("HorseMod/Utils")
 local Attachments = require("HorseMod/Attachments")
 local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
+local ISHorseUnequipGear = require("HorseMod/TimedActions/ISHorseUnequipGear")
+local Utils = require("Contents.mods.HorseMod.42.media.lua.shared.HorseMod.Utils")
+
 
 ---@class AttachmentsManager
 local AttachmentsManager = {}
@@ -21,15 +26,66 @@ AttachmentsManager.equipAccessory = function(player, horse, accessory)
     end
 
     path:setOnFail(cleanupOnFail)
+    path.stop = function(self)
+        cleanupOnFail()
+        ISPathFindAction.stop(self)
+    end
+    path:setOnComplete(function(p)
+        -- p:setDir(lockDir)
+    end, player)
+    ISTimedActionQueue.add(path)
+    ISTimedActionQueue.add(ISHorseEquipGear:new(player, horse, accessory, unlock))
+end
+
+---@param player IsoPlayer
+---@param horse IsoAnimal
+---@param oldAccessory InventoryItem
+AttachmentsManager.unequipAccessory = function(player, horse, oldAccessory)
+    local mx, my, mz = HorseUtils.getClosestMount(player, horse)
+    local path = ISPathFindAction:pathToLocationF(player, mx, my, mz)
+
+    local unlock, lockDir = HorseUtils.lockHorseForInteraction(horse)
+    local function cleanupOnFail()
+        unlock()
+    end
+
+    path:setOnFail(cleanupOnFail)
     function path:stop()
         cleanupOnFail()
         self:stop()
     end
     path:setOnComplete(function(p)
-        p:setDir(lockDir)
+        -- p:setDir(lockDir)
     end, player)
     ISTimedActionQueue.add(path)
-    ISTimedActionQueue.add(ISHorseEquipGear:new(player, horse, accessory, unlock))
+    ISTimedActionQueue.add(ISHorseUnequipGear:new(player, horse, oldAccessory, unlock))
+end
+
+---@param player IsoPlayer
+---@param horse IsoAnimal
+---@param oldAccessories InventoryItem[]
+AttachmentsManager.unequipAllAccessory = function(player, horse, oldAccessories)
+    local mx, my, mz = HorseUtils.getClosestMount(player, horse)
+    local path = ISPathFindAction:pathToLocationF(player, mx, my, mz)
+
+    local unlock, lockDir = HorseUtils.lockHorseForInteraction(horse)
+    local function cleanupOnFail()
+        unlock()
+    end
+
+    path:setOnFail(cleanupOnFail)
+    function path:stop()
+        cleanupOnFail()
+        self:stop()
+    end
+    path:setOnComplete(function(p)
+        -- p:setDir(lockDir)
+    end, player)
+    ISTimedActionQueue.add(path)
+    for i = 1, #oldAccessories do
+        local oldAccessory = oldAccessories[i]
+        ISTimedActionQueue.add(ISHorseUnequipGear:new(player, horse, oldAccessory, unlock))
+    end
 end
 
 
@@ -64,13 +120,27 @@ AttachmentsManager.populateHorseContextMenu = function(player, horse, context, a
         gearSubMenu:addSubMenu(equipOption, equipSubMenu)
         for i = 0, accessoriesCount - 1 do
             local accessory = accessories:get(i)
-            equipSubMenu:addOption(
+            local option = equipSubMenu:addOption(
                 accessory:getDisplayName(),
                 player,
                 AttachmentsManager.equipAccessory,
                 horse,
                 accessory
             )
+            option.iconTexture = accessory:getTexture()
+
+            -- have a replace tooltip
+            local slot = Attachments.getSlot(accessory:getFullType())
+            local oldAccessory = Attachments.getAttachedItem(horse, slot)
+            if oldAccessory then
+                local tooltip = ISWorldObjectContextMenu.addToolTip()
+                local txt = HorseUtils.formatTemplate(
+                    getText("ContextMenu_Horse_Replace"),
+                    {old=oldAccessory:getDisplayName(),new=accessory:getDisplayName()}
+                )
+                tooltip.description = txt
+                option.toolTip = tooltip
+            end
         end
     else
         -- not item to equip
@@ -90,12 +160,25 @@ AttachmentsManager.populateHorseContextMenu = function(player, horse, context, a
         gearSubMenu:addSubMenu(unequipOption, unequipSubMenu)
         for i = 1, attachmentsCount do
             local attachment = attachedItems[i] --[[@as InventoryItem]]
-            unequipSubMenu:addOption(attachment:getDisplayName())
+            local option = unequipSubMenu:addOption(
+                attachment:getDisplayName(),
+                player,
+                AttachmentsManager.unequipAccessory,
+                horse,
+                attachment
+            )
+            option.iconTexture = attachment:getTexture()
         end
 
         -- unequip option if more than one item is present
         if attachmentsCount > 1 then
-            unequipSubMenu:addOption(getText("ContextMenu_Horse_Unequip_All"), player)
+            unequipSubMenu:addOption(
+                getText("ContextMenu_Horse_Unequip_All"),
+                player,
+                AttachmentsManager.unequipAllAccessory,
+                horse,
+                attachedItems
+            )
         end
     end
 end
@@ -110,7 +193,6 @@ AttachmentsManager.onClickedAnimalForContext = function(playerNum, context, anim
     for i = 1, #animals do repeat
         local animal = animals[i]
         if HorseUtils.isHorse(animal) then
-            DebugLog.log(tostring(animal))
             local attachedItems = Attachments.getAttachedItems(animal)
             AttachmentsManager.populateHorseContextMenu(player, animal, context, accessories, attachedItems)
         end
