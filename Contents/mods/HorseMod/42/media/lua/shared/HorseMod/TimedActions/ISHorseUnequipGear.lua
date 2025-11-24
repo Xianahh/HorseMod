@@ -3,7 +3,6 @@
 ---REQUIREMENTS
 local Attachments = require("HorseMod/Attachments")
 local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
-local AttachmentUtils = require("HorseMod/horse/attachments/AttachmentUtils")
 
 ---@class ISHorseUnequipGear : ISHorseEquipGear
 ---@field horse IsoAnimal
@@ -11,6 +10,11 @@ local AttachmentUtils = require("HorseMod/horse/attachments/AttachmentUtils")
 ---@field attachmentDef AttachmentDefinition
 ---@field unlockFn fun()?
 local ISHorseUnequipGear = ISHorseEquipGear:derive("ISHorseUnequipGear")
+
+function ISHorseUnequipGear:start()
+    self:setActionAnim(self.attachmentDef.unequipAnim or "Loot")
+    self.character:faceThisObject(self.horse)
+end
 
 function ISHorseUnequipGear:perform()
     local horse = self.horse
@@ -25,11 +29,6 @@ function ISHorseUnequipGear:perform()
     self:updateModData(horse, slot, nil, nil)
 
     self:giveBackToPlayerOrDrop(player, horse, oldAccessory)
-
-    ---@TODO
-    -- local bySlot, ground = AttachmentUtils.ensureHorseModData(animal)
-    -- bySlot[slot] = nil
-    -- ground[slot] = nil
 
     if self.unlockFn then
         self.unlockFn()

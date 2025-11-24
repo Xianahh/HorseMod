@@ -83,6 +83,32 @@ HorseUtils.getClosestMount = function(character, horse)
     return tx, ty, tz
 end
 
+---@param player IsoPlayer
+---@param horse IsoAnimal
+---@return fun() unlock
+HorseUtils.pathfindToHorse = function(player, horse)
+    local unlock, lockDir = HorseUtils.lockHorseForInteraction(horse)
+
+    local mx, my, mz = HorseUtils.getClosestMount(player, horse)
+    local path = ISPathFindAction:pathToLocationF(player, mx, my, mz)
+
+    -- pathfinding to horse
+    local function cleanupOnFail()
+        unlock()
+    end
+
+    path:setOnFail(cleanupOnFail)
+    path.stop = function(self)
+        cleanupOnFail()
+        ISPathFindAction.stop(self)
+    end
+    path:setOnComplete(function(p)
+        p:setDir(lockDir)
+    end, player)
+    ISTimedActionQueue.add(path)
+    return unlock
+end
+
 ---@param horse IsoAnimal
 ---@return fun()
 ---@return IsoDirections
@@ -150,6 +176,11 @@ HorseUtils.getReins = function(animal)
     end
 end
 
+---Formats translation entries that use such a format:
+---```lua
+---local params = {param1 = "Str1", paramNamed = "Str2", helloWorld="Str3",}
+---local txt = formatTemplate("{param1} {paramNamed} {helloWorld}", params)
+---```
 ---@param template string
 ---@param params table<string, string>
 ---@nodiscard

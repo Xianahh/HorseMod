@@ -110,7 +110,7 @@ Attachments.isAttachment = function(fullType, _slot)
 end
 
 ---@param fullType string
----@return string?
+---@return AttachmentSlot?
 ---@nodiscard
 Attachments.getSlot = function(fullType)
     local def = Attachments.items[fullType]
