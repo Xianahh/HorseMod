@@ -3,6 +3,7 @@
 ---REQUIREMENTS
 local HorseManager = require("HorseMod/HorseManager")
 local HorseUtils = require("HorseMod/Utils")
+local ManeManager = require("HorseMod/attachments/ManeManager")
 
 ---@class AttachmentUpdater
 ---@field PENDING_HORSES IsoAnimal[]

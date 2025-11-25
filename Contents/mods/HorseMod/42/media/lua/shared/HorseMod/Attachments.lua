@@ -20,7 +20,7 @@
 ---@class Attachments
 ---@field items AttachmentsItemsMap
 ---@field SLOTS AttachmentsSlots
----@field MANE_SLOTS_SET table<AttachmentSlot, true>
+---@field MANE_SLOTS_SET table<AttachmentSlot, string>
 local Attachments = {
     items = {
         -- saddles
@@ -86,13 +86,13 @@ local Attachments = {
         "ManeEnd",
     },
     MANE_SLOTS_SET = {
-        ["ManeStart"] = true,
-        ["ManeMid1"] = true,
-        ["ManeMid2"] = true,
-        ["ManeMid3"] = true,
-        ["ManeMid4"] = true,
-        ["ManeMid5"] = true,
-        ["ManeEnd"] = true,
+        ManeStart = "HorseMod.HorseManeStart",
+        ManeMid1  = "HorseMod.HorseManeMid",
+        ManeMid2  = "HorseMod.HorseManeMid",
+        ManeMid3  = "HorseMod.HorseManeMid",
+        ManeMid4  = "HorseMod.HorseManeMid",
+        ManeMid5  = "HorseMod.HorseManeMid",
+        ManeEnd   = "HorseMod.HorseManeEnd",
     },
 }
 
@@ -162,6 +162,15 @@ end
 Attachments.setAttachedItem = function(animal, slot, item)
     ---@diagnostic disable-next-line
     animal:setAttachedItem(slot, item)
+end
+
+---@param animal IsoAnimal
+---@param item InventoryItem
+Attachments.removeAttachedItem = function(animal, item)
+    local ai = animal:getAttachedItems() --[[@as AttachedItems?]]
+    if ai then
+        ai:remove(item)
+    end
 end
 
 ---@param player IsoPlayer
