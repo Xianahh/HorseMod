@@ -53,10 +53,7 @@ local function initialiseHorse(horse)
 end
 
 
--- we delay processing of newly spawned animals until the next tick
---  because their animal type isn't set when the event triggers
----@type IsoAnimal[]
-local newAnimals = table.newarray()
+---Detect newly created horses par parsing the moving objects array list of the player cell 
 
 ---@TODO set to update rate 8 for performance reasons
 -- local UPDATE_RATE = 8
@@ -95,30 +92,6 @@ Events.EveryOneMinute.Add(function()
         end
     end
 end)
-
--- Events.OnCreateLivingCharacter.Add(function(character, desc)
---     DebugLog.log("onCreateLivingCharacter: "..tostring(character:getFullName() or character:getName()))
---     if character:isAnimal() then
---         ---@cast character IsoAnimal
---         newAnimals[#newAnimals + 1] = character
---     end
--- end)
-
-
--- local function processNewAnimals()
---     for i = #newAnimals, 1, -1 do
---         local animal = newAnimals[i]
---         DebugLog.log("Processing new animal: "..animal:getFullName())
---         if HorseUtils.isHorse(animal) then
---             DebugLog.log("    is horse")
---             initialiseHorse(animal)
---             HorseManager.horses[#HorseManager.horses + 1] = animal
---             HorseManager.onHorseAdded:trigger(animal)
---         end
---         newAnimals[i] = nil
---     end
--- end
-
 
 function HorseManager.update()
     -- processNewAnimals()
