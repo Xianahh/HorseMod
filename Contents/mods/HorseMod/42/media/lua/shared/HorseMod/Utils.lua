@@ -55,9 +55,8 @@ end
 
 
 ---@class HorseModData
----@field bySlot table<AttachmentSlot, string>
----@field ground table
----@field maneColors table<AttachmentSlot, ManeColor|nil>
+---@field bySlot table<AttachmentSlot, string> Attachments of the horse.
+---@field maneColors table<AttachmentSlot, ManeColor|nil> Manes of the horse and their associated color.
 
 ---@param animal IsoAnimal
 ---@return HorseModData
@@ -67,7 +66,6 @@ HorseUtils.getModData = function(animal)
     if not horseModData then
         md.horseModData = {
             bySlot = HorseUtils.tableCopy(AttachmentData.MANE_SLOTS_SET),
-            ground = {},
             maneColors = {},
         } --[[@as HorseModData]]
         horseModData = md.horseModData

@@ -6,6 +6,7 @@ local AttachmentData = require("HorseMod/AttachmentData")
 local HorseManager = require("HorseMod/HorseManager")
 local HorseUtils = require("HorseMod/Utils")
 local ManeManager = require("HorseMod/attachments/ManeManager")
+local ContainerManager = require("HorseMod/attachments/ContainerManager")
 
 local AttachmentUpdater = {
     DEBUG_AttachmentUpdater = true,
@@ -85,6 +86,9 @@ function AttachmentUpdater:update(horses, delta)
             end
         end
     end
+
+    -- update container tracking
+    ContainerManager.track(horses)
 end
 
 

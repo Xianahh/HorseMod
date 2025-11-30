@@ -140,7 +140,6 @@ HorseRiding.onKeyPressed = function(key)
 
         local mountPair = mount.pair
         local horse = mountPair.mount
-        player:addLineChatElement(tostring(mount and mountPair:getAnimationVariableBoolean("HorseJump")))
         if player:getVariableBoolean("RidingHorse") 
             and horse:getVariableBoolean("HorseGallop")
             and not mountPair:getAnimationVariableBoolean("HorseJump") then

@@ -93,7 +93,7 @@ AttachmentsManager.populateHorseContextMenu = function(player, horse, context, a
         -- can't equip gear on a foal
         gearOption.notAvailable = true
         local tooltip = ISWorldObjectContextMenu.addToolTip()
-        tooltip.description = getText("ContextMenu_Horse_NeedsAdult")
+        tooltip.description = getText("ContextMenu_Horse_NotAdult")
         gearOption.toolTip = tooltip
         return
     end

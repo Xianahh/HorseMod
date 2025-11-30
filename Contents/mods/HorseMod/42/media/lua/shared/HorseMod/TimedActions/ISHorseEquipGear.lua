@@ -3,6 +3,7 @@
 ---REQUIREMENTS
 local Attachments = require("HorseMod/Attachments")
 local HorseUtils = require("HorseMod/Utils")
+local ContainerManager = require("HorseMod/attachments/ContainerManager")
 
 ---@class ISHorseEquipGear : ISBaseTimedAction
 ---@field horse IsoAnimal
@@ -70,6 +71,12 @@ function ISHorseEquipGear:perform()
     -- set new accessory
     Attachments.setAttachedItem(horse, slot, accessory)
     self:updateModData(horse, slot, accessory:getFullType(), nil)
+
+    -- init container
+    local container = attachmentDef.container
+    if container then
+        ContainerManager.initContainer()
+    end
 
     ---@TODO
     -- if slot == SADDLEBAG_SLOT then

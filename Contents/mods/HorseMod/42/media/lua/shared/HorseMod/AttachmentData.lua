@@ -25,6 +25,7 @@
 ---@field unequipBehavior EquipBehavior? Unequip timed action behavior
 ---@field model string? Model script ID to show when attached [not fully tested]
 ---@field hidden boolean? Hide the item in menus [not fully tested]
+---@field container string? Container behavior.
 
 ---Stores the various attachment data which are required to work with attachments for horses.
 local AttachmentData = {
