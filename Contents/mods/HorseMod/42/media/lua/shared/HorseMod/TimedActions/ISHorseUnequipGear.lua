@@ -8,13 +8,10 @@ local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
 ---@field horse IsoAnimal
 ---@field oldAccessory InventoryItem
 ---@field attachmentDef AttachmentDefinition
----@field unlockFn fun()?
+---@field equipBehavior EquipBehavior
+---@field unlockPerform fun()?
+---@field unlockStop fun()?
 local ISHorseUnequipGear = ISHorseEquipGear:derive("ISHorseUnequipGear")
-
-function ISHorseUnequipGear:start()
-    self:setActionAnim(self.attachmentDef.unequipAnim or "Loot")
-    self.character:faceThisObject(self.horse)
-end
 
 function ISHorseUnequipGear:perform()
     local horse = self.horse
@@ -45,7 +42,10 @@ end
 ---@nodiscard
 function ISHorseUnequipGear:new(character, horse, accessory, unlockPerform, unlockStop)
     local o = ISHorseEquipGear.new(self, character, horse, accessory, unlockPerform, unlockStop) --[[@as ISHorseUnequipGear]]
-    o.maxTime = o.attachmentDef.unequipTime or 90
+    -- equip behavior
+    local equipBehavior = o.attachmentDef.unequipBehavior or {}
+    o.maxTime = equipBehavior.time or 90
+    o.equipBehavior = equipBehavior
     return o
 end
 

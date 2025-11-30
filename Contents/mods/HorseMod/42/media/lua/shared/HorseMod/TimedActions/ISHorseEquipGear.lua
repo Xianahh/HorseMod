@@ -8,6 +8,7 @@ local HorseUtils = require("HorseMod/Utils")
 ---@field horse IsoAnimal
 ---@field accessory InventoryItem
 ---@field attachmentDef AttachmentDefinition
+---@field equipBehavior EquipBehavior
 ---@field unlockPerform fun()?
 ---@field unlockStop fun()?
 local ISHorseEquipGear = ISBaseTimedAction:derive("ISHorseEquipGear")
@@ -18,12 +19,29 @@ function ISHorseEquipGear:isValid()
 end
 
 function ISHorseEquipGear:start()
-    self:setActionAnim(self.attachmentDef.equipAnim or "Loot")
+    local equipBehavior = self.equipBehavior
+    
+    -- set the action animation
+    self.character:setVariable("EquipFinished", false)
+    self:setActionAnim(equipBehavior.anim or "Loot")
+
+    -- should hold the accessory in hand when equipping
+    if equipBehavior.shouldHold then
+        self:setOverrideHandModels(self.accessory)
+    end
+
+    -- force face the horse
     self.character:faceThisObject(self.horse)
 end
 
 function ISHorseEquipGear:update()
     self.character:faceThisObject(self.horse)
+
+    -- end when
+    local maxTime = self.maxTime
+    if maxTime == -1 and self.character:getVariableBoolean("EquipFinished") then
+        self:forceComplete()
+    end
 end
 
 function ISHorseEquipGear:stop()
@@ -39,7 +57,6 @@ end
 
 function ISHorseEquipGear:perform()
     local horse = self.horse
-    local player = self.character
     local accessory = self.accessory
     local attachmentDef = self.attachmentDef
     local slot = attachmentDef.slot
@@ -49,13 +66,6 @@ function ISHorseEquipGear:perform()
     -- local itemContainer = accessory:getContainer()
     accessory:getContainer():Remove(accessory)
     horse:getInventory():AddItem(accessory)
-
-    -- remove old accessory from slot and give to player or drop
-    local oldAccessory = Attachments.getAttachedItem(horse, slot)
-    if oldAccessory then
-        Attachments.setAttachedItem(horse, slot, nil)
-        Attachments.giveBackToPlayerOrDrop(player, horse, oldAccessory)
-    end
 
     -- set new accessory
     Attachments.setAttachedItem(horse, slot, accessory)
@@ -88,19 +98,29 @@ end
 ---@param character IsoGameCharacter
 ---@param horse IsoAnimal
 ---@param accessory InventoryItem
----@param unlockPerform fun()?
----@param unlockStop fun()?
+---@param unlockPerform fun()? should unlock after performing the action
+---@param unlockStop fun()? unlock function when force stop the action, if unlockPerform is not provided
 ---@return ISHorseEquipGear
 ---@nodiscard
 function ISHorseEquipGear:new(character, horse, accessory, unlockPerform, unlockStop)
     local o = ISBaseTimedAction.new(self,character) --[[@as ISHorseEquipGear]]
     o.horse = horse
     o.accessory = accessory
+
+    -- retrieve attachment informations
     local attachmentDef = Attachments.getAttachmentDefinition(accessory:getFullType())
-    o.maxTime = attachmentDef.equipTime or 120
     o.attachmentDef = attachmentDef
+    
+    -- equip behavior
+    local equipBehavior = attachmentDef.equipBehavior or {}
+    o.maxTime = equipBehavior.time or 120
+    o.equipBehavior = equipBehavior
+
+    -- unlock functions
     o.unlockPerform = unlockPerform
     o.unlockStop = unlockStop or unlockPerform
+
+    -- default attachment actions
     o.stopOnWalk = true
     o.stopOnRun  = true
     o.stopOnAim  = true

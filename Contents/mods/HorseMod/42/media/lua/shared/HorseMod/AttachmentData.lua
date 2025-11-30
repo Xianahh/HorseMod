@@ -10,15 +10,18 @@
 ---@field g number
 ---@field b number
 
+---@class EquipBehavior
+---@field time number? time to equip, if `-1` the animation defines the end time
+---@field anim string? animation to play during equip
+---@field shouldHold boolean? whenever the item should be held in hand when equipping it
+
 ---Defines an attachment item with its associated slots and extra data if needed.
 ---@class AttachmentDefinition
----@field slot AttachmentSlot
----@field equipTime number?
----@field unequipTime number?
----@field equipAnim string?
----@field unequipAnim string?
----@field model string?
----@field hidden boolean?
+---@field slot AttachmentSlot slot the attachment goes on
+---@field equipBehavior EquipBehavior?
+---@field unequipBehavior EquipBehavior?
+---@field model string? model script ID to show when attached [not fully tested]
+---@field hidden boolean? hide the item in menus [not fully tested]
 
 ---Maps items' fulltype to their associated attachment definition.
 ---@alias AttachmentsItemsMap table<string, AttachmentDefinition>
@@ -29,58 +32,21 @@
 ---Stores the various attachment data which are required to work with attachments for horses.
 ---@class AttachmentData
 ---@field items AttachmentsItemsMap
+---@field DEFAULT_ATTACHMENT_DEFS table<string, AttachmentDefinition>
 ---@field SLOTS AttachmentSlots
 ---@field MANE_SLOTS_SET table<AttachmentSlot, string>
 ---@field MANE_HEX_BY_BREED table<string, HexColor>
 local AttachmentData = {
-    --- Data holding attachment informations
-    items = {
-        -- saddles
-            -- vanilla animals
-        ["HorseMod.HorseSaddle_Crude"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_Black"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_CowHolstein"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_CowSimmental"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_White"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_Landrace"] = { slot = "Saddle" },
-            -- horses
-        ["HorseMod.HorseSaddle_AP"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_APHO"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_AQHBR"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_AQHP"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_FBG"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_GDA"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_LPA"] = { slot = "Saddle" },
-        ["HorseMod.HorseSaddle_T"] = { slot = "Saddle" },
-
-        -- saddlebags
-            -- vanilla animals
-        ["HorseMod.HorseSaddlebags_Crude"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_Black"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_CowHolstein"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_CowSimmental"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_White"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_Landrace"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-            -- horses
-        ["HorseMod.HorseSaddlebags_AP"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_APHO"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_AQHBR"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_AQHP"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_FBG"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_GDA"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_LPA"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-        ["HorseMod.HorseSaddlebags_T"] = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
-
-        -- reins
-        ["HorseMod.HorseReins_Crude"] = { slot = "Reins", model = "HorseMod.HorseReins_Crude" },
-        ["HorseMod.HorseReins_Black"] = { slot = "Reins", model = "HorseMod.HorseReins_Black" },
-        ["HorseMod.HorseReins_White"] = { slot = "Reins", model = "HorseMod.HorseReins_White" },
-        ["HorseMod.HorseReins_Brown"] = { slot = "Reins", model = "HorseMod.HorseReins_Brown" },
-
-        -- manes
-        ["HorseMod.HorseManeStart"] = { hidden = true, slot = "ManeStart" },
-        ["HorseMod.HorseManeMid"]   = { hidden = true, slot = "ManeMid1" },
-        ["HorseMod.HorseManeEnd"]   = { hidden = true, slot = "ManeEnd" },
+    DEFAULT_ATTACHMENT_DEFS = {
+        SADDLE = { 
+            slot = "Saddle", 
+            equipBehavior = {
+                time = -1,
+                anim = "Horse_EquipSaddle", 
+                shouldHold = true,
+            },
+        },
+        SADDLEBAGS = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
     },
 
     --- Every available attachment slots
@@ -131,6 +97,57 @@ local AttachmentData = {
         trot = "_Troting",
         gallop = "_Running"
     },
+}
+local DEFAULT_ATTACHMENT_DEFS = AttachmentData.DEFAULT_ATTACHMENT_DEFS
+
+--- Data holding attachment informations
+AttachmentData.items = {
+    -- saddles
+        -- vanilla animals
+    ["HorseMod.HorseSaddle_Crude"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_Black"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_CowHolstein"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_CowSimmental"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_White"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_Landrace"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+        -- horses
+    ["HorseMod.HorseSaddle_AP"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_APHO"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_AQHBR"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_AQHP"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_FBG"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_GDA"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_LPA"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+    ["HorseMod.HorseSaddle_T"] = DEFAULT_ATTACHMENT_DEFS.SADDLE,
+
+    -- saddlebags
+        -- vanilla animals
+    ["HorseMod.HorseSaddlebags_Crude"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_Black"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_CowHolstein"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_CowSimmental"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_White"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_Landrace"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+        -- horses
+    ["HorseMod.HorseSaddlebags_AP"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_APHO"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_AQHBR"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_AQHP"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_FBG"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_GDA"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_LPA"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+    ["HorseMod.HorseSaddlebags_T"] = DEFAULT_ATTACHMENT_DEFS.SADDLEBAGS,
+
+    -- reins
+    ["HorseMod.HorseReins_Crude"] = { slot = "Reins", model = "HorseMod.HorseReins_Crude" },
+    ["HorseMod.HorseReins_Black"] = { slot = "Reins", model = "HorseMod.HorseReins_Black" },
+    ["HorseMod.HorseReins_White"] = { slot = "Reins", model = "HorseMod.HorseReins_White" },
+    ["HorseMod.HorseReins_Brown"] = { slot = "Reins", model = "HorseMod.HorseReins_Brown" },
+
+    -- manes
+    ["HorseMod.HorseManeStart"] = { hidden = true, slot = "ManeStart" },
+    ["HorseMod.HorseManeMid"]   = { hidden = true, slot = "ManeMid1" },
+    ["HorseMod.HorseManeEnd"]   = { hidden = true, slot = "ManeEnd" },
 }
 
 return AttachmentData
