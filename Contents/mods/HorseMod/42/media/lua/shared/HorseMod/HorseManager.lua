@@ -60,14 +60,15 @@ end
 local UPDATE_RATE = 1
 local TICK_AMOUNT = 0
 
+---Retrieve newly loaded horses in the world.
 ---@TODO find a better method of doing this, less costly
-Events.EveryOneMinute.Add(function()
+HorseManager.retrieveNewHorses = function()
     -- retrieve IsoMovingObjects
     local isoMovingObjects = getCell():getObjectList()
 
     -- check UPDATE_RATE-th IsoMovingObjects per tick
     local size = isoMovingObjects:size()
-    local update_rate = math.min(UPDATE_RATE,size)
+    local update_rate = UPDATE_RATE < size and UPDATE_RATE or size
     if update_rate == 0 then return end
 
     -- update to next tick amount offset to parse next selection of the list
@@ -77,10 +78,11 @@ Events.EveryOneMinute.Add(function()
     for i = TICK_AMOUNT, size - 1, update_rate do
         local isoMovingObject = isoMovingObjects:get(i)
 
-        -- verify is an animal and horse and not already checked
+        -- verify is an animal and horse and not already checked and not dead
         if instanceof(isoMovingObject, "IsoAnimal") 
             and HorseUtils.isHorse(isoMovingObject) 
-            and not HorseManager._detected_horses[isoMovingObject] then
+            and not HorseManager._detected_horses[isoMovingObject]
+            and not isoMovingObject:isDead() then
             
             initialiseHorse(isoMovingObject)
             HorseManager.horses[#HorseManager.horses + 1] = isoMovingObject
@@ -89,8 +91,11 @@ Events.EveryOneMinute.Add(function()
             HorseManager._detected_horses[isoMovingObject] = true
         end
     end
-end)
+end
 
+Events.OnTick.Add(HorseManager.retrieveNewHorses)
+
+---Sends
 function HorseManager.update()
     -- processNewAnimals()
     HorseManager.releaseRemovedHorses()

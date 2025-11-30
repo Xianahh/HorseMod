@@ -2,9 +2,13 @@ ContextMenu_EN = {
     ContextMenu_Horse_Gear = "Gear",
     ContextMenu_Horse_Equip = "Equip {new}",
     ContextMenu_Horse_Replace = "Replace {old} with {new}",
-    ContextMenu_Horse_With = "With",
     ContextMenu_Horse_No_Compatible_Gear = "No compatible gear to equip on the horse.",
-    ContextMenu_Horse_IsRunning = "Cannot equip gear on a running horse.",
     ContextMenu_Horse_Unequip = "Unequip {old}",
     ContextMenu_Horse_Unequip_All = "Unequip All",
+
+    ContextMenu_Horse_NotAdult = "Not an adult horse.",
+    ContextMenu_Horse_IsRunning = "Horse is running.",
+    ContextMenu_Horse_IsDead = "Horse is dead.",
+    ContextMenu_Horse_IsAttached = "Horse is attached on a hook.",
+    ContextMenu_Horse_IsAlreadyRiding = "Horse is already being ridden.",
 }

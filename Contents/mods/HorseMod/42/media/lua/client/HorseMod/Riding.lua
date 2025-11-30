@@ -16,14 +16,14 @@ HorseRiding.playerMounts = {}
 ---@return boolean
 ---@nodiscard
 function HorseRiding.isMountableHorse(animal)
-    local type = animal:getAnimalType()
-    return type == "stallion" or type == "mare"
+    return HorseUtils.isAdult(animal)
 end
 
 
 ---@param player IsoPlayer
 ---@param horse IsoAnimal
 ---@return boolean
+---@return string?
 ---@nodiscard
 function HorseRiding.canMountHorse(player, horse)
     if HorseRiding.playerMounts[player:getPlayerNum()] then
@@ -31,11 +31,19 @@ function HorseRiding.canMountHorse(player, horse)
     end
 
     if horse:isDead() then
+        return false, "IsDead"
+    end
+
+    if horse:getVariableBoolean("animalRunning") then
         return false
     end
 
-    if horse:isOnHook() then
-        return false
+    if horse:isRunning() then
+        return false, "IsRunning"
+    end
+
+    if not HorseUtils.isAdult(horse) then
+        return false, "NotAdult"
     end
 
     return HorseRiding.isMountableHorse(horse)

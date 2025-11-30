@@ -40,8 +40,17 @@ end
 ---Checks whether an animal is a horse.
 ---@param animal IsoAnimal The animal to check.
 ---@return boolean isHorse Whether the animal is a horse.
+---@nodiscard
 HorseUtils.isHorse = function(animal)
     return HORSE_TYPES[animal:getAnimalType()] or false
+end
+
+---@param animal IsoAnimal
+---@return boolean
+---@nodiscard
+HorseUtils.isAdult = function(animal)
+    local type = animal:getAnimalType()
+    return type == "stallion" or type == "mare"
 end
 
 

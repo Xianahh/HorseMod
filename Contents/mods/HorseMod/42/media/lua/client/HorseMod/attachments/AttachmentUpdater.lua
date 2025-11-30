@@ -8,14 +8,11 @@ local HorseUtils = require("HorseMod/Utils")
 local ManeManager = require("HorseMod/attachments/ManeManager")
 
 ---@class AttachmentUpdater
----@field PENDING_HORSES IsoAnimal[]
 ---@field IS_REAPPLIED table<IsoAnimal, true?>
 local AttachmentUpdater = {
     DEBUG_AttachmentUpdater = true,
-    PENDING_HORSES = {},
     IS_REAPPLIED = {},
 }
-local PENDING_HORSES = AttachmentUpdater.PENDING_HORSES
 local IS_REAPPLIED = AttachmentUpdater.IS_REAPPLIED
 
 ---Reapply attachments to the `horse`.
@@ -39,6 +36,9 @@ AttachmentUpdater.reapplyFor = function(horse)
 
         Attachments.setAttachedItem(horse, slot, item)
     end
+
+    -- set horse as reapplied
+    IS_REAPPLIED[horse] = true
 end
 
 
@@ -69,36 +69,19 @@ function AttachmentUpdater:update(horses, delta)
 
         -- if horse model is visible, set it as needing an update if not already reapplied
         local status = IS_REAPPLIED[horse]
-        horse:addLineChatElement(tostring(horse:getModel()))
+        -- horse:addLineChatElement(tostring(horse:getModel()))
         if horse:getModel() then
             if not status then
                 DebugLog.log("set for reapply: "..tostring(horse:getFullName()).." (tick ".. tostring(os.time()) ..")")
-                
-                -- update reapply status
-                table.insert(PENDING_HORSES, horse)
+                AttachmentUpdater.reapplyFor(horse)
             end
 
-        -- else set horse as needing to be checked until it goes back in the screen
+        -- else set horse as needing to be reapplied until it's visible again
         else
             if status then
                 DebugLog.log("reset for reapply: "..tostring(horse:getFullName()).." (tick ".. tostring(os.time()) ..")")
                 IS_REAPPLIED[horse] = nil
             end
-        end
-    end
-
-    -- apply attachments to newly loaded horses
-    for i = #PENDING_HORSES, 1, -1 do
-        local horse = PENDING_HORSES[i]
-        if horse:getModel() then
-            DebugLog.log("reapply: "..horse:getFullName().." (tick ".. tostring(os.time()) ..")")
-            table.remove(PENDING_HORSES, i)
-            AttachmentUpdater.reapplyFor(horse)
-            -- AttachmentUpdater.reapplyFor(horse)
-            -- HorseAttachmentManes.ensureManesPresentAndColored(horse)
-
-            -- set as done
-            IS_REAPPLIED[horse] = true
         end
     end
 end
@@ -130,28 +113,7 @@ for i, system in ipairs(HorseManager.systems) do
     end
 end
 
---- Hook to OnTick for horses
+---Add system for horses
 table.insert(HorseManager.systems, AttachmentUpdater)
-
----@param horse IsoAnimal
-HorseManager.onHorseAdded:add(function(horse)
-    DebugLog.log("onHorseAdded: "..horse:getFullName())
-    PENDING_HORSES[#PENDING_HORSES + 1] = horse
-end)
-
-
----@param horse IsoAnimal
-HorseManager.onHorseRemoved:add(function(horse)
-    DebugLog.log("onHorseRemoved: "..horse:getFullName())
-    for i = #PENDING_HORSES, 1, -1 do
-        if PENDING_HORSES[i] == horse then
-            IS_REAPPLIED[horse] = nil
-            table.remove(PENDING_HORSES, i)
-            DebugLog.log("    remove horse from pending")
-            break
-        end
-    end
-end)
-
 
 return AttachmentUpdater
