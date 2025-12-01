@@ -1,6 +1,6 @@
 local Stamina = require("HorseMod/Stamina")
 local HorseUtils = require("HorseMod/Utils")
-local AttachmentData = require("HorseMod/AttachmentData")
+local AttachmentData = require("HorseMod/attachments/AttachmentData")
 
 
 ---@param state "walk"|"gallop"

@@ -1,8 +1,8 @@
 ---@namespace HorseMod
 
 ---REQUIREMENTS
-local Attachments = require("HorseMod/Attachments")
-local AttachmentData = require("HorseMod/AttachmentData")
+local Attachments = require("HorseMod/attachments/Attachments")
+local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local HorseManager = require("HorseMod/HorseManager")
 local HorseUtils = require("HorseMod/Utils")
 local ManeManager = require("HorseMod/attachments/ManeManager")
@@ -71,7 +71,7 @@ function AttachmentUpdater:update(horses, delta)
 
         -- if horse model is visible, set it as needing an update if not already reapplied
         local status = IS_REAPPLIED[horse]
-        -- horse:addLineChatElement(tostring(horse:getModel()))
+        horse:addLineChatElement(tostring(horse:getAnimalID()))
         if horse:getModel() then
             if not status then
                 DebugLog.log("set for reapply: "..tostring(horse:getFullName()).." (tick ".. tostring(os.time()) ..")")

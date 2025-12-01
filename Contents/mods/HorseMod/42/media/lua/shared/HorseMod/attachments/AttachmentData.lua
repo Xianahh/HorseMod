@@ -14,9 +14,12 @@
 
 ---Equip behavior to use during equip or unequip actions.
 ---@class EquipBehavior
----@field time number? time to equip, if `-1` the animation defines the end time
+---@field time number time to equip, if `-1` the animation defines the end time
 ---@field anim string? animation to play during equip
 ---@field shouldHold boolean? whenever the item should be held in hand when equipping it
+
+---@class ContainerBehavior
+---@field worldItem string
 
 ---Defines an attachment item with its associated slots and extra data if needed.
 ---@class AttachmentDefinition
@@ -25,7 +28,7 @@
 ---@field unequipBehavior EquipBehavior? Unequip timed action behavior
 ---@field model string? Model script ID to show when attached [not fully tested]
 ---@field hidden boolean? Hide the item in menus [not fully tested]
----@field container string? Container behavior.
+---@field containerBehavior ContainerBehavior? Container behavior.
 
 ---Stores the various attachment data which are required to work with attachments for horses.
 local AttachmentData = {
@@ -44,7 +47,12 @@ local AttachmentData = {
                 shouldHold = true,
             },
         },
-        SADDLEBAGS = { slot = "Saddlebags", container = "HorseMod.HorseSaddlebagsContainer" },
+        SADDLEBAGS = { 
+            slot = "Saddlebags", 
+            containerBehavior = {
+                worldItem = "HorseMod.HorseSaddlebagsContainer",
+            },
+        },
     },
 
     ---Every available attachment slots.

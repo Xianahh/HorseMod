@@ -1,7 +1,7 @@
 ---@namespace HorseMod
 
 ---REQUIREMENTS
-local AttachmentData = require("HorseMod/AttachmentData")
+local AttachmentData = require("HorseMod/attachments/AttachmentData")
 
 local HORSE_TYPES = {
     ["stallion"] = true,
@@ -53,10 +53,10 @@ HorseUtils.isAdult = function(animal)
     return type == "stallion" or type == "mare"
 end
 
-
 ---@class HorseModData
 ---@field bySlot table<AttachmentSlot, string> Attachments of the horse.
 ---@field maneColors table<AttachmentSlot, ManeColor|nil> Manes of the horse and their associated color.
+---@field containers table<AttachmentSlot, ContainerInformation>
 
 ---@param animal IsoAnimal
 ---@return HorseModData
@@ -67,10 +67,17 @@ HorseUtils.getModData = function(animal)
         md.horseModData = {
             bySlot = HorseUtils.tableCopy(AttachmentData.MANE_SLOTS_SET),
             maneColors = {},
+            containers = {},
         } --[[@as HorseModData]]
         horseModData = md.horseModData
     end
     return horseModData
+end
+
+---@param horse IsoAnimal
+---@return integer
+HorseUtils.getHorseID = function(horse)
+    return horse:getAnimalID()
 end
 
 ---@param horse IsoAnimal

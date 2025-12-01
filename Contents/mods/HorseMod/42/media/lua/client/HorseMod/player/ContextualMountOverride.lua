@@ -1,6 +1,6 @@
 local HorseRiding = require("HorseMod/Riding")
 local Mounting = require("HorseMod/Mounting")
-local AttachmentData = require("HorseMod/AttachmentData")
+local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local AttachmentsManager = require("HorseMod/attachments/AttachmentsManager")
 
 ContextualActionHandlers = ContextualActionHandlers or {}

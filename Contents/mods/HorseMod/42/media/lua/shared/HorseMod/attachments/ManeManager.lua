@@ -2,8 +2,8 @@
 
 ---REQUIREMENTS
 local HorseUtils = require("HorseMod/Utils")
-local Attachments = require("HorseMod/Attachments")
-local AttachmentData = require("HorseMod/AttachmentData")
+local Attachments = require("HorseMod/attachments/Attachments")
+local AttachmentData = require("HorseMod/attachments/AttachmentData")
 
 ---Hold utility functions related to the horse manes.
 local ManeManager = {}

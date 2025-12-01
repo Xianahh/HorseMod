@@ -2,7 +2,7 @@
 
 ---REQUIREMENTS
 local HorseUtils = require("HorseMod/Utils")
-local Attachments = require("HorseMod/Attachments")
+local Attachments = require("HorseMod/attachments/Attachments")
 local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
 local ISHorseUnequipGear = require("HorseMod/TimedActions/ISHorseUnequipGear")
 

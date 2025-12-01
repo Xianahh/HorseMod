@@ -1,7 +1,7 @@
 ---@namespace HorseMod
 
 ---REQUIREMENTS
-local Attachments = require("HorseMod/Attachments")
+local Attachments = require("HorseMod/attachments/Attachments")
 local HorseUtils = require("HorseMod/Utils")
 local ContainerManager = require("HorseMod/attachments/ContainerManager")
 
@@ -53,7 +53,6 @@ end
 function ISHorseEquipGear:updateModData(horse, slot, ft, gr)
     local modData = HorseUtils.getModData(horse)
     modData.bySlot[slot] = ft
-    modData.ground[slot] = gr
 end
 
 function ISHorseEquipGear:perform()
@@ -73,9 +72,9 @@ function ISHorseEquipGear:perform()
     self:updateModData(horse, slot, accessory:getFullType(), nil)
 
     -- init container
-    local container = attachmentDef.container
-    if container then
-        ContainerManager.initContainer()
+    local containerBehavior = attachmentDef.containerBehavior
+    if containerBehavior then
+        ContainerManager.initContainer(self.character, horse, attachmentDef, accessory)
     end
 
     ---@TODO

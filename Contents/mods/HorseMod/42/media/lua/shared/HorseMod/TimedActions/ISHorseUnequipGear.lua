@@ -1,8 +1,9 @@
 ---@namespace HorseMod
 
 ---REQUIREMENTS
-local Attachments = require("HorseMod/Attachments")
+local Attachments = require("HorseMod/attachments/Attachments")
 local ISHorseEquipGear = require("HorseMod/TimedActions/ISHorseEquipGear")
+local ContainerManager = require("HorseMod/attachments/ContainerManager")
 
 ---@class ISHorseUnequipGear : ISHorseEquipGear
 ---@field horse IsoAnimal
@@ -15,7 +16,7 @@ local ISHorseUnequipGear = ISHorseEquipGear:derive("ISHorseUnequipGear")
 
 function ISHorseUnequipGear:perform()
     local horse = self.horse
-    local player = self.character
+    local character = self.character
     local accessory = self.accessory
     local attachmentDef = self.attachmentDef
     local slot = attachmentDef.slot
@@ -23,9 +24,13 @@ function ISHorseUnequipGear:perform()
     -- remove old accessory from slot and give to player or drop
     Attachments.setAttachedItem(horse, slot, nil)
 
-    self:updateModData(horse, slot, nil, nil)
-
-    Attachments.giveBackToPlayerOrDrop(player, horse, accessory)
+    Attachments.giveBackToPlayerOrDrop(character, horse, accessory)
+    
+    -- init container
+    local containerBehavior = attachmentDef.containerBehavior
+    if containerBehavior then
+        ContainerManager.removeContainer(character, horse, attachmentDef, accessory)
+    end
 
     if self.unlockPerform then
         self.unlockPerform()
