@@ -1,6 +1,10 @@
 local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local HorseUtils = require("HorseMod/Utils")
-local AttachmentsCheck = {}
+local AttachmentsLoad = {}
+
+---@TODO refactor this file to use functions so other modders can also use it if needed
+
+
 
 local CONTAINER_ITEMS = AttachmentData.CONTAINER_ITEMS
 local scriptManager = getScriptManager()
@@ -84,4 +88,4 @@ for fullType, _ in pairs(CONTAINER_ITEMS) do
     ISSearchManager.ignoredItemTypes[fullType] = true
 end
 
-return AttachmentsCheck
+return AttachmentsLoad

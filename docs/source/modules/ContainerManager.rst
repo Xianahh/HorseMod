@@ -8,7 +8,7 @@ When the attachment is added to a horse, the attachment container will disappear
 
 When reloading an area, the invisible container might be lost, so the ContainerManager searches for it by using previously known information and the current known position of the horse.
 
-:lua:class:`HorseMod.ContainerInformation` is used to store necessary data about the container, including the world item reference and its position in the mod data of the invisible world item container as well as in the :lua:class:`HorseMod.HorseModData` ``containers`` table.
+:lua:class:`HorseMod.ContainerInformation` is used to store necessary data about the container, including the world item reference and its position in the mod data of the invisible world item container as well as in the :lua:data:`HorseMod.HorseModData.containers` table.
 
 When trying to locate the container upon reloading an area, first the ContainerManager checks the ``ORPHAN_CONTAINERS`` cache table for the world item ID. Secondly the ContainerManager uses the stored world item XYZ coordinates to search for the container near that position.
 

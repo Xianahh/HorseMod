@@ -17,7 +17,7 @@ local HorseManager = require("HorseMod/HorseManager")
 
 ---Holds all the utility functions to manage containers on horses.
 local ContainerManager = {
-    ---Containers that were found as horse containers
+    ---Lookup table of containers that were found as horse containers but didn't manage to directly link to a horse (e.g. horse was out of loaded area). The table maps itemID to world item reference.
     ---@type table<number, IsoWorldInventoryObject>
     ORPHAN_CONTAINERS = {},
 }

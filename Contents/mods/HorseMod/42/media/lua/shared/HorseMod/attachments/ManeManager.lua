@@ -20,7 +20,7 @@ ManeManager.removeManes = function(horse)
     end
 end
 
----Retrieve the mane color for a specific horse breed
+---Retrieve the mane color for a specific horse breed.
 ---@param horse IsoAnimal
 ---@return ManeColor
 ---@nodiscard

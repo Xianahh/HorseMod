@@ -4,6 +4,19 @@
 ---@alias AttachmentSlot "Saddle"|"Saddlebags"|"Reins"|"ManeStart"|"ManeMid1"|"ManeMid2"|"ManeMid3"|"ManeMid4"|"ManeMid5"|"ManeEnd"|"Head"|"MountLeft"|"MountRight"
 
 
+---Used to define a new attachment slot.
+---@class SlotDefinition {modelAttachment: string, isMane: boolean?, defaultMane: string?}
+---
+---The model `attachment point <https://pzwiki.net/wiki/Attachment_(scripts)>`_.
+---@field modelAttachment string
+---
+---Whenever this slot is a mane slot. Mane slots are mostly hidden from the player in menus.
+---@field isMane boolean?
+---
+---Default mane item full type this slot will spawn with upon horse creation.
+---@field defaultMane string?
+
+
 ---Hex color code (#rrggbb).
 ---@alias HexColor string
 
@@ -57,6 +70,7 @@
 ---@field notReachableFromMount boolean?
 
 
+---A slots configuration for an InventoryItem full type holding the various configurations the item can take on different slots.
 ---@alias ItemDefinition table<AttachmentSlot, AttachmentDefinition>
 
 
@@ -97,7 +111,7 @@ local AttachmentData = {
     },
 
     ---Sets attachment model points and mane properties for attachment slots.
-    ---@type table<AttachmentSlot, {modelAttachment: string, isMane: boolean?, defaultMane: string?}>
+    ---@type table<AttachmentSlot, SlotDefinition>
     SLOTS_DEFINITION = {
         ---ACCESSORIES
         ["Saddle"] = {modelAttachment="saddle"},
@@ -227,6 +241,7 @@ AttachmentData.items = {
     ["HorseMod.HorseManeEnd"]   = { ["ManeEnd"] = {hidden = true} },
 }
 
+---Used to define new attachments.
 ---@param itemDefinitions table<string, ItemDefinition>
 AttachmentData.addNewAttachments = function(itemDefinitions)
     local items = AttachmentData.items
@@ -240,6 +255,22 @@ AttachmentData.addNewAttachments = function(itemDefinitions)
         end
         items[fullType] = itemDefEntry
     end
+end
+
+---@param fullType string
+---@param slot AttachmentSlot
+---@param attachmentDef AttachmentDefinition
+AttachmentData.addNewAttachment = function(fullType, slot, attachmentDef)
+    -- retrieve item definition
+    local items = AttachmentData.items
+    local itemDefEntry = items[fullType] or {}
+
+    -- set or overwrite
+    local attachmentDefEntry = itemDefEntry[slot]
+    assert(not attachmentDefEntry, "AttachmentData.addNewAttachment: Attachment for item '" .. fullType .. "' on slot '" .. slot .. "' already exists!")
+
+    itemDefEntry[slot] = attachmentDef
+    items[fullType] = itemDefEntry
 end
 
 return AttachmentData
