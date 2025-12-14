@@ -22,12 +22,14 @@ local SLOT_DEFINITION = AttachmentData.SLOTS_DEFINITION
 local SLOTS = AttachmentData.SLOTS
 local MANE_SLOTS_SET = AttachmentData.MANE_SLOTS_SET
 local group = AttachedLocations.getGroup("Animal")
-for slot, slotData in pairs(SLOT_DEFINITION) do
+for slot, slotData in pairs(SLOT_DEFINITION) do    
+    -- verify the model attachment point
+    local modelAttachment = slotData.modelAttachment
+    assert(modelAttachment ~= nil, "No modelAttachment for a slot definition to link to the model attachment point.")
+
     -- create the apparel location
     local location = group:getOrCreateLocation(slot)
-    local modelAttachment = slotData.modelAttachment
-    assert(modelAttachment ~= nil, "modelAttachment for a slot definition to link to the a model attachment point.")
-    location:setAttachmentName(slotData.modelAttachment)
+    location:setAttachmentName(modelAttachment)
 
     -- list slot in slots array
     table.insert(SLOTS, slot)
@@ -62,6 +64,12 @@ for fullType, itemDef in pairs(AttachmentData.items) do
 
             -- verify the capacity of the world item and accessory are the same
             local worldItemScript = scriptManager:getItem(worldItem)
+            if not worldItemScript then
+                logError("Horse accessory ("..fullType..") has a container behavior with an invalid worldItem ("..worldItem..").")
+                attachmentDef.containerBehavior = nil -- remove the container behavior as it cannot work
+                break
+            end
+
             local accessoryCapacity = HorseUtils.getJavaField(accessoryScript, "Capacity")
             local worldItemCapacity = HorseUtils.getJavaField(worldItemScript, "Capacity")
             if accessoryCapacity ~= worldItemCapacity then
