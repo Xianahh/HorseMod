@@ -255,7 +255,6 @@ AttachmentData.items = {
 ---Used to define new attachments.
 ---@param itemDefinitions table<string,ItemDefinition>
 AttachmentData.addNewAttachments = function(itemDefinitions)
-    local items = AttachmentData.items
     for fullType, itemDef in pairs(itemDefinitions) do
         for slot, attachmentDef in pairs(itemDef) do
             AttachmentData.addNewAttachment(fullType, slot, attachmentDef)
@@ -277,6 +276,13 @@ AttachmentData.addNewAttachment = function(fullType, slot, attachmentDef)
 
     itemDefEntry[slot] = attachmentDef
     items[fullType] = itemDefEntry
+end
+
+AttachmentData.addNewSlot = function(slot, slotDefinition)
+    local slotsDef = AttachmentData.SLOTS_DEFINITION
+    assert(not slotsDef[slot], "AttachmentData.addNewSlot: Slot '" .. slot .. "' already exists!")
+
+    slotsDef[slot] = slotDefinition
 end
 
 return AttachmentData

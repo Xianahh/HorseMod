@@ -33,7 +33,7 @@ ManeManager.getManeColor = function(horse)
     return {r=r, g=g, b=b}
 end
 
----Retrieve and set the mane color
+---Retrieve and set the mane color.
 ---@param horse IsoAnimal
 ---@param mane InventoryItem
 ---@param slot AttachmentSlot
