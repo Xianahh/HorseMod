@@ -41,7 +41,7 @@ end
 function ISHorseUnequipGear:new(character, horse, accessory, slot, side, unlockPerform, unlockStop)
     local o = ISHorseEquipGear.new(self, character, horse, accessory, slot, side, unlockPerform, unlockStop) --[[@as ISHorseUnequipGear]]
 
-    o.maxTime = self:getDuration()
+    o.maxTime = o:getDuration()
     o.equipBehavior = o.attachmentDef.unequipBehavior or {}
 
     return o

@@ -128,7 +128,7 @@ function DismountHorseAction:new(mount, side, hasSaddle, landX, landY, landZ)
     o.stopOnWalk = true
     o.stopOnRun = true
 
-    o.maxTime = self:getDuration()
+    o.maxTime = o:getDuration()
 
     return o
 end

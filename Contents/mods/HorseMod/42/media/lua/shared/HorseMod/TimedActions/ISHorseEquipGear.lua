@@ -127,7 +127,7 @@ function ISHorseEquipGear:new(character, horse, accessory, slot, side, unlockPer
     o.slot = slot
     
     -- equip behavior
-    o.maxTime = self:getDuration()
+    o.maxTime = o:getDuration()
     o.equipBehavior = attachmentDef.equipBehavior or {}
     o.side = side
 
