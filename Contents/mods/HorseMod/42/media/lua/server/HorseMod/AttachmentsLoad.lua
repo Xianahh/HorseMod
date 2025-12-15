@@ -1,8 +1,12 @@
 local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local HorseUtils = require("HorseMod/Utils")
-local AttachmentsCheck = {}
+local AttachmentsLoad = {}
 
-local CONTAINER_ITEMS = AttachmentData.CONTAINER_ITEMS
+---@TODO refactor this file to use functions so other modders can also use it if needed
+
+
+
+local containerItems = AttachmentData.containerItems
 local scriptManager = getScriptManager()
 
 local shouldError = false
@@ -14,26 +18,38 @@ local function logError(message)
 end
 
 --- generate slot informations
-local SLOT_DEFINITION = AttachmentData.SLOTS_DEFINITION
-local SLOTS = AttachmentData.SLOTS
-local MANE_SLOTS_SET = AttachmentData.MANE_SLOTS_SET
+local SLOT_DEFINITION = AttachmentData.slotsDefinitions
+local slots = AttachmentData.slots
+local maneSlots = AttachmentData.maneSlots
 local group = AttachedLocations.getGroup("Animal")
-for slot, slotData in pairs(SLOT_DEFINITION) do
+for slot, slotData in pairs(SLOT_DEFINITION) do    
+    -- verify the model attachment point
+    local modelAttachment = slotData.modelAttachment
+    assert(modelAttachment ~= nil, "No modelAttachment for a slot definition to link to the model attachment point.")
+
     -- create the apparel location
     local location = group:getOrCreateLocation(slot)
-    local modelAttachment = slotData.modelAttachment
-    assert(modelAttachment ~= nil, "modelAttachment for a slot definition to link to the a model attachment point.")
-    location:setAttachmentName(slotData.modelAttachment)
+    location:setAttachmentName(modelAttachment)
 
     -- list slot in slots array
-    table.insert(SLOTS, slot)
+    table.insert(slots, slot)
 
     if slotData.isMane then
         local defaultMane = slotData.defaultMane
         assert(defaultMane ~= nil, "Slot ("..slot..") defined as mane without a default mane item.")
-        MANE_SLOTS_SET[slot] = defaultMane
+        maneSlots[slot] = defaultMane
     end
 end
+
+
+---Automatically generate the maneByBreed table from the mane definitions.
+for breedName, hexTable in pairs(AttachmentData.MANE_HEX_BY_BREED) do
+    AttachmentData.maneByBreed[breedName] = {
+        hex = hexTable,
+        maneConfig = AttachmentData.MANE_DEFAULT.maneConfig,
+    }
+end
+
 
 ---Verify specific conditions for every attachments.
 for fullType, itemDef in pairs(AttachmentData.items) do
@@ -54,10 +70,16 @@ for fullType, itemDef in pairs(AttachmentData.items) do
 
             -- log worldItem full type
             local worldItem = containerBehavior.worldItem
-            CONTAINER_ITEMS[worldItem] = true
+            containerItems[worldItem] = true
 
             -- verify the capacity of the world item and accessory are the same
             local worldItemScript = scriptManager:getItem(worldItem)
+            if not worldItemScript then
+                logError("Horse accessory ("..fullType..") has a container behavior with an invalid worldItem ("..worldItem..").")
+                attachmentDef.containerBehavior = nil -- remove the container behavior as it cannot work
+                break
+            end
+
             local accessoryCapacity = HorseUtils.getJavaField(accessoryScript, "Capacity")
             local worldItemCapacity = HorseUtils.getJavaField(worldItemScript, "Capacity")
             if accessoryCapacity ~= worldItemCapacity then
@@ -80,8 +102,8 @@ if shouldError then
 end
 
 -- ignore invisible world items in the search menu
-for fullType, _ in pairs(CONTAINER_ITEMS) do
+for fullType, _ in pairs(containerItems) do
     ISSearchManager.ignoredItemTypes[fullType] = true
 end
 
-return AttachmentsCheck
+return AttachmentsLoad

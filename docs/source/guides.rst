@@ -2,7 +2,7 @@ Guides
 ======
 
 .. toctree::
-  :caption: Guides
-
+  
   guides/horsezones
-  guides/attachments
+  guides/attachmentsAPI
+  guides/attachmentsModding

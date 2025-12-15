@@ -5,6 +5,7 @@ local Attachments = require("HorseMod/attachments/Attachments")
 local ContainerManager = require("HorseMod/attachments/ContainerManager")
 local AnimationVariables = require("HorseMod/AnimationVariables")
 
+---Timed action for equipping gear on a horse.
 ---@class ISHorseEquipGear : ISBaseTimedAction, umbrella.NetworkedTimedAction
 ---@field horse IsoAnimal
 ---@field accessory InventoryItem
@@ -12,8 +13,8 @@ local AnimationVariables = require("HorseMod/AnimationVariables")
 ---@field equipBehavior EquipBehavior
 ---@field slot AttachmentSlot
 ---@field side string
----@field unlockPerform fun()?
----@field unlockStop fun()?
+---@field unlockPerform fun()? Should unlock after performing the action ?
+---@field unlockStop fun()? Unlock function when force stopping the action, if :lua:obj:`HorseMod.ISHorseEquipGear.unlockPerform` is not provided.
 local ISHorseEquipGear = ISBaseTimedAction:derive("HorseMod_ISHorseEquipGear")
 
 ---@return boolean
@@ -113,8 +114,8 @@ end
 ---@param accessory InventoryItem
 ---@param slot AttachmentSlot
 ---@param side string
----@param unlockPerform fun()? should unlock after performing the action
----@param unlockStop fun()? unlock function when force stop the action, if unlockPerform is not provided
+---@param unlockPerform fun()?
+---@param unlockStop fun()?
 ---@return self
 ---@nodiscard
 function ISHorseEquipGear:new(character, horse, accessory, slot, side, unlockPerform, unlockStop)
