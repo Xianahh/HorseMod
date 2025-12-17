@@ -6,6 +6,8 @@ SlotDefinition
 .. lua:autoclass:: HorseMod.SlotDefinition
     :members:
 
+.. _availableslots-label:
+
 Slots available
 ---------------
 Below is a list of all the available slots in the Horse mod defined in :lua:obj:`HorseMod.attachments.AttachmentData.slotsDefinitions`.
