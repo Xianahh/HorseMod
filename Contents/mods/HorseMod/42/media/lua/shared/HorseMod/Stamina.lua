@@ -1,4 +1,5 @@
 local AnimationVariables = require("HorseMod/AnimationVariables")
+local HorseModData = require("HorseMod/HorseModData")
 
 ---@namespace HorseMod
 
@@ -21,6 +22,17 @@ Stamina.StaminaChange = {
 }
 
 
+---@class StaminaModData
+---@field stamina number
+
+local STAMINA_MOD_DATA = HorseModData.register--[[@<StaminaModData>]](
+    "stamina",
+    function(horse, modData)
+        modData.stamina = modData.stamina or Stamina.MAX
+    end
+)
+
+
 ---@param x number
 ---@param a number
 ---@param b number
@@ -35,12 +47,8 @@ end
 ---@param horse IsoAnimal
 ---@return number
 function Stamina.get(horse)
-    local modData = horse:getModData()
-    if modData.HorseMod_Stamina == nil then
-        modData.HorseMod_Stamina = Stamina.MAX
-        horse:transmitModData()
-    end
-    return modData.HorseMod_Stamina
+    local modData = HorseModData.get(horse, STAMINA_MOD_DATA)
+    return modData.stamina
 end
 
 
@@ -49,11 +57,11 @@ end
 ---@param transmit boolean
 ---@return number
 function Stamina.set(horse, value, transmit)
-    local modData = horse:getModData()
+    local modData = HorseModData.get(horse, STAMINA_MOD_DATA)
     local newValue = clamp(value, 0, Stamina.MAX)
 
-    if modData.HorseMod_Stamina ~= newValue then
-        modData.HorseMod_Stamina = newValue
+    if modData.stamina ~= newValue then
+        modData.stamina = newValue
         if transmit then
             horse:transmitModData()
         end
