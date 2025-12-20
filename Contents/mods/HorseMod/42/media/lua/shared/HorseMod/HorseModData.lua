@@ -3,11 +3,10 @@ local HorseManager = require("HorseMod/HorseManager")
 
 ---@namespace HorseMod
 
-
+---Used to access a kind of mod data defined for a horse such as containers, attachments and manes.
 ---@class ModDataKind<T: table>
 ---@field package name string Mod data subtable name.
 ---@field package initialiser? fun(horse:IsoAnimal,modData:table):nil Called when a horse loads in to ensure it's mod data are initialised.
-
 
 local HorseModData = {
     ---@type table<string, ModDataKind<any>>

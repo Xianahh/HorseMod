@@ -14,7 +14,6 @@ local Attachments = {}
 
 ---@class AttachmentsModData
 ---@field bySlot table<AttachmentSlot, string> Attachments full types associated to their slots of the horse.
----@field maneColors table<AttachmentSlot, ManeColor> Manes of the horse and their associated color.
 
 local ATTACHMENTS_MOD_DATA = HorseModData.register--[[@<AttachmentsModData>]](
     "attachments",
