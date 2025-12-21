@@ -44,7 +44,8 @@ df = pd.read_csv(csv_path, encoding='utf-8')
 bloodLocations = ""
 for _, row in df.iterrows():
     bloodLocation = row['bloodLocation']
-    formatted_line = TABLE_LINE.format(id=bloodLocation, bool='true')
+    canEquip = str(row['canEquip']).lower()
+    formatted_line = TABLE_LINE.format(id=bloodLocation, bool=canEquip)
     bloodLocations += formatted_line + "\n"
 bloodLocations = bloodLocations.rstrip()  # Remove trailing newline
 
