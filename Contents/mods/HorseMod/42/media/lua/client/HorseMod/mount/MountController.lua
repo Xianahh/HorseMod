@@ -779,20 +779,21 @@ function MountController:update(input)
     local movementState = self:getMovementState(input)
 
     -- verify that the horse isn't in a jumping animation before turning
-    local dontTurn = false
+    local doTurn = true
     if rider:getIgnoreMovement() or rider:isIgnoreInputsForDirection() then
         local isJumping = mountPair:getAnimationVariableBoolean(AnimationVariables.JUMP)
         if not isJumping or movementState ~= "gallop" then
+            -- exit jump state and allow turning again
             rider:setIgnoreMovement(false)
             rider:setIgnoreInputsForDirection(false)
             mountPair:setAnimationVariable(AnimationVariables.JUMP, false)
         else
-            dontTurn = true
+            doTurn = false
         end
     end
 
     -- update current movement
-    if not dontTurn then
+    if doTurn then
         self:turn(input, deltaTime)
     end
     self:updateSpeed(input, deltaTime)
