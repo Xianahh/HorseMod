@@ -8,7 +8,7 @@ local AnimationVariables = require("HorseMod/AnimationVariables")
 ---@param player IsoPlayer
 ---@param animal IsoAnimal
 local function doHorseInteractionMenu(context, player, animal)
-    local canMount, reason = HorseRiding.canMountHorse(player, animal)
+    local canMount, reason = Mounting.canMountHorse(player, animal)
     local option = context:addOption(
         getText("IGUI_HorseMod_MountHorse"),
         player, Mounting.mountHorse, animal

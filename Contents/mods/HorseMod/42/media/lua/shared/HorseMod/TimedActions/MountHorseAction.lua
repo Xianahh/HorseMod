@@ -2,6 +2,7 @@ require("TimedActions/ISBaseTimedAction")
 
 local MountPair = require("HorseMod/MountPair")
 local AnimationVariables = require("HorseMod/AnimationVariables")
+local Mounts = require("HorseMod/Mounts")
 
 
 ---@namespace HorseMod
@@ -95,9 +96,8 @@ end
 
 
 function MountHorseAction:complete()
-    -- HACK: we can't require this at file load because it is in the client dir
     -- TODO: this might take a bit to inform the client, so we should consider faking it in perform()
-    require("HorseMod/Mounts").addMount(self.character, self.horse)
+    Mounts.addMount(self.character, self.horse)
     return true
 end
 

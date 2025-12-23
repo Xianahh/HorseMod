@@ -6,6 +6,8 @@ local MountHorseAction = require("HorseMod/TimedActions/MountHorseAction")
 local DismountHorseAction = require("HorseMod/TimedActions/DismountHorseAction")
 local MountPair = require("HorseMod/MountPair")
 local Attachments = require("HorseMod/attachments/Attachments")
+local Mounts = require("HorseMod/Mounts")
+local HorseUtils = require("HorseMod/Utils")
 
 
 local Mounting = {}
@@ -89,6 +91,29 @@ function Mounting.getBestMountableHorse(player, radius)
     return bestHorse
 end
 
+---Verify that the player can mount a horse.
+---@param player IsoPlayer
+---@param horse IsoAnimal
+---@return boolean
+---@return string?
+---@nodiscard
+function Mounting.canMountHorse(player, horse)
+    if Mounts.playerMountMap[player] then
+        -- already mounted
+        return false
+    elseif horse:isDead() then
+        return false, "IsDead"
+    elseif horse:isOnHook() then
+        return false
+    -- elseif horse:getVariableBoolean("animalRunning") then
+    --     -- running
+    --     return false, "IsRunning"
+    elseif not HorseUtils.isAdult(horse) then
+        return false, "NotAdult"
+    end
+
+    return true
+end
 
 -- TODO: mountHorse and dismountHorse are too long and have a lot of redundant code
 
@@ -96,7 +121,7 @@ end
 ---@param player IsoPlayer
 ---@param horse IsoAnimal
 function Mounting.mountHorse(player, horse)
-    if not HorseRiding.canMountHorse(player, horse) then
+    if not Mounting.canMountHorse(player, horse) then
         return
     end
 

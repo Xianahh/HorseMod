@@ -1,6 +1,7 @@
 require("TimedActions/ISBaseTimedAction")
 
 local AnimationVariables = require("HorseMod/AnimationVariables")
+local Mounts = require("HorseMod/Mounts")
 
 
 ---@namespace HorseMod
@@ -81,7 +82,7 @@ end
 
 function DismountHorseAction:complete()
     -- TODO: this might take a bit to inform the client, so we should consider faking it in perform()
-    require("HorseMod/Mounts").removeMount(self.character)
+    Mounts.removeMount(self.character)
     return true
 end
 

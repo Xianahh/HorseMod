@@ -3,6 +3,7 @@ local Mount = require("HorseMod/mount/Mount")
 local HorseUtils = require("HorseMod/Utils")
 local ModOptions = require("HorseMod/ModOptions")
 local AnimationVariables = require("HorseMod/AnimationVariables")
+local Mounts = require("HorseMod/Mounts")
 
 local client = require("HorseMod/networking/client")
 local mountcommands = require("HorseMod/networking/mountcommands")
@@ -26,50 +27,16 @@ function HorseRiding.isMountableHorse(animal)
     return HorseUtils.isAdult(animal)
 end
 
----Verify that the player can mount a horse.
----@param player IsoPlayer
----@param horse IsoAnimal
----@return boolean
----@return string?
----@nodiscard
-function HorseRiding.canMountHorse(player, horse)
-    -- already mounted
-    if HorseRiding.playerMounts[player:getPlayerNum()] then
-        return false
-
-    --dead
-    elseif horse:isDead() then
-        return false, "IsDead"
-
-    -- on butcher hook
-    elseif horse:isOnHook() then
-        return false
-    
-    -- -- running
-    -- elseif horse:getVariableBoolean("animalRunning") then
-    --     return false, "IsRunning"
-    
-    -- not an adult horse
-    elseif not HorseUtils.isAdult(horse) then
-        return false, "NotAdult"
-    end
-
-    return true
-end
-
+---@deprecated Use Mounts.playerMountMap instead.
 ---Retrieve the mount of the player.
 ---@param player IsoPlayer
 ---@return IsoAnimal | nil
 ---@nodiscard
 function HorseRiding.getMountedHorse(player)
-    local mount = HorseRiding.playerMounts[player:getPlayerNum()]
-    if not mount then
-        return nil
-    end
-
-    return mount.pair.mount
+    return Mounts.playerMountMap[player]
 end
 
+---@deprecated Use Mounts.playerMountMap instead.
 ---Check if the player is currently mounting a horse.
 ---@param player IsoPlayer
 ---@return boolean
@@ -88,26 +55,21 @@ end
 
 ---Create a new mount from a pair.
 ---@param pair MountPair
+---@return Mount
 function HorseRiding.createMountFromPair(pair)
     assert(
         HorseRiding.getMount(pair.rider) == nil,
         "tried to create mount for a player that is already mounted"
     )
 
-    HorseRiding.playerMounts[pair.rider:getPlayerNum()] = Mount.new(pair)
+    local mount = Mount.new(pair)
+    HorseRiding.playerMounts[pair.rider:getPlayerNum()] = mount
 
     local modData = pair.rider:getModData()
     modData.ShouldRemount = true
     pair.rider:transmitModData()
-end
 
----@param player IsoPlayer
----@param mount Mount
-HorseRiding.setJump = function(player, mount)
-    mount.pair:setAnimationVariable(AnimationVariables.JUMP, true)
-
-    player:setIgnoreMovement(true)
-    player:setIgnoreInputsForDirection(true)
+    return mount
 end
 
 ---Remove the mount from a player.
@@ -130,59 +92,65 @@ function HorseRiding.removeMount(player)
     mount.pair.rider:transmitModData()
 end
 
----Update the horse riding for every mounts.
-HorseRiding.updateMounts = function()
-    for _, mount in pairs(HorseRiding.playerMounts) do
+---@param player IsoPlayer
+local function updateMount(player)
+    local mountedAnimal = Mounts.playerMountMap[player]
+    if mountedAnimal then
+        local mount = HorseRiding.getMount(player)
+        if not mount then
+            -- create mount if they just mounted
+            mount = HorseRiding.createMountFromPair(
+                MountPair.new(player, mountedAnimal)
+            )
+        end
+
         mount:update()
+    elseif HorseRiding.getMount(player) ~= nil then
+        -- cleanup mount if they just dismounted
+        HorseRiding.removeMount(player)
     end
 end
 
-Events.OnTick.Add(HorseRiding.updateMounts)
+---Update the horse riding for every mounts.
+local function updateMounts()
+    for i = 0, getNumActivePlayers() do
+        local player = getSpecificPlayer(i)
+        if player then
+            updateMount(player)
+        end
+    end
+end
+
+Events.OnTick.Add(updateMounts)
 
 
 ---Handle keybind pressing to switch horse riding states.
 ---@param key integer
 HorseRiding.onKeyPressed = function(key)
-    ---TROT
-    if key == ModOptions.HorseTrotButton then
-        local player = getPlayer()
-        local mount = HorseRiding.getMount(player)
-        if not mount then return end
+    local player = getPlayer()
+    if not player then
+        return
+    end
 
-        if player:getVariableBoolean(AnimationVariables.RIDING_HORSE) then
-            local mountPair = mount.pair
-            local current = mountPair.mount:getVariableBoolean(AnimationVariables.TROT)
-            mountPair:setAnimationVariable(AnimationVariables.TROT, not current)
-        end
-
-    ---JUMP
-    elseif key == ModOptions.HorseJumpButton then
-        local player = getPlayer()
-        local mount = HorseRiding.getMount(player)
-        if not mount then return end
-
-        local mountPair = mount.pair
-        local horse = mountPair.mount
-        if player:getVariableBoolean(AnimationVariables.RIDING_HORSE) 
-            and horse:getVariableBoolean(AnimationVariables.GALLOP)
-            and not mountPair:getAnimationVariableBoolean(AnimationVariables.JUMP) then
-            HorseRiding.setJump(player, mount)
-        end
+    local mount = HorseRiding.getMount(player)
+    if mount then
+        mount:keyPressed(key)
     end
 end
 
 Events.OnKeyPressed.Add(HorseRiding.onKeyPressed)
 
 
+-- TODO: this function needs to be split between client and server
 HorseRiding.dismountOnHorseDeath = function(character)
-    if not character:isAnimal() or not HorseRiding.isMountableHorse(character) then
+    if not character:isAnimal() then
         return
     end
 
     for _, mount in pairs(HorseRiding.playerMounts) do
         if mount and mount.pair.mount == character then
             local rider = mount.pair.rider
-            HorseRiding.removeMount(rider)
+            Mounts.removeMount(rider)
             HorseUtils.runAfter(4.1, function()
                     rider:setBlockMovement(false)
                     rider:setIgnoreMovement(false)
