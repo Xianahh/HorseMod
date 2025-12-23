@@ -1,13 +1,9 @@
 ---REQUIREMENTS
 local Mount = require("HorseMod/mount/Mount")
 local HorseUtils = require("HorseMod/Utils")
-local ModOptions = require("HorseMod/ModOptions")
 local AnimationVariables = require("HorseMod/AnimationVariables")
 local Mounts = require("HorseMod/Mounts")
 
-local client = require("HorseMod/networking/client")
-local mountcommands = require("HorseMod/networking/mountcommands")
-local commands = require("HorseMod/networking/commands")
 local MountPair = require("HorseMod/MountPair")
 
 ---@namespace HorseMod
@@ -18,32 +14,6 @@ local HorseRiding = {
     ---@type {[integer]: Mount | nil}
     playerMounts = {},
 }
-
----@deprecated
----@param animal IsoAnimal
----@return boolean
----@nodiscard
-function HorseRiding.isMountableHorse(animal)
-    return HorseUtils.isAdult(animal)
-end
-
----@deprecated Use Mounts.getMount instead.
----Retrieve the mount of the player.
----@param player IsoPlayer
----@return IsoAnimal | nil
----@nodiscard
-function HorseRiding.getMountedHorse(player)
-    return Mounts.getMount(player)
-end
-
----@deprecated Use Mounts.hasMount instead.
----Check if the player is currently mounting a horse.
----@param player IsoPlayer
----@return boolean
----@nodiscard
-function HorseRiding.isMountingHorse(player)
-    return Mounts.hasMount(player)
-end
 
 ---Retrieve the player mount
 ---@param rider IsoPlayer

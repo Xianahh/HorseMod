@@ -1,4 +1,4 @@
-local HorseRiding = require("HorseMod/Riding")
+local Mounts = require("HorseMod/Mounts")
 local Mounting = require("HorseMod/Mounting")
 local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local AttachmentsManager = require("HorseMod/attachments/AttachmentsManager")
@@ -8,7 +8,7 @@ ContextualActionHandlers = ContextualActionHandlers or {}
 
 local _originalAnimalsInteraction = ContextualActionHandlers.AnimalsInteraction
 function ContextualActionHandlers.AnimalsInteraction(action, playerObj, animal, arg2, arg3, arg4)
-    local mountedHorse = HorseRiding.getMountedHorse(playerObj)
+    local mountedHorse = Mounts.getMount(playerObj)
 
     ---DISMOUNT HORSE
     if mountedHorse == animal then

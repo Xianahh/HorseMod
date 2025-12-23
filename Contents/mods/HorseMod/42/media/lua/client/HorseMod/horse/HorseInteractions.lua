@@ -1,5 +1,5 @@
 local HorseUtils  = require("HorseMod/Utils")
-local HorseRiding = require("HorseMod/Riding")
+local Mounts = require("HorseMod/Mounts")
 local Mounting = require("HorseMod/Mounting")
 local AnimationVariables = require("HorseMod/AnimationVariables")
 -- local HorseAttachments = require("HorseMod/HorseAttachments")
@@ -84,7 +84,7 @@ local function handleJoypadMountButton(player)
     if player:getVehicle() then return end
     if player:getVariableBoolean(AnimationVariables.MOUNTING_HORSE) then return end
 
-    local mountedHorse = HorseRiding.getMountedHorse(player)
+    local mountedHorse = Mounts.getMount(player)
     if mountedHorse then
         if player:getVariableBoolean(AnimationVariables.RIDING_HORSE) then
             Mounting.dismountHorse(player)
