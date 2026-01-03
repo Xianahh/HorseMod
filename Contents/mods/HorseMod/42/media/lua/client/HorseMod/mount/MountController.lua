@@ -1,6 +1,4 @@
 local Stamina = require("HorseMod/Stamina")
-local AttachmentData = require("HorseMod/attachments/AttachmentData")
-local Attachments = require("HorseMod/attachments/Attachments")
 local AnimationVariables = require("HorseMod/AnimationVariables")
 
 
@@ -690,64 +688,27 @@ function MountController:updateSpeed(input, deltaTime)
     end
 end
 
----@param mount IsoAnimal
----@param reinsItem InventoryItem
----@param state string
-function MountController:setReinsState(mount, reinsItem, state)
-    -- retrieve the model of reins model
-    local fullType = reinsItem:getFullType()
-    local attachmentDef = Attachments.getAttachmentDefinition(fullType, "Reins")
-    assert(attachmentDef ~= nil, "equipped reins item has no definition")
-    local model = attachmentDef.model
-    assert(model ~= nil, "No rein model for item " .. tostring(fullType))
+---@alias MovementState "idle"|"walking"|"trot"|"gallop"
 
-    -- retrieve the model associated to the current state
-    local suffix = AttachmentData.REIN_STATES[state]
-    assert(suffix ~= nil, "No suffix for specified state " .. tostring(state))
-
-    local state_model = model..AttachmentData.REIN_STATES[state]
-
-    -- apply state model
-    reinsItem:setStaticModel(state_model)
-    mount:resetEquippedHandsModels()
-end
-
----@param input InputManager.Input
----@return "idle"|"walking"|"trot"|"gallop"
-function MountController:getMovementState(input)
-    if (input.movement.x == 0 and input.movement.y == 0) or self.currentSpeed <= 0 then
+---@return MovementState
+function MountController:getMovementState()
+    if self.currentSpeed <= 0 then
         return "idle"
-    elseif input.run then
+    elseif self.mount.pair:getAnimationVariableBoolean(AnimationVariables.GALLOP) then
         return "gallop"
-    elseif input.trot then
+    elseif self.mount.pair:getAnimationVariableBoolean(AnimationVariables.TROT) then
         return "trot"
     else
         return "walking"
     end
 end
 
----@param input InputManager.Input
-function MountController:updateReins(input)
-    local mountPair = self.mount.pair
-    local mount = mountPair.mount
-    local reinsItem = Attachments.getAttachedItem(mount, "Reins")
-    
-    if reinsItem then
-        local movementState = self:getMovementState(input)
-
-        self:setReinsState(mount, reinsItem, movementState)
-
-        ---@TODO these states should be defined when the rider mounts the horse
-        mountPair.rider:setVariable(AnimationVariables.HAS_REINS, true)
-    else
-        mountPair.rider:setVariable(AnimationVariables.HAS_REINS, false)
-    end
-end
 
 function MountController:toggleTrot()
     local current = self.mount.pair:getAnimationVariableBoolean(AnimationVariables.TROT)
     self.mount.pair:setAnimationVariable(AnimationVariables.TROT, not current)
 end
+
 
 function MountController:jump()
     self.mount.pair:setAnimationVariable(AnimationVariables.JUMP, true)
@@ -782,13 +743,11 @@ function MountController:update(input)
         input.run = true
     end
 
-    local movementState = self:getMovementState(input)
-
     -- verify that the horse isn't in a jumping animation before turning
     local doTurn = true
     if rider:getIgnoreMovement() or rider:isIgnoreInputsForDirection() then
         local isJumping = mountPair:getAnimationVariableBoolean(AnimationVariables.JUMP)
-        if not isJumping or movementState ~= "gallop" then
+        if not isJumping or self:getMovementState() ~= "gallop" then
             -- exit jump state and allow turning again
             rider:setIgnoreMovement(false)
             rider:setIgnoreInputsForDirection(false)
@@ -803,7 +762,6 @@ function MountController:update(input)
         self:turn(input, deltaTime)
     end
     self:updateSpeed(input, deltaTime)
-    self:updateReins(input)
 
     if moving and self.currentSpeed > 0 then
         local currentDirection = mount:getDir()

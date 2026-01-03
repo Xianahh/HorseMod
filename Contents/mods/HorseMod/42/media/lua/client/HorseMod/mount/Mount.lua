@@ -3,6 +3,7 @@ local HorseDamage = require("HorseMod/horse/HorseDamage")
 local HorseUtils = require("HorseMod/Utils")
 local AnimationVariables = require("HorseMod/AnimationVariables")
 local InputManager = require("HorseMod/mount/InputManager")
+local ReinsManager = require("HorseMod/mount/ReinsManager")
 
 
 ---@namespace HorseMod
@@ -16,6 +17,8 @@ local InputManager = require("HorseMod/mount/InputManager")
 ---@field inputManager InputManager
 ---
 ---@field controller MountController
+---
+---@field reinsManager ReinsManager
 local Mount = {}
 Mount.__index = Mount
 
@@ -51,6 +54,7 @@ function Mount:update()
     self.controller:update(
         self.inputManager:getCurrentInput()
     )
+    self.reinsManager:update()
 end
 
 
@@ -124,6 +128,7 @@ function Mount.new(pair)
 
     o.controller = MountController.new(o)
     o.inputManager = InputManager.new(o)
+    o.reinsManager = ReinsManager.new(o)
 
     return o
 end
