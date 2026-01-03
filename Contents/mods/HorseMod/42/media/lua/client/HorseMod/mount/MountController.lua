@@ -800,7 +800,6 @@ function MountController:update(input)
     rider:setX(mount:getX())
     rider:setY(mount:getY())
     rider:setZ(mount:getZ())
-    UpdateHorseAudio(rider)
 end
 
 
