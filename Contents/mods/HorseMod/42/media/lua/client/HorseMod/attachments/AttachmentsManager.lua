@@ -100,6 +100,13 @@ end
 ---@param accessories ArrayList
 ---@param horseOption umbrella.ISContextMenu.Option
 AttachmentsManager.populateHorseContextMenu = function(player, horse, context, accessories, horseOption)
+    local accessoriesCount = accessories:size()
+    local attachedItems = Attachments.getAttachedItems(horse)
+
+    if accessoriesCount < 1 and #attachedItems < 1 then
+        return
+    end
+
     -- retrieve horse context menu
     ---@diagnostic disable-next-line
     local horseSubMenu = context:getSubMenu(horseOption.subOption) --[[@as ISContextMenu]]
@@ -127,7 +134,6 @@ AttachmentsManager.populateHorseContextMenu = function(player, horse, context, a
     context:addSubMenu(gearOption, gearSubMenu)
 
     --- EQUIP OPTIONS
-    local accessoriesCount = accessories:size()
     local uniques = {}
 
     ---@type {displayName: string, accessory: InventoryItem}[]
@@ -206,9 +212,7 @@ AttachmentsManager.populateHorseContextMenu = function(player, horse, context, a
         end
     end
 
-
     --- UNEQUIP OPTIONS
-    local attachedItems = Attachments.getAttachedItems(horse)
     if #attachedItems > 0 then
         -- sort by display name
         table.sort(attachedItems, function(a, b)
