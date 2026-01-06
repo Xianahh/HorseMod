@@ -5,6 +5,7 @@ local AnimationVariable = require("HorseMod/AnimationVariable")
 local Mounts = require("HorseMod/Mounts")
 
 local MountPair = require("HorseMod/MountPair")
+local HorseDamage = require("HorseMod/horse/HorseDamage")
 local HorseSounds = require("HorseMod/HorseSounds")
 
 ---@namespace HorseMod
@@ -130,6 +131,13 @@ HorseRiding.dismountOnHorseDeath = function(character)
             Mounts.removeMount(rider)
 
             HorseSounds.playSound(character, HorseSounds.Sound.DEATH)
+
+            HorseUtils.runAfter(
+                0.5,
+                function()
+                    HorseDamage.knockDownNearbyZombies(mount.pair.mount)
+                end
+            )
 
             HorseUtils.runAfter(
                 4.1,

@@ -31,15 +31,8 @@ end
 
 ---@return boolean
 ---@nodiscard
-function Mount:dying()
-    if self.pair.mount:getVariableBoolean(AnimationVariables.DYING) then
-        self.pair.rider:setIgnoreMovement(true)
-        self.pair.rider:setBlockMovement(true)
-        self.pair.rider:setIgnoreInputsForDirection(true)
-        self.pair.rider:setVariable(AnimationVariables.DYING, true)
-        HorseUtils.runAfter(0.5, function()
-            HorseDamage.knockDownNearbyZombies(self.pair.mount)
-        end)
+function Mount:isDying()
+    if self.pair.mount:getVariableBoolean(AnimationVariable.DYING) then
         return true
     else
         return false
@@ -48,7 +41,11 @@ end
 
 
 function Mount:update()
-    if self.pair.mount and self:dying() then
+    if self:isDying() then
+        self.pair.rider:setIgnoreMovement(true)
+        self.pair.rider:setBlockMovement(true)
+        self.pair.rider:setIgnoreInputsForDirection(true)
+        self.pair.rider:setVariable(AnimationVariable.DYING, true)
         return
     end
     self.controller:update(
