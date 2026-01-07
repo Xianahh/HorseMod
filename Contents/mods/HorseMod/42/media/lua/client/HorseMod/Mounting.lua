@@ -101,6 +101,8 @@ function Mounting.canMountHorse(player, horse)
     if Mounts.hasMount(player) then
         -- already mounted
         return false
+    elseif Mounts.hasRider(horse) then
+        return false, "AlreadyMounted"
     elseif horse:isDead() then
         return false, "IsDead"
     elseif horse:isOnHook() then
