@@ -27,7 +27,7 @@ local function doHorseInteractionMenu(context, player, animal)
     else
         context:addOption(
             getText("IGUI_HorseMod_DismountHorse"),
-            player, Mounting.dismountHorse, player
+            player, Mounting.dismountHorse
         )
     end
 end
