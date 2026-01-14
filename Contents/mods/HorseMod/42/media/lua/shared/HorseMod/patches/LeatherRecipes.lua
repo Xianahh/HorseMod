@@ -7,22 +7,29 @@ The item mappers of this recipe are handled in the `scripts/HorseMod/patches/lea
 ]]
 local LeatherRecipes = {
     LEATHERS = {
-        "HorseMod.HorseLeather_AP_Fur_Tan",
-        "HorseMod.HorseLeather_AP_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_APHO_Fur_Tan",
-        "HorseMod.HorseLeather_APHO_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_AQHBR_Fur_Tan",
-        "HorseMod.HorseLeather_AQHBR_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_AQHP_Fur_Tan",
-        "HorseMod.HorseLeather_AQHP_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_FBG_Fur_Tan",
-        "HorseMod.HorseLeather_FBG_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_GDA_Fur_Tan",
-        "HorseMod.HorseLeather_GDA_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_LPA_Fur_Tan",
-        "HorseMod.HorseLeather_LPA_Fur_Tan_Medium",
-        "HorseMod.HorseLeather_T_Fur_Tan",
-        "HorseMod.HorseLeather_T_Fur_Tan_Medium",
+        -- American Paint
+        "HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan",
+        "HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Medium",
+        "HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan",
+        "HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Medium",
+        
+        -- American Quarter
+        "HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan",
+        "HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Medium",
+        "HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan",
+        "HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Medium",
+        
+        -- Appaloosa
+        "HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan",
+        "HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Medium",
+        "HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan",
+        "HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Medium",
+
+        -- Thoroughbred
+        "HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan",
+        "HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Medium",
+        "HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan",
+        "HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Medium",
     },
     IDENTIFIER_ITEM = "Base.Leather_Crude_Large",
 }

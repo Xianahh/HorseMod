@@ -5,26 +5,33 @@ local HorseUtils = require("HorseMod/Utils")
 
 local HorseDefinitions = {
     SHORT_NAMES = {
-        AQHP = "american_quarter", -- American Quarter Horse Paint
-        AP = "american_paint", -- American Paint
-        GDA = "appaloosa", -- Appaloosa
-        T = "thoroughbred", -- Thoroughbred
-        AQHBR = "blue_roan", -- American Quarter Horse Blue Roan
-        LPA = "spotted_appaloosa", -- Leopard Appaloosa
-        APHO = "american_paint_overo", -- American Paint Horse Overo
-        FBG = "flea_bitten_grey", -- Flea Bitten Grey
+        -- American Quarter
+        "AmericanQuarterPalomino", -- Palomino
+        "AmericanQuarterBlueRoan", -- Blue Roan
+        
+        -- American Paint
+        "AmericanPaintTobiano", -- Tobiano
+        "AmericanPaintOvero", -- Overo
+        
+        -- Appaloosa
+        "AppaloosaGrullaBlanket", -- Grulla Blanket
+        "AppaloosaLeopard", -- Leopard
+        
+        -- Thoroughbred
+        "ThoroughbredBay", -- Bay
+        "ThoroughbredFleaBittenGrey", -- Flea Bitten Grey
     },
     PATHS = {
-        texture = "HorseMod/Horse{shortName}",
-        textureMale = "HorseMod/Horse{shortName}",
-        rottenTexture = "HorseMod/Horse{shortName}",
-        textureBaby = "HorseMod/Horse{shortName}",
-        invIconMale = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconFemale = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconBaby = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconMaleDead = "media/textures/Item_body/Horse{shortName}_Dead.png",
-        invIconFemaleDead = "media/textures/Item_body/Horse{shortName}_Dead.png",
-        invIconBabyDead = "media/textures/Item_body/Horse{shortName}_Foal_Dead.png",
+        texture = "HorseMod/Horse_{id}",
+        textureMale = "HorseMod/Horse_{id}",
+        rottenTexture = "HorseMod/Horse_{id}",
+        textureBaby = "HorseMod/Horse_{id}",
+        invIconMale = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconFemale = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconBaby = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconMaleDead = "media/textures/Item_body/Horse_{id}_Dead.png",
+        invIconFemaleDead = "media/textures/Item_body/Horse_{id}_Dead.png",
+        invIconBabyDead = "media/textures/Item_body/Horse_{id}_Foal_Dead.png",
     },
     AVATAR_DEFINITION = {
         zoom = -20,
@@ -77,11 +84,13 @@ AnimalDefinitions.stages["horse"] = {
 }
 
 -- define the breeds
+-- associates the horse breeds to the paths formatted with their ID
 local breeds = {}
-for shortName, id in pairs(HorseDefinitions.SHORT_NAMES) do
+for i = 1, #HorseDefinitions.SHORT_NAMES do
+    local id = HorseDefinitions.SHORT_NAMES[i] --[[@as string EmmyLua going fucking schizo]]
     local breed = {name = id}
     for key, path in pairs(HorseDefinitions.PATHS) do
-        local formattedPath = HorseUtils.formatTemplate(path, {shortName = shortName})
+        local formattedPath = HorseUtils.formatTemplate(path, {id = id})
         breed[key] = formattedPath
     end
     breeds[id] = breed
