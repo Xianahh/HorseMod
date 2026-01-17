@@ -11,7 +11,7 @@ local HorseModData = {
     modDataKinds = {},
 }
 
-local ANIMAL_MODDATA_KEY = "horseModData"
+local ANIMAL_MODDATA_KEY = "horsemod"
 
 ---@type table
 local GLOBAL_MOD_DATA
