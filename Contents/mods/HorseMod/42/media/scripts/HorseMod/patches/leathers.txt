@@ -4,25 +4,25 @@ module Base
     {
         itemMapper DryLeatherLarge
         {
-            HorseMod.HorseLeather_AP_Fur_Tan = HorseMod.HorseLeather_AP_Fur_Tan_Wet,
-            HorseMod.HorseLeather_APHO_Fur_Tan = HorseMod.HorseLeather_APHO_Fur_Tan_Wet,
-            HorseMod.HorseLeather_AQHBR_Fur_Tan = HorseMod.HorseLeather_AQHBR_Fur_Tan_Wet,
-            HorseMod.HorseLeather_AQHP_Fur_Tan = HorseMod.HorseLeather_AQHP_Fur_Tan_Wet,
-            HorseMod.HorseLeather_FBG_Fur_Tan = HorseMod.HorseLeather_FBG_Fur_Tan_Wet,
-            HorseMod.HorseLeather_GDA_Fur_Tan = HorseMod.HorseLeather_GDA_Fur_Tan_Wet,
-            HorseMod.HorseLeather_LPA_Fur_Tan = HorseMod.HorseLeather_LPA_Fur_Tan_Wet,
-            HorseMod.HorseLeather_T_Fur_Tan = HorseMod.HorseLeather_T_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan = HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan = HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan = HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Wet,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan = HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Wet,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan = HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Wet,
         }
         overlayMapper
         {
-            HorseMod.HorseLeather_AP_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_APHO_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_AQHBR_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_AQHP_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_FBG_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_GDA_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_LPA_Fur_Tan_Wet = LargeLeather,
-            HorseMod.HorseLeather_T_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Wet = LargeLeather,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Wet = LargeLeather,
         }
     }
 
@@ -30,25 +30,25 @@ module Base
     {
         itemMapper DryLeatherSmall
         {
-            HorseMod.FoalLeather_AP_Fur_Tan = HorseMod.FoalLeather_AP_Fur_Tan_Wet,
-            HorseMod.FoalLeather_APHO_Fur_Tan = HorseMod.FoalLeather_APHO_Fur_Tan_Wet,
-            HorseMod.FoalLeather_AQHBR_Fur_Tan = HorseMod.FoalLeather_AQHBR_Fur_Tan_Wet,
-            HorseMod.FoalLeather_AQHP_Fur_Tan = HorseMod.FoalLeather_AQHP_Fur_Tan_Wet,
-            HorseMod.FoalLeather_FBG_Fur_Tan = HorseMod.FoalLeather_FBG_Fur_Tan_Wet,
-            HorseMod.FoalLeather_GDA_Fur_Tan = HorseMod.FoalLeather_GDA_Fur_Tan_Wet,
-            HorseMod.FoalLeather_LPA_Fur_Tan = HorseMod.FoalLeather_LPA_Fur_Tan_Wet,
-            HorseMod.FoalLeather_T_Fur_Tan = HorseMod.FoalLeather_T_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AmericanPaintTobiano_Fur_Tan = HorseMod.FoalLeather_AmericanPaintTobiano_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AmericanPaintOvero_Fur_Tan = HorseMod.FoalLeather_AmericanPaintOvero_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur_Tan = HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AmericanQuarterPalomino_Fur_Tan = HorseMod.FoalLeather_AmericanQuarterPalomino_Fur_Tan_Wet,
+            HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur_Tan = HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur_Tan = HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet,
+            HorseMod.FoalLeather_AppaloosaLeopard_Fur_Tan = HorseMod.FoalLeather_AppaloosaLeopard_Fur_Tan_Wet,
+            HorseMod.FoalLeather_ThoroughbredBay_Fur_Tan = HorseMod.FoalLeather_ThoroughbredBay_Fur_Tan_Wet,
         }
         overlayMapper
         {
-            HorseMod.FoalLeather_AP_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_APHO_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_AQHBR_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_AQHP_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_FBG_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_GDA_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_LPA_Fur_Tan_Wet = SmallLeather,
-            HorseMod.FoalLeather_T_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AmericanPaintTobiano_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AmericanPaintOvero_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AmericanQuarterPalomino_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_AppaloosaLeopard_Fur_Tan_Wet = SmallLeather,
+            HorseMod.FoalLeather_ThoroughbredBay_Fur_Tan_Wet = SmallLeather,
         }
     }
 
@@ -56,23 +56,23 @@ module Base
     {
         itemMapper TanLeatherMapper
         {
-            HorseMod.HorseLeather_AP_Fur_Tan_Wet = HorseMod.HorseLeather_AP_Fur,
-            HorseMod.HorseLeather_APHO_Fur_Tan_Wet = HorseMod.HorseLeather_APHO_Fur,
-            HorseMod.HorseLeather_AQHBR_Fur_Tan_Wet = HorseMod.HorseLeather_AQHBR_Fur,
-            HorseMod.HorseLeather_AQHP_Fur_Tan_Wet = HorseMod.HorseLeather_AQHP_Fur,
-            HorseMod.HorseLeather_FBG_Fur_Tan_Wet = HorseMod.HorseLeather_FBG_Fur,
-            HorseMod.HorseLeather_GDA_Fur_Tan_Wet = HorseMod.HorseLeather_GDA_Fur,
-            HorseMod.HorseLeather_LPA_Fur_Tan_Wet = HorseMod.HorseLeather_LPA_Fur,
-            HorseMod.HorseLeather_T_Fur_Tan_Wet = HorseMod.HorseLeather_T_Fur,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Wet = HorseMod.HorseLeather_AmericanPaintTobiano_Fur,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Wet = HorseMod.HorseLeather_AmericanPaintOvero_Fur,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Wet = HorseMod.HorseLeather_AmericanQuarterPalomino_Fur,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Wet = HorseMod.HorseLeather_AppaloosaLeopard_Fur,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Wet = HorseMod.HorseLeather_ThoroughbredBay_Fur,
 
-            HorseMod.FoalLeather_AP_Fur_Tan_Wet = HorseMod.FoalLeather_AP_Fur,
-            HorseMod.FoalLeather_APHO_Fur_Tan_Wet = HorseMod.FoalLeather_APHO_Fur,
-            HorseMod.FoalLeather_AQHBR_Fur_Tan_Wet = HorseMod.FoalLeather_AQHBR_Fur,
-            HorseMod.FoalLeather_AQHP_Fur_Tan_Wet = HorseMod.FoalLeather_AQHP_Fur,
-            HorseMod.FoalLeather_FBG_Fur_Tan_Wet = HorseMod.FoalLeather_FBG_Fur,
-            HorseMod.FoalLeather_GDA_Fur_Tan_Wet = HorseMod.FoalLeather_GDA_Fur,
-            HorseMod.FoalLeather_LPA_Fur_Tan_Wet = HorseMod.FoalLeather_LPA_Fur,
-            HorseMod.FoalLeather_T_Fur_Tan_Wet = HorseMod.FoalLeather_T_Fur,
+            HorseMod.FoalLeather_AmericanPaintTobiano_Fur_Tan_Wet = HorseMod.FoalLeather_AmericanPaintTobiano_Fur,
+            HorseMod.FoalLeather_AmericanPaintOvero_Fur_Tan_Wet = HorseMod.FoalLeather_AmericanPaintOvero_Fur,
+            HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur_Tan_Wet = HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur,
+            HorseMod.FoalLeather_AmericanQuarterPalomino_Fur_Tan_Wet = HorseMod.FoalLeather_AmericanQuarterPalomino_Fur,
+            HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Wet = HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur,
+            HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur_Tan_Wet = HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur,
+            HorseMod.FoalLeather_AppaloosaLeopard_Fur_Tan_Wet = HorseMod.FoalLeather_AppaloosaLeopard_Fur,
+            HorseMod.FoalLeather_ThoroughbredBay_Fur_Tan_Wet = HorseMod.FoalLeather_ThoroughbredBay_Fur,
         }
     }
 
@@ -80,23 +80,23 @@ module Base
     {
         itemMapper RemoveFleshMapper
         {
-            HorseMod.HorseLeather_AP_Fur = HorseMod.HorseLeather_AP_Full,
-            HorseMod.HorseLeather_APHO_Fur = HorseMod.HorseLeather_APHO_Full,
-            HorseMod.HorseLeather_AQHBR_Fur = HorseMod.HorseLeather_AQHBR_Full,
-            HorseMod.HorseLeather_AQHP_Fur = HorseMod.HorseLeather_AQHP_Full,
-            HorseMod.HorseLeather_FBG_Fur = HorseMod.HorseLeather_FBG_Full,
-            HorseMod.HorseLeather_GDA_Fur = HorseMod.HorseLeather_GDA_Full,
-            HorseMod.HorseLeather_LPA_Fur = HorseMod.HorseLeather_LPA_Full,
-            HorseMod.HorseLeather_T_Fur = HorseMod.HorseLeather_T_Full,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur = HorseMod.HorseLeather_AmericanPaintTobiano_Full,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur = HorseMod.HorseLeather_AmericanPaintOvero_Full,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Full,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur = HorseMod.HorseLeather_AmericanQuarterPalomino_Full,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Full,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Full,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur = HorseMod.HorseLeather_AppaloosaLeopard_Full,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur = HorseMod.HorseLeather_ThoroughbredBay_Full,
 
-            HorseMod.FoalLeather_AP_Fur = HorseMod.FoalLeather_AP_Full,
-            HorseMod.FoalLeather_APHO_Fur = HorseMod.FoalLeather_APHO_Full,
-            HorseMod.FoalLeather_AQHBR_Fur = HorseMod.FoalLeather_AQHBR_Full,
-            HorseMod.FoalLeather_AQHP_Fur = HorseMod.FoalLeather_AQHP_Full,
-            HorseMod.FoalLeather_FBG_Fur = HorseMod.FoalLeather_FBG_Full,
-            HorseMod.FoalLeather_GDA_Fur = HorseMod.FoalLeather_GDA_Full,
-            HorseMod.FoalLeather_LPA_Fur = HorseMod.FoalLeather_LPA_Full,
-            HorseMod.FoalLeather_T_Fur = HorseMod.FoalLeather_T_Full,
+            HorseMod.FoalLeather_AmericanPaintTobiano_Fur = HorseMod.FoalLeather_AmericanPaintTobiano_Full,
+            HorseMod.FoalLeather_AmericanPaintOvero_Fur = HorseMod.FoalLeather_AmericanPaintOvero_Full,
+            HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur = HorseMod.FoalLeather_AmericanQuarterBlueRoan_Full,
+            HorseMod.FoalLeather_AmericanQuarterPalomino_Fur = HorseMod.FoalLeather_AmericanQuarterPalomino_Full,
+            HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur = HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Full,
+            HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur = HorseMod.FoalLeather_AppaloosaGrullaBlanket_Full,
+            HorseMod.FoalLeather_AppaloosaLeopard_Fur = HorseMod.FoalLeather_AppaloosaLeopard_Full,
+            HorseMod.FoalLeather_ThoroughbredBay_Fur = HorseMod.FoalLeather_ThoroughbredBay_Full,
         }
     }
 
@@ -104,23 +104,23 @@ module Base
     {
         itemMapper RemoveFurMapper
         {
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_AP_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_APHO_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_AQHBR_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_AQHP_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_FBG_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_GDA_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_LPA_Fur,
-            Base.Leather_Crude_Large = HorseMod.HorseLeather_T_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AmericanPaintTobiano_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AmericanPaintOvero_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AmericanQuarterPalomino_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_AppaloosaLeopard_Fur,
+            Base.Leather_Crude_Large = HorseMod.HorseLeather_ThoroughbredBay_Fur,
 
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_AP_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_APHO_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_AQHBR_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_AQHP_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_FBG_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_GDA_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_LPA_Fur,
-            Base.Leather_Crude_Small = HorseMod.FoalLeather_T_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AmericanPaintTobiano_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AmericanPaintOvero_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AmericanQuarterBlueRoan_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AmericanQuarterPalomino_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_ThoroughbredFleaBittenGrey_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AppaloosaGrullaBlanket_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_AppaloosaLeopard_Fur,
+            Base.Leather_Crude_Small = HorseMod.FoalLeather_ThoroughbredBay_Fur,
         }
     }
 
@@ -130,29 +130,29 @@ module Base
     {
         itemMapper leatherMapper
         {
-            HorseMod.HorseLeather_AP_Fur_Tan_Medium = HorseMod.HorseLeather_AP_Fur_Tan,
-            HorseMod.HorseLeather_AP_Fur_Tan_Small = HorseMod.HorseLeather_AP_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Medium = HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan,
+            HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Small = HorseMod.HorseLeather_AmericanPaintTobiano_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_APHO_Fur_Tan_Medium = HorseMod.HorseLeather_APHO_Fur_Tan,
-            HorseMod.HorseLeather_APHO_Fur_Tan_Small = HorseMod.HorseLeather_APHO_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Medium = HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan,
+            HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Small = HorseMod.HorseLeather_AmericanPaintOvero_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_AQHBR_Fur_Tan_Medium = HorseMod.HorseLeather_AQHBR_Fur_Tan,
-            HorseMod.HorseLeather_AQHBR_Fur_Tan_Small = HorseMod.HorseLeather_AQHBR_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Medium = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan,
+            HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Small = HorseMod.HorseLeather_AmericanQuarterBlueRoan_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_AQHP_Fur_Tan_Medium = HorseMod.HorseLeather_AQHP_Fur_Tan,
-            HorseMod.HorseLeather_AQHP_Fur_Tan_Small = HorseMod.HorseLeather_AQHP_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Medium = HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan,
+            HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Small = HorseMod.HorseLeather_AmericanQuarterPalomino_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_FBG_Fur_Tan_Medium = HorseMod.HorseLeather_FBG_Fur_Tan,
-            HorseMod.HorseLeather_FBG_Fur_Tan_Small = HorseMod.HorseLeather_FBG_Fur_Tan_Medium,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Medium = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan,
+            HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Small = HorseMod.HorseLeather_ThoroughbredFleaBittenGrey_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_GDA_Fur_Tan_Medium = HorseMod.HorseLeather_GDA_Fur_Tan,
-            HorseMod.HorseLeather_GDA_Fur_Tan_Small = HorseMod.HorseLeather_GDA_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Medium = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan,
+            HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Small = HorseMod.HorseLeather_AppaloosaGrullaBlanket_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_LPA_Fur_Tan_Medium = HorseMod.HorseLeather_LPA_Fur_Tan,
-            HorseMod.HorseLeather_LPA_Fur_Tan_Small = HorseMod.HorseLeather_LPA_Fur_Tan_Medium,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Medium = HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan,
+            HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Small = HorseMod.HorseLeather_AppaloosaLeopard_Fur_Tan_Medium,
             
-            HorseMod.HorseLeather_T_Fur_Tan_Medium = HorseMod.HorseLeather_T_Fur_Tan,
-            HorseMod.HorseLeather_T_Fur_Tan_Small = HorseMod.HorseLeather_T_Fur_Tan_Medium,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Medium = HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan,
+            HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Small = HorseMod.HorseLeather_ThoroughbredBay_Fur_Tan_Medium,
             
         }
     }

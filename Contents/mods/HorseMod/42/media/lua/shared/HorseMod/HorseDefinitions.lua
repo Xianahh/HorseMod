@@ -5,26 +5,33 @@ local HorseUtils = require("HorseMod/Utils")
 
 local HorseDefinitions = {
     SHORT_NAMES = {
-        AQHP = "american_quarter", -- American Quarter Horse Paint
-        AP = "american_paint", -- American Paint
-        GDA = "appaloosa", -- Appaloosa
-        T = "thoroughbred", -- Thoroughbred
-        AQHBR = "blue_roan", -- American Quarter Horse Blue Roan
-        LPA = "spotted_appaloosa", -- Leopard Appaloosa
-        APHO = "american_paint_overo", -- American Paint Horse Overo
-        FBG = "flea_bitten_grey", -- Flea Bitten Grey
+        -- American Quarter
+        "AmericanQuarterPalomino", -- Palomino
+        "AmericanQuarterBlueRoan", -- Blue Roan
+        
+        -- American Paint
+        "AmericanPaintTobiano", -- Tobiano
+        "AmericanPaintOvero", -- Overo
+        
+        -- Appaloosa
+        "AppaloosaGrullaBlanket", -- Grulla Blanket
+        "AppaloosaLeopard", -- Leopard
+        
+        -- Thoroughbred
+        "ThoroughbredBay", -- Bay
+        "ThoroughbredFleaBittenGrey", -- Flea Bitten Grey
     },
     PATHS = {
-        texture = "HorseMod/Horse{shortName}",
-        textureMale = "HorseMod/Horse{shortName}",
-        rottenTexture = "HorseMod/Horse{shortName}",
-        textureBaby = "HorseMod/Horse{shortName}",
-        invIconMale = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconFemale = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconBaby = "media/textures/Item_body/Horse{shortName}_Foal.png",
-        invIconMaleDead = "media/textures/Item_body/Horse{shortName}_Dead.png",
-        invIconFemaleDead = "media/textures/Item_body/Horse{shortName}_Dead.png",
-        invIconBabyDead = "media/textures/Item_body/Horse{shortName}_Foal_Dead.png",
+        texture = "HorseMod/Horse_{id}",
+        textureMale = "HorseMod/Horse_{id}",
+        rottenTexture = "HorseMod/Horse_{id}",
+        textureBaby = "HorseMod/Horse_{id}",
+        invIconMale = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconFemale = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconBaby = "media/textures/Item_body/Horse_{id}_Foal.png",
+        invIconMaleDead = "media/textures/Item_body/Horse_{id}_Dead.png",
+        invIconFemaleDead = "media/textures/Item_body/Horse_{id}_Dead.png",
+        invIconBabyDead = "media/textures/Item_body/Horse_{id}_Foal_Dead.png",
     },
     AVATAR_DEFINITION = {
         zoom = -20,
@@ -51,13 +58,11 @@ local HorseDefinitions = {
 
 
 
-
-
 -- define the growth stages
 AnimalDefinitions.stages["horse"] = {
     stages = {
         ["filly"] = {
-            ageToGrow = 2 * 30, -- we probably won't have a filly model so check what happens if this is set to 0
+            ageToGrow = 2 * 30,
             nextStage = "mare",
             nextStageMale = "stallion",
             minWeight = 0.1,
@@ -75,18 +80,6 @@ AnimalDefinitions.stages["horse"] = {
         }
     }
 }
-
--- define the breeds
-local breeds = {}
-for shortName, id in pairs(HorseDefinitions.SHORT_NAMES) do
-    local breed = {name = id}
-    for key, path in pairs(HorseDefinitions.PATHS) do
-        local formattedPath = HorseUtils.formatTemplate(path, {shortName = shortName})
-        breed[key] = formattedPath
-    end
-    breeds[id] = breed
-end
-AnimalDefinitions.breeds["horse"] = {breeds = breeds} -- retarded naming scheme from the game, lovely
 
 -- define the genome
 AnimalDefinitions.genome["horse"] = {
@@ -109,16 +102,15 @@ AnimalDefinitions.genome["horse"] = {
     }
 }
 
--- TODO: a lot of this is just copied from deer
 
-HorseDefinitions.ANIMALS = {
+HorseDefinitions.IS_ADULT = {
     ["stallion"] = true,
     ["mare"] = true,
     ["filly"] = false,
 }
 
 HorseDefinitions.ANIMALS_DATA = {
-    --- data applied to every horses
+    --- data applied to every horses, adult or not
     _DEFAULT = {
         bodyModel = "HorseMod.Horse",
         bodyModelSkel = "HorseMod.HorseSkeleton",
@@ -136,7 +128,6 @@ HorseDefinitions.ANIMALS_DATA = {
         shadowbm = 3,
 
         -- CORE
-        breeds = copyTable(AnimalDefinitions.breeds["horse"].breeds),
         stages = AnimalDefinitions.stages["horse"].stages,
         genes = AnimalDefinitions.genome["horse"].genes,
 
@@ -185,6 +176,8 @@ HorseDefinitions.ANIMALS_DATA = {
         minBlood = 1200,
         maxBlood = 4000,
     },
+
+    -- adult horse specific data
     _DEFAULT_ADULT = {
         -- MATING
         babyType = "filly",
@@ -205,6 +198,8 @@ HorseDefinitions.ANIMALS_DATA = {
         maxWeight = 1000,
         corpseSize = 5,
     },
+
+    -- adult, male, female data
     ["filly"] = {
         -- BEHAVIOR
         idleEmoteChance = 600,
@@ -222,11 +217,13 @@ HorseDefinitions.ANIMALS_DATA = {
         maxWeight = 450,
         corpseSize = 3,
     },
+
     ["stallion"] = {
         -- MATING
         male = true,
         mate = "mare",
     },
+
     ["mare"] = {
         -- MATING
         female = true,
@@ -234,7 +231,66 @@ HorseDefinitions.ANIMALS_DATA = {
     },
 }
 
+local EXP_HORSE = 25
+local EXP_FILLY = 15
 
+HorseDefinitions.PARTS = {
+    _DEFAULT = {
+        skull = "HorseMod.Horse_Skull",
+    },
+
+    _DEFAULT_ADULT = {
+        parts = {
+            {item = "HorseMod.Horse_Steak", minNb = 10, maxNb = 18},
+            {item = "HorseMod.Horse_Loin", minNb = 10, maxNb = 18},
+            {item = "Base.AnimalSinew", minNb = 3, maxNb = 7},
+            {item = "HorseMod.Horse_Hoof", nb = 4},
+        },
+        bones = {
+            {item = "Base.AnimalBone", minNb = 7, maxNb = 10},
+            {item = "Base.LargeAnimalBone", minNb = 3, maxNb = 5},
+        },
+        leather = "HorseMod.HorseLeather_{id}_Full",
+        xpPerItem = EXP_HORSE,
+    },
+
+    -- adult, male, female data
+    ["filly"] = {
+        parts = {
+            {item = "HorseMod.Horse_Steak", minNb = 5, maxNb = 9},
+            {item = "HorseMod.Horse_Loin", minNb = 5, maxNb = 9},
+            {item = "Base.AnimalSinew", minNb = 1, maxNb = 3},
+            {item = "HorseMod.Horse_Hoof", nb = 4},
+        },
+        bones = {
+            {item = "Base.AnimalBone", minNb = 4, maxNb = 7},
+        },
+        head = "HorseMod.Foal_Head_{id}",
+        leather = "HorseMod.",
+        xpPerItem = EXP_FILLY,
+    },
+
+    ["stallion"] = {
+        head = "HorseMod.Stallion_Head_{id}"
+    },
+
+    ["mare"] = {
+        head = "HorseMod.Mare_Head_{id}"
+    },
+}
+
+
+
+
+
+
+
+--- ==================================================== ---
+--- APPLY THE ANIMAL DATA TO THE GAME ANIMAL DEFINITIONS ---
+--- ==================================================== ---
+
+
+-- simple utility function to copy data from `newData` to `data` by overriding common keys.
 local function copyOver(data, newData)
     newData = copyTable(newData)
     for k,v in pairs(newData) do
@@ -243,26 +299,72 @@ local function copyOver(data, newData)
     return data
 end
 
+--- Hook to OnGameBoot to delay addition for other mods to modify the currently defined data
+Events.OnGameBoot.Add(function()
+    -- define the breeds
+    -- associates the horse breeds to the paths formatted with their ID
+    local breeds = {}
+    for i = 1, #HorseDefinitions.SHORT_NAMES do
+        local id = HorseDefinitions.SHORT_NAMES[i] --[[@as string EmmyLua going fucking schizo]]
+        local breed = {name = id}
+        for key, path in pairs(HorseDefinitions.PATHS) do
+            local formattedPath = HorseUtils.formatTemplate(path, {id = id})
+            breed[key] = formattedPath
+        end
+        breeds[id] = breed
+    end
+    AnimalDefinitions.breeds["horse"] = {breeds = breeds} -- retarded naming scheme from the game, lovely
 
--- apply animal data
-local ANIMALS_DATA = HorseDefinitions.ANIMALS_DATA
-for animalType, isAdult in pairs(HorseDefinitions.ANIMALS) do
-    -- retrieve the default animal data
-    local data = copyTable(ANIMALS_DATA._DEFAULT)
-    
-    -- if adult, apply adult data
-    if isAdult then
-        data = copyOver(data, ANIMALS_DATA._DEFAULT_ADULT)
+
+    -- apply animal data
+    local ANIMALS_DATA = HorseDefinitions.ANIMALS_DATA
+
+    -- for each animal, copy the default data table, then apply the different data based on adult and growth stage
+    for animalType, isAdult in pairs(HorseDefinitions.IS_ADULT) do
+        -- retrieve the default animal data
+        local data = copyTable(ANIMALS_DATA._DEFAULT)
+        data.breeds = copyTable(AnimalDefinitions.breeds["horse"].breeds) -- copy horse breed data
+        
+        -- if adult, apply adult data
+        if isAdult then
+            data = copyOver(data, ANIMALS_DATA._DEFAULT_ADULT)
+        end
+
+        -- per animal type data
+        data = copyOver(data, ANIMALS_DATA[animalType])
+
+        -- save data
+        AnimalDefinitions.animals[animalType] = data
+
+        -- apply avatar definition
+        AnimalAvatarDefinition[animalType] = HorseDefinitions.AVATAR_DEFINITION
     end
 
-    -- per animal type data
-    data = copyOver(data, ANIMALS_DATA[animalType])
 
-    -- save data
-    AnimalDefinitions.animals[animalType] = data
+    -- parts data
+    local PARTS = HorseDefinitions.PARTS
+    for i = 1, #HorseDefinitions.SHORT_NAMES do
+        local id = HorseDefinitions.SHORT_NAMES[i] --[[@as string EmmyLua going fucking schizo]]
 
-    -- apply avatar definition
-    AnimalAvatarDefinition[animalType] = HorseDefinitions.AVATAR_DEFINITION
-end
+        for animalType, isAdult in pairs(HorseDefinitions.IS_ADULT) do
+            local data = copyTable(PARTS._DEFAULT)
+
+            if isAdult then
+                data = copyOver(data, PARTS._DEFAULT_ADULT)
+            end
+
+            data = copyOver(data, PARTS[animalType])
+
+            -- format elements with id
+            data.leather = HorseUtils.formatTemplate(data.leather, {id = id})
+            data.head = HorseUtils.formatTemplate(data.head, {id = id})
+
+            AnimalPartsDefinitions.animals[animalType .. id]  = data
+        end
+    end
+end)
+
+
+
 
 return HorseDefinitions
