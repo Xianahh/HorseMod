@@ -2,7 +2,8 @@ local HorseUtils  = require("HorseMod/Utils")
 local Mounts = require("HorseMod/Mounts")
 local Mounting = require("HorseMod/Mounting")
 local AnimationVariable = require("HorseMod/AnimationVariable")
--- local HorseAttachments = require("HorseMod/HorseAttachments")
+local MountingUtility = require("HorseMod/mounting/MountingUtility")
+
 
 ---@param context ISContextMenu
 ---@param player IsoPlayer
@@ -11,7 +12,7 @@ local function doHorseInteractionMenu(context, player, animal)
     local playerMount = Mounts.getMount(player)
 
     if playerMount ~= animal then
-        local canMount, reason = Mounting.canMountHorse(player, animal)
+        local canMount, reason = MountingUtility.canMountHorse(player, animal)
         local option = context:addOption(
             getText("ContextMenu_Horse_Mount", animal:getFullName()),
             player, Mounting.mountHorse, animal

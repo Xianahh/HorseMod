@@ -3,6 +3,7 @@ local Mounting = require("HorseMod/Mounting")
 local Attachments = require("HorseMod/attachments/Attachments")
 local AttachmentData = require("HorseMod/attachments/AttachmentData")
 local AttachmentsManager = require("HorseMod/attachments/AttachmentsManager")
+local MountingUtility = require("HorseMod/mounting/MountingUtility")
 
 ContextualActionHandlers = ContextualActionHandlers or {}
 
@@ -31,8 +32,8 @@ function ContextualActionHandlers.AnimalsInteraction(action, playerObj, animal, 
     end
 
     ---RIDE HORSE
-    if Mounting.canMountHorse(playerObj, animal) and not playerObj:hasTimedActions() then
-        local near = Mounting.getNearestMountPosition(playerObj, animal, 1.15)
+    if MountingUtility.canMountHorse(playerObj, animal) and not playerObj:hasTimedActions() then
+        local near = MountingUtility.getNearestMountPosition(playerObj, animal, 1.15)
         if near then
             playerObj:setIsAiming(false)
             Mounting.mountHorse(playerObj, animal)

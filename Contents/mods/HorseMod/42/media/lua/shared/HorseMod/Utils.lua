@@ -131,8 +131,15 @@ HorseUtils.lockHorseForInteraction = function(horse)
         lastUnlock()
     end
 
+    horse:addLineChatElement(tostring(horse:getCurrentStateName()), 1, 1, 0)
+
+    print(horse:getCurrentStateName())
     -- stop any pathfinding of the horse and lock it in place
     horse:getPathFindBehavior2():reset()
+    horse:setDefaultState()
+    print(horse:getCurrentStateName())
+    
+    
     local bh = horse:getBehavior()
     bh:setBlockMovement(true)
     bh:setDoingBehavior(false)
