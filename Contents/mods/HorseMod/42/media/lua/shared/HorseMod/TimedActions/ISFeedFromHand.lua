@@ -5,15 +5,14 @@ local _originalFeedFromHandStart = ISFeedAnimalFromHand.start
 
 function ISFeedAnimalFromHand:start()
     if HorseUtils.isHorse(self.animal) then
-        if self.character:getVariableBoolean(AnimationVariable.RIDING_HORSE) then
-            print("feed mounted")
+        if self.character:getVariableBoolean(AnimationVariables.RIDING_HORSE) then
             self:setActionAnim("Bob_Horse_EatHandMounted")
-            self.animal:setVariable("eatingAnim", "eat2")
         else
-            print("feed hand")
             self:setActionAnim("Bob_Horse_EatHand")
-            self.animal:setVariable("eatingAnim", "eat1")
         end
+        self.animal:setVariable(AnimationVariables.EATING_HAND, true)
+        self.animal:setVariable("eatingAnim", "eat1")
+        self:setActionAnim("Bob_Horse_EatHand")
         self.animal:setVariable(AnimationVariable.EATING_HAND, true)
     end
     _originalFeedFromHandStart(self)
@@ -33,6 +32,7 @@ local _originalFeedFromHandStop = ISFeedAnimalFromHand.stop
 
 function ISFeedAnimalFromHand:stop()
     if HorseUtils.isHorse(self.animal) then
+        self.animal:setVariable(AnimationVariables.EATING_HAND, false)
         self.animal:clearVariable("eatingAnim")
         self.animal:setVariable(AnimationVariable.EATING_HAND, false)
     end
@@ -43,6 +43,7 @@ local _originalFeedFromHandPerform = ISFeedAnimalFromHand.perform
 
 function ISFeedAnimalFromHand:perform()
     if HorseUtils.isHorse(self.animal) then
+        self.animal:setVariable(AnimationVariables.EATING_HAND, false)
         self.animal:clearVariable("eatingAnim")
         self.animal:setVariable(AnimationVariable.EATING_HAND, false)
     end
@@ -53,7 +54,9 @@ local _originalFeedFromHandForceStop = ISFeedAnimalFromHand.forceStop
 
 function ISFeedAnimalFromHand:forceStop()
     if HorseUtils.isHorse(self.animal) then
+        self.animal:setVariable(AnimationVariables.EATING_HAND, false)
         self.animal:clearVariable("eatingAnim")
+        self.animal:setVariable(AnimationVariable.EATING_HAND, false)
     end
     _originalFeedFromHandForceStop(self)
 end

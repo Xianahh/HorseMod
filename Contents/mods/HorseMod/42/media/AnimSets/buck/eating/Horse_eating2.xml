@@ -8,6 +8,11 @@
         <m_Type>BOOL</m_Type>
         <m_Value>true</m_Value>
     </m_Conditions>
+    <m_Conditions>
+        <m_Name>RidingHorse</m_Name>
+        <m_Type>BOOL</m_Type>
+        <m_Value>false</m_Value>
+    </m_Conditions>
     <m_Conditions x_name="cb59d6b1-9b52-41bd-9540-ef11a9b4f3f2">
         <m_Name>eatingAnim</m_Name>
         <m_Type>STRING</m_Type>
