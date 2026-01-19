@@ -3,7 +3,7 @@ local ActionBlocker = {
     ---Valid timed actions while horse riding.
     ---@type table<string, true>
     validActions = {
-        ["HorseMod_DismountHorseAction"] = true,
+        ["HorseMod_DismountAction"] = true,
         ["ISAddFluidFromItemAction"] = true,
         ["ISApplyBandage"] = true,
         ["ISApplyMakeUp"] = true,

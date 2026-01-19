@@ -4,7 +4,7 @@ AIRemoveLureAction,false
 AddChumToWaterAction,false
 CreateChumFromGroundSandAction,false
 HealthPanelAction,false
-HorseMod_DismountHorseAction,true
+HorseMod_DismountAction,true
 HorseMod_HorseEquipGear,false
 HorseMod_HorseUnequipGear,false
 HorseMod_MountHorseAction,false
