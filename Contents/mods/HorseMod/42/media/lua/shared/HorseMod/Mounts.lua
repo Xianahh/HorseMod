@@ -42,6 +42,8 @@ function Mounts.removeMount(player)
     local mount = playerMountMap[player]
     playerMountMap[player] = nil
     mountPlayerMap[mount] = nil
+
+    mount:setStateEventDelayTimer(mount:getBehavior():pickRandomWanderInterval())
     
     if IS_SERVER then
         mountcommands.Dismount:send(
