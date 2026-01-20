@@ -1,3 +1,6 @@
+---@namespace HorseMod
+
+---REQUIREMENTS
 local MountAction = require("HorseMod/TimedActions/MountAction")
 local DismountAction = require("HorseMod/TimedActions/DismountAction")
 local Attachments = require("HorseMod/attachments/Attachments")
@@ -6,11 +9,12 @@ local MountingUtility = require("HorseMod/mounting/MountingUtility")
 
 
 local Mounting = {}
-
+-- local mountPosition = MountingUtility.getNearestMountPosition(player, horse)
 
 ---@param player IsoPlayer
 ---@param horse IsoAnimal
-function Mounting.mountHorse(player, horse)
+---@param mountPosition MountPosition
+function Mounting.mountHorse(player, horse, mountPosition)
     if not MountingUtility.canMountHorse(player, horse) then
         return
     end
@@ -37,7 +41,7 @@ function Mounting.mountHorse(player, horse)
 
 
     --- pathfind to the mount position
-    local mountPosition, pathfindAction = MountingUtility.pathfindToHorse(player, horse)
+    local pathfindAction = MountingUtility.pathfindToHorse(player, horse, mountPosition)
 
     -- create mount action
     local hasSaddle = Attachments.getSaddle(horse) ~= nil
@@ -61,9 +65,10 @@ end
 
 ---@param horse IsoAnimal
 ---@param player IsoPlayer
-function Mounting.dismountHorse(player, horse)
+---@param mountPosition MountPosition
+function Mounting.dismountHorse(player, horse, mountPosition)
     --- pathfind to the mount position
-    local mountPosition, pathfindAction = MountingUtility.pathfindToHorse(player, horse)
+    local pathfindAction = MountingUtility.pathfindToHorse(player, horse, mountPosition)
 
     -- dismount
     local hasSaddle = Attachments.getSaddle(horse) ~= nil

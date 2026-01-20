@@ -42,6 +42,8 @@ function MountingUtility.getNearestMountPosition(player, horse, maxDistance)
         nearestDistanceSquared = maxDistance^2
     end
 
+    local horse_square = horse:getSquare()
+
     ---@type MountPosition | nil
     local nearest = nil
 
@@ -53,15 +55,18 @@ function MountingUtility.getNearestMountPosition(player, horse, maxDistance)
         local y = attachmentPosition:y()
         local distanceSquared = player:DistToSquared(x, y)
         if distanceSquared <= nearestDistanceSquared then
-            ---@type MountPosition
-            nearest = {
-                x = x,
-                y = y,
-                name = mountPoint.name,
-                pos3D = attachmentPosition,
-                attachment = attachment,
-            }
-            nearestDistanceSquared = distanceSquared
+            local square = getSquare(x, y, horse_square:getZ())
+            if square and not horse_square:isBlockedTo(square) then
+                ---@type MountPosition
+                nearest = {
+                    x = x,
+                    y = y,
+                    name = mountPoint.name,
+                    pos3D = attachmentPosition,
+                    attachment = attachment,
+                }
+                nearestDistanceSquared = distanceSquared
+            end
         end
     end
 
@@ -131,13 +136,10 @@ end
 ---Make the player pathfind to the nearest mount point on the horse. First stops the horse from moving and then move to the horse nearest mounting position.
 ---@param player IsoPlayer
 ---@param horse IsoAnimal
----@return MountPosition
+---@param mountPosition MountPosition
 ---@return PathfindToMountPoint
-function MountingUtility.pathfindToHorse(player, horse)
+function MountingUtility.pathfindToHorse(player, horse, mountPosition)
     --- pathfind to the mount position
-    local mountPosition = MountingUtility.getNearestMountPosition(player, horse)
-    assert(mountPosition ~= nil, "No mount position found when should be found. Report this to the mod authors.")
-
     local PathfindToMountPoint = require("HorseMod/TimedAction/PathfindToMountPoint")
     local pathfindAction = PathfindToMountPoint:new(
         player,
@@ -150,7 +152,7 @@ function MountingUtility.pathfindToHorse(player, horse)
 
     ISTimedActionQueue.add(pathfindAction)
 
-    return mountPosition, pathfindAction
+    return pathfindAction
 end
 
 

@@ -15,6 +15,12 @@ local AnimationVariable = require("HorseMod/AnimationVariable")
 ---@field side string
 local HorseEquipGear = ISBaseTimedAction:derive("HorseMod_HorseEquipGear")
 
+function HorseEquipGear:waitToStart()
+    local character = self.character
+    character:faceThisObject(self.horse)
+    return character:shouldBeTurning()
+end
+
 ---@return boolean
 function HorseEquipGear:isValid()
     return self.horse and self.horse:isExistInTheWorld()

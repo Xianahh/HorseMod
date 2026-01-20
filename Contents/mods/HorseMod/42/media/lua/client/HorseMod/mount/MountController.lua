@@ -10,9 +10,9 @@ local DismountAction = require("HorseMod/TimedActions/DismountAction")
 ---@nodiscard
 local function getSpeed(state)
     if state == "walk" then
-        return SandboxVars.HorseMod.WalkSpeed
+        return SandboxVars.HorseMod.WalkSpeed ---@diagnostic disable-line
     else
-        return SandboxVars.HorseMod.GallopSpeed
+        return SandboxVars.HorseMod.GallopSpeed ---@diagnostic disable-line
     end
 end
 
