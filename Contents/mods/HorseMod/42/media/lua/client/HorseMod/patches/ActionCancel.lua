@@ -17,7 +17,7 @@ function isPlayerDoingActionThatCanBeCancelled(player)
             return false
         else
             local dynamicCancel = currentAction.dynamicCancel ---@diagnostic disable-line not a field in ISBaseTimedAction
-            if dynamicCancel and dynamicCancel == true 
+            if dynamicCancel == true 
                 and player:getVariableBoolean(AnimationVariable.NO_CANCEL) then
                 return false
             end

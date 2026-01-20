@@ -692,7 +692,6 @@ function MountController:updateSpeed(input, deltaTime)
     
     -- verify the player isn't dismounting, and if so slow down the horse to a stop
     if rider:getVariableBoolean(AnimationVariable.DISMOUNT_STARTED) then
-        --
         local queue = ISTimedActionQueue.getTimedActionQueue(rider)
         local currentAction = queue.current
         if currentAction == DismountAction.Type then
