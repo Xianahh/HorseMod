@@ -20,6 +20,9 @@ local MountingUtility = require("HorseMod/mounting/MountingUtility")
 ---@field hasSaddle boolean
 ---
 ---@field lockDir number
+---
+---Used to indicate whenever the action can be cancelled at some point.
+---@field dynamicCancel boolean
 local MountAction = ISBaseTimedAction:derive("HorseMod_MountAction")
 
 
@@ -47,10 +50,15 @@ end
 
 
 function MountAction:update()
+    self.character:addLineChatElement("Mounting horse")
+
     -- fix the mount and rider to look in the same direction for animation alignment
-    self.animal:setDirectionAngle(self.lockDir)
-    
     local character = self.character
+    local animal = self.animal
+    
+    animal:setDirectionAngle(self.lockDir)
+    animal:getPathFindBehavior2():reset()
+    
     character:setIsAiming(false)
     character:setDirectionAngle(self.lockDir)
 
@@ -62,11 +70,10 @@ end
 
 
 function MountAction:start()
-    self.animal:setVariable(AnimationVariable.DYING, false)
-
-    self.character:setVariable(AnimationVariable.MOUNTING_HORSE, true)
-    self.character:setVariable(AnimationVariable.MOUNT_FINISHED, false)
-    self.character:setVariable(AnimationVariable.DYING, false)
+    local character = self.character
+    character:setVariable(AnimationVariable.MOUNTING_HORSE, true)
+    character:setVariable(AnimationVariable.MOUNT_FINISHED, false)
+    character:setVariable(AnimationVariable.NO_CANCEL, false)
 
     -- start animation
     local actionAnim = ""
@@ -82,14 +89,10 @@ end
 
 
 function MountAction:stop()
-    local pair = MountPair.new(self.character, self.animal)
+    local character = self.character
+    local pair = MountPair.new(character, self.animal)
     pair:setAnimationVariable(AnimationVariable.RIDING_HORSE, false)
-    self.character:setVariable(AnimationVariable.MOUNTING_HORSE, false)
-    self.character:setVariable("isTurningLeft", false)
-    self.character:setVariable("isTurningRight", false)
-    self.character:setTurnDelta(1)
-
-    self.character:setVariable(AnimationVariable.MOUNTING_HORSE, false)
+    character:setVariable(AnimationVariable.MOUNTING_HORSE, false)
 
     ISBaseTimedAction.stop(self)
 end
@@ -138,6 +141,7 @@ function MountAction:new(character, animal, mountPosition, hasSaddle)
 
     o.maxTime = o:getDuration()
     o.useProgressBar = false
+    o.dynamicCancel = true
 
     return o
 end

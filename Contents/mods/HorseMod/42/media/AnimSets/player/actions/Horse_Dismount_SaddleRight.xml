@@ -20,6 +20,11 @@
     </m_Transitions>
     <m_Events>
         <m_EventName>SetVariable</m_EventName>
+        <m_TimePc>0.5</m_TimePc>
+        <m_ParameterValue>HorseNoCancel=true</m_ParameterValue>
+    </m_Events>
+    <m_Events>
+        <m_EventName>SetVariable</m_EventName>
         <m_Time>End</m_Time>
         <m_ParameterValue>HorseDismountFinished=true</m_ParameterValue>
     </m_Events>

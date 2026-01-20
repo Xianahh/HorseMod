@@ -18,6 +18,9 @@ local Mounts = require("HorseMod/Mounts")
 ---@field mountPosition MountPosition
 ---
 ---@field hasSaddle boolean
+---
+---Used to indicate whenever the action can be cancelled at some point.
+---@field dynamicCancel boolean
 local DismountAction = ISBaseTimedAction:derive("HorseMod_DismountAction")
 
 
@@ -42,8 +45,10 @@ end
 
 
 function DismountAction:start()
+    local character = self.character
     self.lockDir = self.animal:getDirectionAngle()
-    self.character:setVariable(AnimationVariable.DISMOUNT_STARTED, true)
+    character:setVariable(AnimationVariable.DISMOUNT_STARTED, true)
+    character:setVariable(AnimationVariable.NO_CANCEL, false)
 
     -- start animation
     local actionAnim = ""
@@ -103,11 +108,12 @@ function DismountAction:new(character, animal, mountPosition, hasSaddle)
     o.animal = animal
     o.mountPosition = mountPosition
     o.hasSaddle = hasSaddle
-    o.stopOnWalk = true
+    -- o.stopOnWalk = true
     o.stopOnRun = true
 
     o.maxTime = o:getDuration()
     o.useProgressBar = false
+    o.dynamicCancel = true
 
     return o
 end
