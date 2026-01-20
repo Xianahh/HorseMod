@@ -18,6 +18,9 @@ local Mounts = require("HorseMod/Mounts")
 ---@field mountPosition MountPosition
 ---
 ---@field hasSaddle boolean
+---
+---Used to indicate whenever the action can be cancelled at some point.
+---@field dynamicCancel boolean
 local DismountAction = ISBaseTimedAction:derive("HorseMod_DismountAction")
 
 
@@ -28,22 +31,27 @@ end
 
 
 function DismountAction:update()
-    -- keep the horse locked facing the stored direction
+    -- keep the horse and player locked facing the stored direction
+    local character = self.character
     local animal = self.animal
     animal:setDirectionAngle(self.lockDir)
     animal:getPathFindBehavior2():reset()
 
+    character:setDirectionAngle(self.lockDir)
+
     -- complete when dismount is finished
-    if self.character:getVariableBoolean(AnimationVariable.DISMOUNT_FINISHED) == true then
-        self.character:setVariable(AnimationVariable.DISMOUNT_FINISHED, false)
+    if character:getVariableBoolean(AnimationVariable.DISMOUNT_FINISHED) == true then
+        character:setVariable(AnimationVariable.DISMOUNT_FINISHED, false)
         self:forceComplete()
     end
 end
 
 
 function DismountAction:start()
+    local character = self.character
     self.lockDir = self.animal:getDirectionAngle()
-    self.character:setVariable(AnimationVariable.DISMOUNT_STARTED, true)
+    character:setVariable(AnimationVariable.DISMOUNT_STARTED, true)
+    character:setVariable(AnimationVariable.NO_CANCEL, false)
 
     -- start animation
     local actionAnim = ""
@@ -73,8 +81,9 @@ end
 
 function DismountAction:perform()
     local mountPosition = self.mountPosition
-    self.character:setX(mountPosition.x)
-    self.character:setY(mountPosition.y)
+    local attachmentPosition = self.animal:getAttachmentWorldPos(mountPosition.attachment)
+    self.character:setX(attachmentPosition:x())
+    self.character:setY(attachmentPosition:y())
 
     ISBaseTimedAction.perform(self)
 end
@@ -103,11 +112,12 @@ function DismountAction:new(character, animal, mountPosition, hasSaddle)
     o.animal = animal
     o.mountPosition = mountPosition
     o.hasSaddle = hasSaddle
-    o.stopOnWalk = true
+    o.stopOnWalk = false
     o.stopOnRun = true
 
     o.maxTime = o:getDuration()
     o.useProgressBar = false
+    o.dynamicCancel = true
 
     return o
 end

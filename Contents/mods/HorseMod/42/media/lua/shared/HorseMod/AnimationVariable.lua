@@ -11,37 +11,39 @@ local AnimationVariable = {
     DYING = "HorseDying",
 
     -- Activates mounted player animations while true
-    RIDING_HORSE = "RidingHorse",
-    MOUNTING_HORSE = "MountingHorse",
-    MOUNT_FINISHED = "MountFinished",
-    DISMOUNT_STARTED = "DismountStarted",
-    DISMOUNT_FINISHED = "DismountFinished",
+    RIDING_HORSE = "HorseRiding",
+    MOUNTING_HORSE = "HorseMountingHorse",
+    MOUNT_FINISHED = "HorseMountFinished",
+    DISMOUNT_STARTED = "HorseDismountStarted",
+    DISMOUNT_FINISHED = "HorseDismountFinished",
+    NO_CANCEL = "HorseNoCancel",
 
-    HAS_REINS = "HasReins",
+    HAS_REINS = "HorseHasReins",
 
     EATING = "HorseEating",
     EATING_HAND = "HorseEatingHand",
     HURT = "HorseHurt",
     DEATH = "HorseDeath",
     
-    EQUIP_FINISHED = "EquipFinished",
+    EQUIP_FINISHED = "HorseEquipFinished",
 
-    KICK_LEFT = "kickLeft",
-    KICK_RIGHT = "kickRight",
-    IDLE_KICKING = "idleKicking",
-    MOVE_KICKING = "moveKicking",
+    KICK_LEFT = "HorseRiderKickLeft",
+    KICK_RIGHT = "HorseRiderKickRight",
+    IDLE_KICKING = "HorseRiderIdleKicking",
+    MOVE_KICKING = "HorseRiderMoveKicking",
 
     WALK_SPEED = "HorseWalkSpeed",
     TROT_SPEED = "HorseTrotSpeed",
     RUN_SPEED = "HorseRunSpeed",
+
     -- Multiplier to the horse's speed from genetics
-    GENE_SPEED = "geneSpeed",
+    GENE_SPEED = "HorseGeneSpeed",
     -- unused
-    GENE_STRENGTH = "geneStrength",
+    GENE_STRENGTH = "HorseGeneStrength",
     -- unused
-    GENE_STAMINA = "geneStamina",
+    GENE_STAMINA = "HorseGeneStamina",
     -- unused
-    GENE_CARRYWEIGHT = "geneCarryWeight"
+    GENE_CARRYWEIGHT = "HorseGeneCarryWeight"
 }
 
 return AnimationVariable
