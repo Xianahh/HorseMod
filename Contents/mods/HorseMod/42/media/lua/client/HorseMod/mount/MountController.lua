@@ -569,7 +569,7 @@ function MountController:calculateTreeFallChance()
     local rider = self.mount.pair.rider
 
     local timeInTrees = self.timeInTrees
-    local skill = rider:getPerkLevel(Perks.Agility)
+    local skill = rider:getPerkLevel(Perks.Nimble)
 
     local chance = BASE_CHANCE * timeInTrees * ((NIMBLE_HIGH - NIMBLE_LOW) / 10 * skill + NIMBLE_LOW)
 
@@ -901,8 +901,8 @@ function MountController:update(input)
     -- num2 = (num2 * 100 - num2 * 100%1) / 100
     -- rider:addLineChatElement(tostring(num1) .. " / " .. tostring(num2))
 
-    ---@TODO improve by having a custom falling animation for the player
     -- verify the rider/mount are not falling
+    ---@TODO improve by having a custom falling animation for the player
     if rider:isbFalling() or mount:isbFalling() then
         ISTimedActionQueue.add(UrgentDismountAction:new(
             rider,
