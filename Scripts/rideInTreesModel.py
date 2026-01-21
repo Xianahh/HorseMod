@@ -28,14 +28,10 @@ def calculate_chance(time):
     return time * BASE_CHANCE
     return (np.exp(time/4) - 1) * BASE_CHANCE
 
-def rolls(chance):
-    return np.random.rand(len(chance)) < chance
-
 for i, skill in enumerate(nimble_skill):
     color = colormaps['coolwarm'](1-(skill-low_nimble)/(high_nimble - low_nimble))
 
     chance = calculate_chance(time*skill)
-    print(rolls(chance))
     plt.plot(time, chance, label=f'Nimble Skill: {i}', color=color)
 
 plt.legend()
