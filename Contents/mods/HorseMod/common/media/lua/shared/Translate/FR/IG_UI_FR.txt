@@ -1,29 +1,37 @@
 IGUI_FR = {
-    IGUI_AnimalType_stallion = "Étalon",
-    IGUI_AnimalType_mare = "Jument",
-    IGUI_AnimalType_filly = "Poulinière",
-    IGUI_Breed_american_quarter = "American Quarter",
-    IGUI_Breed_american_paint = "American Paint",
-    IGUI_Breed_appaloosa = "Appaloosa",
-    IGUI_Breed_thoroughbred = "Pur-sang",
-    IGUI_Breed_blue_roan = "Noir Rouanné",
-    IGUI_Breed_spotted_appaloosa = "Appaloosa tacheté",
-    IGUI_Breed_american_paint_overo = "American Paint (Overo)",
-    IGUI_Breed_flea_bitten_grey = "Flea-bitten Grey",
-    IGUI_Animal_Group_horse = "Cheval",
-    IGUI_Horse_Slot = "Emplacement",
+    /* General */
+    IGUI_AnimalType_stallion = "Étalon"
+    IGUI_AnimalType_mare = "Jument"
+    IGUI_AnimalType_filly = "Pouliche"
 
-    IGUI_ModOptions_HorseModName = "Cheval",
-    IGUI_ModOptions_HorseSoundVolume_Desc = "Change le volume des sons de cheval.",
-    IGUI_ModOptions_HorseSoundVolume_Name = "Volume des sons de cheval (Par défaut 0.40)",
-    IGUI_ModOptions_HorseSoundVolume_Tooltip = "Réglez le volume de tous les sons de cheval.",
+    IGUI_Animal_Group_horse = "Cheval"
+    IGUI_Horse_Slot = "Emplacement" /* for attachments */
 
-    IGUI_ModOptions_HorseKeybind = "Raccourcis clavier du cheval",
-    IGUI_ModOptions_HorseKeybind_Jump_Name = "Saut du cheval",
-    IGUI_ModOptions_HorseKeybind_Jump_Tooltip = "Changez le raccourci clavier pour le saut du cheval.",
+    /* Breeds */
+    IGUI_Breed_AmericanQuarterPalomino = "Quarter (Palomino)"
+    IGUI_Breed_AmericanQuarterBlueRoan = "Quarter (Gris fer)"
+    IGUI_Breed_AmericanPaintTobiano = "Paint (Tobiano)"
+    IGUI_Breed_AmericanPaintOvero = "Paint (Overo)"
+    IGUI_Breed_AppaloosaGrullaBlanket = "Appaloosa (Capé gris souris)"
+    IGUI_Breed_AppaloosaLeopard = "Appaloosa (Léopard)"
+    IGUI_Breed_ThoroughbredBay = "Pur-sang (Bai)"
+    IGUI_Breed_ThoroughbredFleaBittenGrey = "Pur-sang (Gris truité)"
+
+    /* Mod Options */
+    IGUI_ModOptions_HorseModName = "Cheval"
+    IGUI_ModOptions_HorseSoundVolume_Desc = "Change le volume des sons de cheval"
+    IGUI_ModOptions_HorseSoundVolume_Name = "Volume des sons de cheval (Par défaut 0.40)"
+    IGUI_ModOptions_HorseSoundVolume_Tooltip = "Réglez le volume de tous les sons de cheval."
+
+    IGUI_ModOptions_HorseKeybind = "Raccourcis clavier pour le cheval"
+    IGUI_ModOptions_HorseKeybind_Jump_Name = "Sauter à cheval"
+    IGUI_ModOptions_HorseKeybind_Jump_Tooltip = "Change le raccourci clavier pour sauter à cheval."
     
-    IGUI_ModOptions_HorseKeybind_Trot_Name = "Trot du cheval",
-    IGUI_ModOptions_HorseKeybind_Trot_Tooltip = "Changez le raccourci clavier pour le trot du cheval.",
+    IGUI_ModOptions_HorseKeybind_Trot_Name = "Trotter à cheval"
+    IGUI_ModOptions_HorseKeybind_Trot_Tooltip = "Change le raccourci clavier pour trotter à cheval."
 
-    IGUI_HorseMod_MultiplayerWarning = "The Horse mod does not support multiplayer.<br>Horses will not work properly, and you may experience other issues with your playthrough.<br>It is highly recommended that you disable the Horse mod.<br>Bug reports for multiplayer will not be accepted."
+    IGUI_ModOptions_HorseKeybind_Gallop_Name = "Galoper à cheval"
+    IGUI_ModOptions_HorseKeybind_Gallop_Tooltip = "Change le raccourci clavier pour galoper à cheval."
+
+    IGUI_HorseMod_MultiplayerWarning = "Le mod Cheval ne supporte pas le multijoueur.<br>Les chevaux ne fonctionneront pas correctement, et vous pourriez rencontrer d'autres problèmes lors de votre partie.<br>Il est fortement recommandé de désactiver le mod Cheval.<br>Les rapports de bugs pour le multijoueur ne seront pas acceptés."
 }

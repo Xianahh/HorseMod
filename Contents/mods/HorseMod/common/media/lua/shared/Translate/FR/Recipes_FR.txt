@@ -1,10 +1,10 @@
 Recipes_FR = {
-    /* Horse accessories */
-    Recipe_horseSaddle = "Make Horse Saddle",
-    Recipe_horseSaddlebags = "Make Horse Saddlebags",
-    Recipe_horseReins = "Make Horse Reins",
+    /* Accessoire à cheval */
+    Recipe_HorseSaddle = "Fabriquer une selle de cheval"
+    Recipe_HorseSaddlebags = "Fabriquer des sacs de selle"
+    Recipe_HorseReins = "Fabriquer des rênes"
 
-    /* Horse glue */
-    Recipe_horseGlue = "Make Horse Glue mixture in pot",
-    Recipe_horseGlueToWoodGlue = "Pour Horse Glue out of pot",
+    /* Colle de cheval */
+    Recipe_HorseGlue = "Fabriquer un mélange de colle de cheval dans un pot"
+    Recipe_HorseGlueToWoodGlue = "Verser la colle de cheval hors du pot"
 }
