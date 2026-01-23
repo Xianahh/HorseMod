@@ -10,7 +10,7 @@ from PIL import Image
 
 # Get the path to the screenshots folder relative to this script
 script_dir = os.path.dirname(os.path.abspath(__file__))
-itemType = 'saddlebags'
+itemType = 'reins'
 screenshots_dir = os.path.join(script_dir, 'screenshots', itemType)
 
 # Find all image files (jpg, png, etc.)
