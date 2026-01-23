@@ -11,8 +11,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AmericanQuarterPalomino,
-        WorldStaticModel = HorseHead_AmericanQuarterPalomino,
+        StaticModel = FoalHead_AmericanQuarterPalomino,
+        WorldStaticModel = FoalHead_AmericanQuarterPalomino,
     }
 
     item Mare_Head_AmericanQuarterPalomino {
@@ -47,8 +47,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AmericanPaintTobiano,
-        WorldStaticModel = HorseHead_AmericanPaintTobiano,
+        StaticModel = FoalHead_AmericanPaintTobiano,
+        WorldStaticModel = FoalHead_AmericanPaintTobiano,
     }
 
     item Mare_Head_AmericanPaintTobiano {
@@ -83,8 +83,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AmericanPaintOvero,
-        WorldStaticModel = HorseHead_AmericanPaintOvero,
+        StaticModel = FoalHead_AmericanPaintOvero,
+        WorldStaticModel = FoalHead_AmericanPaintOvero,
     }
 
     item Mare_Head_AmericanPaintOvero {
@@ -119,8 +119,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AppaloosaGrullaBlanket,
-        WorldStaticModel = HorseHead_AppaloosaGrullaBlanket,
+        StaticModel = FoalHead_AppaloosaGrullaBlanket,
+        WorldStaticModel = FoalHead_AppaloosaGrullaBlanket,
     }
 
     item Mare_Head_AppaloosaGrullaBlanket {
@@ -155,8 +155,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_ThoroughbredBay,
-        WorldStaticModel = HorseHead_ThoroughbredBay,
+        StaticModel = FoalHead_ThoroughbredBay,
+        WorldStaticModel = FoalHead_ThoroughbredBay,
     }
 
     item Mare_Head_ThoroughbredBay {
@@ -191,8 +191,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AmericanQuarterBlueRoan,
-        WorldStaticModel = HorseHead_AmericanQuarterBlueRoan,
+        StaticModel = FoalHead_AmericanQuarterBlueRoan,
+        WorldStaticModel = FoalHead_AmericanQuarterBlueRoan,
     }
 
     item Mare_Head_AmericanQuarterBlueRoan {
@@ -227,8 +227,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_AppaloosaLeopard,
-        WorldStaticModel = HorseHead_AppaloosaLeopard,
+        StaticModel = FoalHead_AppaloosaLeopard,
+        WorldStaticModel = FoalHead_AppaloosaLeopard,
     }
 
     item Mare_Head_AppaloosaLeopard {
@@ -263,8 +263,8 @@ module HorseMod {
         DaysFresh = 5,
         DaysTotallyRotten = 7,
         Tags = base:animalhead,
-        StaticModel = HorseHead_ThoroughbredFleaBittenGrey,
-        WorldStaticModel = HorseHead_ThoroughbredFleaBittenGrey,
+        StaticModel = FoalHead_ThoroughbredFleaBittenGrey,
+        WorldStaticModel = FoalHead_ThoroughbredFleaBittenGrey,
     }
 
     item Mare_Head_ThoroughbredFleaBittenGrey {
