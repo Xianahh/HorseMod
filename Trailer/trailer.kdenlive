@@ -2088,10 +2088,11 @@
   <property name="kdenlive:clipname">Horse Mod Ou...</property>
   <property name="xmldata">&lt;kdenlivetitle duration="125" LC_NUMERIC="C" width="1920" height="1080" out="124">
  &lt;item type="QGraphicsTextItem" z-index="0">
-  &lt;position x="567" y="846">
+  &lt;position x="417" y="735">
    &lt;transform>1,0,0,0,1,0,0,0,1&lt;/transform>
   &lt;/position>
-  &lt;content line-spacing="0" shadow="0;#64000000;3;3;3" font-underline="0" box-height="180" font="Constantine" letter-spacing="0" font-pixel-size="150" font-italic="0" typewriter="0;2;1;0;0" alignment="4" font-weight="50" box-width="785.813" font-color="255,255,255,255">Out now !&lt;/content>
+  &lt;content line-spacing="0" shadow="0;#64000000;3;3;3" font-underline="0" box-height="360" font="Constantine" letter-spacing="0" font-pixel-size="150" font-italic="0" typewriter="0;2;1;0;0" alignment="4" font-weight="50" box-width="1086.22" font-color="255,255,255,255">Release 7 of 
+February 2026&lt;/content>
  &lt;/item>
  &lt;startviewport rect="0,0,1920,1080"/>
  &lt;endviewport rect="0,0,1920,1080"/>
@@ -3330,7 +3331,7 @@
   <entry producer="producer89" in="00:00:00.000" out="00:00:00.960"/>
   <entry producer="producer90" in="00:00:00.000" out="00:00:00.960"/>
  </playlist>
- <tractor id="tractor9" in="00:00:00.000" out="00:02:13.880">
+ <tractor id="tractor9" in="00:00:00.000" out="00:22:13.920">
   <property name="kdenlive:duration">00:02:13:23</property>
   <property name="kdenlive:maxduration">3348</property>
   <property name="kdenlive:clipname">Sequence 1</property>
@@ -3347,16 +3348,16 @@
   <property name="kdenlive:sequenceproperties.documentuuid">{ba21a5c9-396f-4d88-b54a-f851691d064a}</property>
   <property name="kdenlive:sequenceproperties.hasAudio">1</property>
   <property name="kdenlive:sequenceproperties.hasVideo">1</property>
-  <property name="kdenlive:sequenceproperties.position">1752</property>
+  <property name="kdenlive:sequenceproperties.position">3347</property>
   <property name="kdenlive:sequenceproperties.previewchunks">0-75</property>
-  <property name="kdenlive:sequenceproperties.scrollPos">4971</property>
+  <property name="kdenlive:sequenceproperties.scrollPos">0</property>
   <property name="kdenlive:sequenceproperties.tracks">4</property>
   <property name="kdenlive:sequenceproperties.tracksCount">8</property>
   <property name="kdenlive:sequenceproperties.verticalzoom">1</property>
   <property name="kdenlive:sequenceproperties.videoTarget">2</property>
   <property name="kdenlive:sequenceproperties.zonein">0</property>
   <property name="kdenlive:sequenceproperties.zoneout">75</property>
-  <property name="kdenlive:sequenceproperties.zoom">4</property>
+  <property name="kdenlive:sequenceproperties.zoom">9</property>
   <property name="kdenlive:sequenceproperties.groups">[
 ]
 </property>
@@ -3393,7 +3394,7 @@
   <transition id="transition0" in="00:02:07.560" out="00:02:11.640">
    <property name="a_track">4</property>
    <property name="b_track">5</property>
-   <property name="rect">00:00:00.000=648 156 623 612 1.000000</property>
+   <property name="rect">00:00:00.000=648 87 623 612 1.000000</property>
    <property name="compositing">0</property>
    <property name="distort">0</property>
    <property name="rotate_center">1</property>
@@ -3609,7 +3610,7 @@
   <property name="kdenlive:docproperties.rendertcoverlay">0</property>
   <property name="kdenlive:docproperties.rendertctype">-1</property>
   <property name="kdenlive:docproperties.rendertwopass">0</property>
-  <property name="kdenlive:docproperties.renderurl">/home/simon/Videos/trailer.mp4</property>
+  <property name="kdenlive:docproperties.renderurl">/home/simon/Documents/ProjectZomboid/trailer.mp4</property>
   <property name="kdenlive:docproperties.seekOffset">30000</property>
   <property name="kdenlive:docproperties.uuid">{ba21a5c9-396f-4d88-b54a-f851691d064a}</property>
   <property name="kdenlive:docproperties.version">1.1</property>
@@ -3708,8 +3709,8 @@
   <entry producer="producer2" in="00:00:00.000" out="00:00:06.720"/>
   <entry producer="tractor9" in="00:00:00.000" out="00:02:13.880"/>
  </playlist>
- <tractor id="tractor10" in="00:00:00.000" out="00:02:13.880">
+ <tractor id="tractor10" in="00:00:00.000" out="00:02:13.920">
   <property name="kdenlive:projectTractor">1</property>
-  <track producer="tractor9" in="00:00:00.000" out="00:02:13.880"/>
+  <track producer="tractor9" in="00:00:00.000" out="00:02:13.920"/>
  </tractor>
 </mlt>
