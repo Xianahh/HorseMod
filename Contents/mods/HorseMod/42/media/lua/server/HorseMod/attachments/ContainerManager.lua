@@ -37,7 +37,6 @@ local CONTAINERS_MOD_DATA = HorseModData.register--[[@<ContainersModData>]](
 ContainerManager.CONTAINERS_MOD_DATA = CONTAINERS_MOD_DATA
 
 
--- FIXME: we can't do this in multiplayer
 ---Refresh the player inventories to reflect changes in containers.
 ---@param player IsoPlayer
 local function refreshInventories(player)
@@ -159,7 +158,9 @@ ContainerManager.initContainer = function(player, horse, slot, containerBehavior
 
     -- transfer everything to the invisible container
     ContainerManager.transferAll(player, srcContainer, destContainer)
-    refreshInventories(player)
+    if not isServer() then
+        refreshInventories(player)
+    end
 
     -- register in the data of the horse the container being attached
     ContainerManager.registerContainerInformation(horse, slot, worldItem)
@@ -192,7 +193,9 @@ ContainerManager.removeContainer = function(player, horse, slot, accessory)
 
     square:transmitRemoveItemFromSquare(worldItem)
 
-    refreshInventories(player)
+    if not isServer() then
+        refreshInventories(player)
+    end
 
     -- sync cached and saved informations
     ContainerManager.registerContainerInformation(horse, slot, nil)
