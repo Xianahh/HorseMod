@@ -327,34 +327,4 @@ end
 
 Events.OnClickedAnimalForContext.Add(AttachmentsManager.onClickedAnimalForContext)
 
----@param playerNum integer
----@param context ISContextMenu
----@param items InventoryItem[]|umbrella.ContextMenuItemStack[]
-AttachmentsManager.OnFillInventoryObjectContextMenu = function(playerNum, context, items)
-    -- get every single items
-    local itemList = {}
-    for i = 1,#items do
-		local item = items[i]
-		if not instanceof(item, "InventoryItem") then
-            ---@cast item umbrella.ContextMenuItemStack
-            local items = item.items
-            for j = 1, #items do
-                table.insert(itemList, items[j])
-            end
-        else
-            table.insert(itemList, item)
-        end
-    end
-
-    local equipOption = context:getOptionFromName(getText("ContextMenu_Equip_Primary"))
-    local unequipOption = context:getOptionFromName(getText("ContextMenu_Equip_Secondary"))
-
-    for i = 1, #itemList do repeat
-        local item = itemList[i]
-        
-    until true end
-end
-
-Events.OnFillInventoryObjectContextMenu.Add(AttachmentsManager.OnFillInventoryObjectContextMenu)
-
 return AttachmentsManager
