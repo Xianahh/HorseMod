@@ -23,7 +23,7 @@ end
 
 ---@return boolean
 function HorseEquipGear:isValid()
-    return self.horse and self.horse:isExistInTheWorld()
+    return self.horse:isExistInTheWorld()
 end
 
 function HorseEquipGear:start()
