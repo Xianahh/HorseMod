@@ -806,18 +806,21 @@ function MountController:toggleTrot()
     self.mount.pair:setAnimationVariable(AnimationVariable.TROT, not current)
 end
 
+---Real speed in distance per second. Needed because `getMovementSpeed` is per tick.
+---@return number
+function MountController:getCurrentSpeed()
+    return self.mount.pair.mount:getMovementSpeed() / GameTime.getInstance():getTimeDelta()
+end
 
 function MountController:canJump()
     local mount = self.mount.pair.mount
     return mount:getVariableBoolean(AnimationVariable.GALLOP)
-        and mount:getMovementSpeed() > 0.07
+        and self:getCurrentSpeed() > 6
         and not self.mount.pair:getAnimationVariableBoolean(AnimationVariable.JUMP)
 end
 
 function MountController:jump()
     self.mount.pair:setAnimationVariable(AnimationVariable.JUMP, true)
-
-    self.mount.pair.rider:setIgnoreMovement(true)
     self.mount.pair.rider:setIgnoreInputsForDirection(true)
 end
 
