@@ -76,10 +76,22 @@ function DismountAction:start()
 end
 
 
+---Returns the duration of the current animation in MS, as a workaround for animation events not working on the server.
+---@return integer
+function DismountAction:getAnimationDurationMS()
+    if self.hasSaddle then
+        return 3840
+    end
+
+    return 2440
+end
+
+
 function DismountAction:serverStart()
     ---@cast self.netAction -nil
     ---@diagnostic disable-next-line: param-type-mismatch
-    emulateAnimEventOnce(self.netAction, 2500, AnimationEvent.DISMOUNTING_COMPLETE, nil)
+    emulateAnimEventOnce(self.netAction, self:getAnimationDurationMS(), AnimationEvent.DISMOUNTING_COMPLETE, nil)
+    
     return true
 end
 

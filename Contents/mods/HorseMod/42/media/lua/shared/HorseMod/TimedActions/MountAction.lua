@@ -92,10 +92,21 @@ function MountAction:start()
 end
 
 
+---Returns the duration of the current animation in MS, as a workaround for animation events not working on the server.
+---@return integer
+function MountAction:getAnimationDurationMS()
+    if self.hasSaddle then
+        return 1370
+    end
+
+    return 2400
+end
+
+
 function MountAction:serverStart()
     ---@cast self.netAction -nil
     ---@diagnostic disable-next-line: param-type-mismatch
-    emulateAnimEventOnce(self.netAction, 2500, AnimationEvent.MOUNTING_COMPLETE, nil)
+    emulateAnimEventOnce(self.netAction, self:getAnimationDurationMS(), AnimationEvent.MOUNTING_COMPLETE, nil)
 
     return true
 end
