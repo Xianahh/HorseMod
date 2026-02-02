@@ -1,6 +1,5 @@
 require("TimedActions/ISBaseTimedAction")
 
-local MountPair = require("HorseMod/MountPair")
 local AnimationVariable = require('HorseMod/definitions/AnimationVariable')
 local Mounts = require("HorseMod/Mounts")
 local MountingUtility = require("HorseMod/mounting/MountingUtility")
@@ -93,10 +92,22 @@ function MountAction:start()
 end
 
 
+---Returns the duration of the current animation in MS, as a workaround for animation events not working on the server.
+---@return integer
+function MountAction:getAnimationDurationMS()
+    if self.hasSaddle then
+        return 1370
+    end
+
+    return 2400
+end
+
+
 function MountAction:serverStart()
     ---@cast self.netAction -nil
     ---@diagnostic disable-next-line: param-type-mismatch
-    emulateAnimEventOnce(self.netAction, 2500, AnimationEvent.MOUNTING_COMPLETE, nil)
+    emulateAnimEventOnce(self.netAction, self:getAnimationDurationMS(), AnimationEvent.MOUNTING_COMPLETE, nil)
+
     return true
 end
 
@@ -108,7 +119,16 @@ end
 
 
 function MountAction:complete()
+    if Mounts.getMount(self.character) ~= nil then
+        return false
+    end
+
+    if self.character:DistTo(self.animal) > 1.5 then
+        return false
+    end
+
     Mounts.addMount(self.character, self.animal)
+
     return true
 end
 
@@ -117,6 +137,10 @@ function MountAction:perform()
     -- HACK: we can't require this at file load because it is in the client dir
     local HorseSounds = require("HorseMod/HorseSounds")
     HorseSounds.playSound(self.animal, HorseSounds.Sound.MOUNT)
+
+    if isClient() then
+        Mounts.addMount(self.character, self.animal)
+    end
 
     ISBaseTimedAction.perform(self)
 end

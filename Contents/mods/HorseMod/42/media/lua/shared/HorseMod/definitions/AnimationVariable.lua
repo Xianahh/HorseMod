@@ -12,7 +12,7 @@ local AnimationVariable = {
     FALL_BACK = "HorseFallBack",
 
     -- Activates mounted player animations while true.
-    -- albion: this should be controlled by Mount only, please check with me first if you think your code needs to set it
+    -- albion: this should be controlled by Mounts only, please check with me first if you think your code needs to set it
     RIDING_HORSE = "HorseRiding",
     MOUNTING_HORSE = "HorseMountingHorse",
     DISMOUNT_STARTED = "HorseDismountStarted",
