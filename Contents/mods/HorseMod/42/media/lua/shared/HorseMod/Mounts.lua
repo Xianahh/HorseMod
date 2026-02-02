@@ -111,6 +111,18 @@ function Mounts.reset()
     end
 end
 
+---Reapply block movement every tick because it has a timeout
+local function updateMounts()
+    for _, mount in pairs(playerMountMap) do
+        mount:getBehavior():setBlockMovement(true)
+    end
+end
+
+if not isClient() then
+    Events.OnTick.Add(updateMounts)
+end
+
+
 -- we don't actually need these in singleplayer but networking.client complains if there is no handler
 if not IS_SERVER then
     -- need to delay this require :(

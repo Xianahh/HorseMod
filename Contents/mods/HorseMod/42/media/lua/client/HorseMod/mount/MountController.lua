@@ -847,7 +847,6 @@ function MountController:update(input)
 
     mount:getPathFindBehavior2():reset()
     mount:setVariable("bPathfind", false)
-    mount:getBehavior():setBlockMovement(true)
 
     local deltaTime = GameTime.getInstance():getTimeDelta()
     local moving = (input.movement.x ~= 0 or input.movement.y ~= 0)
