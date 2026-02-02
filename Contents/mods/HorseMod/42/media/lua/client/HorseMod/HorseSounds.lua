@@ -159,8 +159,7 @@ end
 ---@return boolean
 ---@nodiscard
 local function shouldIdleSnort(animal)
-    local moving = animal:isAnimalMoving()
-    if moving then
+    if animal:getMovementSpeed() >= 0.01 then
         return false
     end
     if animal:getVariableBoolean(AnimationVariable.MOUNTING_HORSE) then
