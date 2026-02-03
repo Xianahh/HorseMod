@@ -549,7 +549,10 @@ local PLAYER_SYNC_TUNER = 0.8
 ---Speed multiplier from last vegetation.
 ---@field vegetationLingerStartMult number
 ---
----Current movement speed in squares/s.
+---Current movement speed in square/s.
+---@field speed number
+---
+---Target movement speed in squares/s.
 ---@field targetSpeed number
 ---
 ---Used to calculate if the player should fall while in trees. Chance increases the longer they stay in trees.
@@ -667,7 +670,7 @@ function MountController:updateSlowdown(deltaTime)
             if zombie:isKnockedDown() or zombie:isCrawling() then
                 self.slowdownCounter = self.slowdownCounter + SLOWDOWN_ZOMBIE_GROUND_INCREASE * deltaTime
             else
-                if self:getSpeed() >= KNOCKDOWN_MIN_SPEED then
+                if self.speed >= KNOCKDOWN_MIN_SPEED then
                     self.slowdownCounter = self.slowdownCounter + SLOWDOWN_ZOMBIE_KNOCKDOWN_INCREASE
                     local facingSameDir = math.abs(zombie:getDirectionAngle() - self.mount.pair.mount:getDirectionAngle()) <= 180
                     -- TODO: probably needs to be sent to the server
@@ -787,14 +790,16 @@ end
 
 local SPEED_WALK = 1.05
 
-local SPEED_TROT = 3.3
+local SPEED_TROT = 2.2
 
-local SPEED_GALLOP = 7
+local SPEED_GALLOP = 9
 
 
 ---@param input InputManager.Input
 ---@param deltaTime number
 function MountController:updateSpeed(input, deltaTime)
+    self:updateSlowdown(deltaTime)
+
     local walkMultiplier = getSpeed("walk")
     local gallopRawSpeed = getSpeed("gallop")
     local gallopMultiplier = gallopRawSpeed
@@ -845,6 +850,17 @@ function MountController:updateSpeed(input, deltaTime)
     if self.targetSpeed < 0.0001 then
         self.targetSpeed = 0
     end
+
+    self.speed = self.targetSpeed
+
+    if self.targetSpeed > SLOWDOWN_MIN_SPEED then
+        local slowdownAmount = math.min(math.max(SLOWDOWN_MIN_SECONDS - self.slowdownCounter), SLOWDOWN_MAX_SECONDS)
+        local slowdownPercent = math.max(math.min(slowdownAmount / (SLOWDOWN_MIN_SECONDS - SLOWDOWN_MAX_SECONDS), 1), 0)
+        local slowdownScalar = PZMath.lerp(1, SLOWDOWN_MAX_SCALAR, slowdownPercent)
+        self.speed = math.max(self.speed * slowdownScalar, SLOWDOWN_MIN_SPEED)
+    end
+
+    self.speed = self.speed * self:getVegetationEffect(input, deltaTime)
 end
 
 function MountController:updateTreeFall(isGalloping, deltaTime)
@@ -893,10 +909,10 @@ function MountController:toggleTrot()
 end
 
 ---Real speed in distance per second. Needed because `getMovementSpeed` is per tick.
----@deprecated use getSpeed() instead.
+---@deprecated use the speed field instead.
 ---@return number
 function MountController:getCurrentSpeed()
-    return self:getSpeed()
+    return self.speed
 end
 
 function MountController:canJump()
@@ -924,23 +940,6 @@ function MountController:stopJump()
     rider:setIgnoreMovement(false)
     rider:setIgnoreInputsForDirection(false)
     mountPair:setAnimationVariable(AnimationVariable.JUMP, false)
-end
-
-
----Returns the final speed after slowdown.
----@return number speed
----@nodiscard
-function MountController:getSpeed()
-    local speed = self.targetSpeed
-
-    if self.targetSpeed > SLOWDOWN_MIN_SPEED then
-        local slowdownAmount = math.min(math.max(SLOWDOWN_MIN_SECONDS - self.slowdownCounter), SLOWDOWN_MAX_SECONDS)
-        local slowdownPercent = math.max(math.min(slowdownAmount / (SLOWDOWN_MIN_SECONDS - SLOWDOWN_MAX_SECONDS), 1), 0)
-        local slowdownScalar = PZMath.lerp(1, SLOWDOWN_MAX_SCALAR, slowdownPercent)
-        speed = math.max(speed * slowdownScalar, SLOWDOWN_MIN_SPEED)
-    end
-
-    return speed
 end
 
 
@@ -985,13 +984,12 @@ function MountController:update(input)
         self:turn(input, deltaTime)
     end
     self:updateSpeed(input, deltaTime)
-    self:updateSlowdown(deltaTime)
 
     if moving and self.targetSpeed > 0
         and not rider:getVariableBoolean(AnimationVariable.DISMOUNT_STARTED) then
         local currentDirection = mount:getDir()
 
-        local velocity = currentDirection:ToVector():setLength(self:getSpeed())
+        local velocity = currentDirection:ToVector():setLength(self.speed)
         moveWithCollision(rider, mount, velocity, deltaTime, isGalloping, isJumping)
 
         mount:setVariable("animalWalking", not input.run)
@@ -1049,7 +1047,8 @@ function MountController.new(mount)
             vegetationLingerStartMult = 1.0,
             timeInTrees = 0.0,
             lastCheck = 0.0,
-            slowdownCounter = 0.0
+            slowdownCounter = 0.0,
+            speed = 0.0
         },
         MountController
     )
