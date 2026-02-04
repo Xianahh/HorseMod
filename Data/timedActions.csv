@@ -7,6 +7,7 @@ HealthPanelAction,false
 HorseMod_DismountAction,true
 HorseMod_UrgentDismountAction,true
 HorseMod_HorseEquipGear,false
+HorseMod_HorseJump,true
 HorseMod_HorseUnequipGear,false
 HorseMod_MountAction,false
 ISActivateCarBatteryChargerAction,false
