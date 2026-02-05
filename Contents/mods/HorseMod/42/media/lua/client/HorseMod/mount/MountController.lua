@@ -567,6 +567,9 @@ local PLAYER_SYNC_TUNER = 0.8
 ---
 ---Indicates whether the pair can turn this update.
 ---@field doTurn boolean
+---
+---Force gallop. Used for jmping notably.
+---@field forcedInput InputManager.Input
 local MountController = {}
 MountController.__index = MountController
 
@@ -801,7 +804,8 @@ local SPEED_GALLOP = 8.5
 
 ---@param input InputManager.Input
 ---@param deltaTime number
-function MountController:updateSpeed(input, deltaTime)
+---@param isJumping boolean
+function MountController:updateSpeed(input, deltaTime, isJumping)
     self:updateSlowdown(deltaTime)
 
     local walkMultiplier = getSpeed("walk")
@@ -957,6 +961,9 @@ end
 function MountController:update(input)
     assert(self.mount.pair.rider:getVariableString(AnimationVariable.RIDING_HORSE) == "true")
 
+    local forcedInput = self.forcedInput
+    input = forcedInput or input
+
     local mountPair = self.mount.pair
     local rider = mountPair.rider
     local mount = mountPair.mount
@@ -991,7 +998,7 @@ function MountController:update(input)
     if doTurn then
         self:turn(input, deltaTime)
     end
-    self:updateSpeed(input, deltaTime)
+    self:updateSpeed(input, deltaTime, isJumping)
 
     if moving and self.targetSpeed > 0
         and not rider:getVariableBoolean(AnimationVariable.DISMOUNT_STARTED) then
@@ -1057,7 +1064,8 @@ function MountController.new(mount)
             lastCheck = 0.0,
             slowdownCounter = 0.0,
             speed = 0.0,
-            doTurn = true
+            doTurn = true,
+            forcedInput = nil,
         },
         MountController
     )
