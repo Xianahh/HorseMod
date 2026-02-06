@@ -25,9 +25,7 @@ AttachmentManager.setAttachedItem = function(animal, slot, item)
     bySlot[slot] = item and item:getFullType()
     animal:transmitModData()
 
-    if isServer() then
-        attachmentcommands.AttachmentChanged:send(nil, {animal = commands.getAnimalId(animal), slot = slot, item = bySlot[slot]})
-    end
+    attachmentcommands.AttachmentChanged:send(nil, {animal = commands.getAnimalId(animal), slot = slot, item = bySlot[slot]})
 end
 
 ---Give the item to the player or drop it on the ground.
