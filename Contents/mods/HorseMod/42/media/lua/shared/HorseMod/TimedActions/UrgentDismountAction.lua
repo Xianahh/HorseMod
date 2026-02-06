@@ -68,9 +68,10 @@ function UrgentDismountAction:start()
 
     -- lock player movement
     self.lockDir = animal:getDirectionAngle()
-    -- character:setBlockMovement(true)
+    character:setBlockMovement(true)
     character:setIgnoreInputsForDirection(true)
     character:setAuthorizedHandToHandAction(false)
+    character:setIgnoreAimingInput(true)
 
     -- drop heavy items
     character:dropHeavyItems()
@@ -108,6 +109,7 @@ function UrgentDismountAction:resetCharacterState()
     character:setBlockMovement(false)
     character:setIgnoreInputsForDirection(false)
     character:setAuthorizedHandToHandAction(true)
+    character:setIgnoreAimingInput(false)
 end
 
 function UrgentDismountAction:getDuration()
