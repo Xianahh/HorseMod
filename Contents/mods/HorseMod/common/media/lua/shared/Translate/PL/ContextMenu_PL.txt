@@ -14,7 +14,7 @@ ContextMenu_PL = {
 
     /* Attachment Slots Sloty dodatków */
     ContextMenu_Horse_Slot_Saddle = "siodło"
-    ContextMenu_Horse_Slot_Saddlebags = "sakwy"
+    ContextMenu_Horse_Slot_Saddlebags = "sakwy na siodło"
     ContextMenu_Horse_Slot_Reins = "lejce"
 
     /* Unavailability reasons for options Powody niedostępności dla opcji */
