@@ -8,5 +8,6 @@ Modules
   modules/AttachmentUpdater
   modules/ContainerManager
   modules/HorseModData
+  modules/HorseZones
   modules/ManeManager
   modules/ModdingAPI
