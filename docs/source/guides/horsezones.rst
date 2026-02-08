@@ -3,6 +3,11 @@ Adding horse spawnpoints
 
 Horses spawn wherever there is a horse zone which can be added using the ::lua:obj:`HorseMod.HorseZones` module. To do so, a ::lua:obj:`HorseMod.HorseZone` object is defined by providing coordinates of a rectangular area via the coordinates of two corners of the rectangle, and a Z level. You can also chose between three different spawn chances with the parameter ::lua:obj:`HorseMod.HorseZones.name`, with the default being `horsesmall`.
 
+The available horse ranch zones are:
+- `horsesmall`
+- `horsemedium`
+- `horselarge`
+
 .. note:: You need to add zones from a Lua file inside `media/lua/server`. since horse zones need to be loaded on both the client and the server and loaded when loading a save.
 
 .. note:: See the `Ranch zone wiki page <https://pzwiki.net/wiki/Ranch_zone>`_ for more detail on what these ranch zones are. Do note that in our case we use a helper function to determine manually the top corner coordinates and the width and height of the zone for ease of use.
