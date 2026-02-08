@@ -5,7 +5,7 @@ Horses spawn wherever there is a horse zone which can be added using the ::lua:o
 
 .. note:: You need to add zones from a Lua file inside `media/lua/server`. since horse zones need to be loaded on both the client and the server and loaded when loading a save.
 
-.. note:: See the `RanchZoneDefinitions wiki page <https://pzwiki.net/wiki/RanchZoneDefinitions>`_ for more detail on what these ranch zones are. Do note that in our case we use a helper function to determine manually the top corner coordinates and the width and height of the zone for ease of use.
+.. note:: See the `Ranch zone wiki page <https://pzwiki.net/wiki/Ranch_zone>`_ for more detail on what these ranch zones are. Do note that in our case we use a helper function to determine manually the top corner coordinates and the width and height of the zone for ease of use.
 
 
 Creating a new ranch zone type
