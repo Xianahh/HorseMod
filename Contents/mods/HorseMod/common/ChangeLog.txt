@@ -1,0 +1,19 @@
+[ ALERT_CONFIG ]
+link1 = Workshop = https://steamcommunity.com/sharedfiles/filedetails/?id=3661336777,
+link2 = Github = https://github.com/PZ-HorseTeam/HorseMod,
+[ ------ ]
+
+[ 25/02/11 ]
+v1.0.1
+
+Added:
+- Pop-up warning when loading the Horse mod wrongly. See #215 for details.
+- Pop-up when activating the mod in an old save, making horses not spawn on the map. See #382 for details.
+- Ability to swap clothings.
+
+New translations:
+- Polish by 3xkd
+- Russian by Sangria
+- Chinese by Cetty McTrailwinder
+- German by Jackson Frost
+[ ------ ]
