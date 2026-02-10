@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <animNode>
     <m_Name>Horse_alerted</m_Name>
-    <m_AnimName>Horse_Gallop</m_AnimName>
+    <m_AnimName>Horse_Gallop_NoTD</m_AnimName>
     <m_deferredBoneAxis>Y</m_deferredBoneAxis>
     <m_SyncTrackingEnabled>false</m_SyncTrackingEnabled>
     <m_SpeedScaleRandomMultiplierMin>0.7</m_SpeedScaleRandomMultiplierMin>
@@ -16,19 +16,19 @@
         <m_Value>true</m_Value>
     </m_Conditions>
     <m_2DBlends referenceID="1">
-        <m_AnimName>Horse_Gallop</m_AnimName>
+        <m_AnimName>Horse_Gallop_NoTD</m_AnimName>
         <m_XPos>0.00</m_XPos>
         <m_YPos>0.06</m_YPos>
         <m_SpeedScale>1.00</m_SpeedScale>
     </m_2DBlends>
     <m_2DBlends referenceID="2">
-        <m_AnimName>Horse_Gallop</m_AnimName>
+        <m_AnimName>Horse_Gallop_NoTD</m_AnimName>
         <m_XPos>-1.00</m_XPos>
         <m_YPos>0.00</m_YPos>
         <m_SpeedScale>1.00</m_SpeedScale>
     </m_2DBlends>
     <m_2DBlends referenceID="3">
-        <m_AnimName>Horse_Gallop</m_AnimName>
+        <m_AnimName>Horse_Gallop_NoTD</m_AnimName>
         <m_XPos>1.00</m_XPos>
         <m_YPos>0.00</m_YPos>
         <m_SpeedScale>1.00</m_SpeedScale>

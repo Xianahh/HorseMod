@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <animNode>
     <m_Name>Horse_PathfindTrot</m_Name>
-    <m_AnimName>Horse_Trot</m_AnimName>
+    <m_AnimName>Horse_Trot_NoTD</m_AnimName>
     <m_ConditionPriority>11</m_ConditionPriority>
     <m_EarlyTransitionOut>false</m_EarlyTransitionOut>
     <m_deferredBoneAxis>Y</m_deferredBoneAxis>
